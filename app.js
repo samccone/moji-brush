@@ -19,29 +19,24 @@
   canvas.addEventListener('touchstart', onTouch);
   canvas.addEventListener('touchmove', onTouch);
 
-  document.body.querySelector(
-      '.brush-picker').addEventListener('click', togglePane);
+  document.body.querySelector('.brush-picker').addEventListener('click', togglePane);
 
   document.body.appendChild(canvas);
 
-  document.body.querySelector(
-      '.brushes').addEventListener('click', selectBrush);
+  document.body.querySelector('.brushes').addEventListener('click', selectBrush);
 
   function togglePane(e) {
     document.querySelector(
-        '.brush-pane').classList.toggle('active');
+      '.brush-pane').classList.toggle('active');
   }
 
   function onTouch(e) {
-    let i = 0;
-
-    while (i < e.touches.length) {
+    for(let i = 0; i < e.touches.length; ++i) {
       let touch = e.touches[i];
 
       ctx.fillText(String.fromCodePoint(app.activeBrush),
-          touch.clientX * window.devicePixelRatio,
-          touch.clientY * window.devicePixelRatio);
-      ++i;
+                   touch.clientX * window.devicePixelRatio,
+                   touch.clientY * window.devicePixelRatio);
     }
 
     e.preventDefault();
