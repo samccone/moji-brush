@@ -39,24 +39,4 @@
 
     e.preventDefault();
   }
-
-
-  var proto = Object.create(HTMLElement.prototype);
-
-  proto.createdCallback = function() {
-    var canvas = document.createElement('canvas');
-    canvas.setAttribute('width', this.getAttribute('size') + 'px');
-    canvas.setAttribute('height', this.getAttribute('size') + 'px');
-
-    this.ctx = canvas.getContext('2d');
-    this.appendChild(canvas);
-  };
-
-  proto.attachedCallback = function() {
-    this.ctx.fillRect(0, 0, 20, 20);
-  };
-
-  document.registerElement('emoji-print', {
-    prototype: proto,
-  });
 })();
