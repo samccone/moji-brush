@@ -7,6 +7,7 @@
     'apple': '0x1F34E',
     'goat': '0x1F410',
     'orange': '0x1F34A',
+    'koala': '0x1F428',
   };
 
   proto.createdCallback = function() {
@@ -19,8 +20,13 @@
     this.appendChild(canvas);
   };
 
+  proto.getCodePoint = function() {
+    return emojiMap[this.getAttribute('emoji')];
+  },
+
   proto.attachedCallback = function() {
-    this.ctx.fillText(String.fromCodePoint(emojiMap[this.getAttribute('emoji')]), 0, 40);
+    this.ctx.fillText(
+      String.fromCodePoint(this.getCodePoint()), 0, 40);
   };
 
   document.registerElement('emoji-print', {

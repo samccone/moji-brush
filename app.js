@@ -1,6 +1,10 @@
 (function() {
   'use strict';
 
+  var app = {
+    activeBrush: '0x1F428',
+  };
+
   var canvas = document.createElement('canvas');
 
   canvas.setAttribute('width', (window.innerWidth * window.devicePixelRatio) + 'px');
@@ -20,6 +24,9 @@
 
   document.body.appendChild(canvas);
 
+  document.body.querySelector(
+      '.brushes').addEventListener('click', selectBrush);
+
   function togglePane(e) {
     document.querySelector(
         '.brush-pane').classList.toggle('active');
@@ -31,12 +38,26 @@
     while (i < e.touches.length) {
       let touch = e.touches[i];
 
-      ctx.fillText('\ud83d\udc28',
+      ctx.fillText(String.fromCodePoint(app.activeBrush),
           touch.clientX * window.devicePixelRatio,
           touch.clientY * window.devicePixelRatio);
       ++i;
     }
 
     e.preventDefault();
+  }
+
+  function selectBrush(e) {
+    var node = e.target;
+
+    while (node !== e.currentTarget) {
+      if (node.tagName === 'EMOJI-PRINT') {
+        app.activeBrush = node.getCodePoint();
+        togglePane();
+        break;
+      }
+
+      node = node.parentNode;
+    }
   }
 })();
