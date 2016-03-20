@@ -1,0 +1,88 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="manifest.json">
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        overflow: hidden
+      }
+
+      canvas {
+        display: block;
+      }
+
+      .brush-picker {
+        height: 40px;
+        width: 40px;
+        position: fixed;
+        right: 16px;
+        bottom: 16px;
+        background: #2979FF;
+        box-shadow: 0 1px 1.5px 0 rgba(0,0,0,.12),0 1px 1px 0 rgba(0,0,0,.24);
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+      }
+
+      .brush-picker svg {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        fill: #fff;
+      }
+
+      .brush-picker:active {
+        box-shadow: 0 4px 5px 0 rgba(0,0,0,.14),0 1px 10px 0 rgba(0,0,0,.12),0 2px 4px -1px rgba(0,0,0,.2);
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      }
+
+      .brush-pane {
+        background: #E0E0E0;
+        height: 300px;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        will-change: transform;
+        transform: translateY(300px);
+        transition: transform 400ms;
+      }
+
+      .brush-pane.active {
+        transform: translateY(0);
+      }
+
+      .brush-selection {
+        font-size: 40px;
+        background: #F5F5F5;
+        text-align: center;
+        border-radius: 4px;
+        display: flex;
+      }
+
+      emoji-print {
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="brush-pane">
+      <ul class="brushes">
+        <emoji-print emoji="goat" size="50"></emoji-print>
+        <emoji-print emoji="apple" size="50"></emoji-print>
+        <emoji-print emoji="orange" size="50"></emoji-print>
+      </ul>
+    </div>
+    <div class="brush-picker">
+      <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet"><g class="style-scope iron-icon"><path d="M7 14c-1.66 0-3 1.34-3 3 0 1.31-1.16 2-2 2 .92 1.22 2.49 2 4 2 2.21 0 4-1.79 4-4 0-1.66-1.34-3-3-3zm13.71-9.37l-1.34-1.34c-.39-.39-1.02-.39-1.41 0L9 12.25 11.75 15l8.96-8.96c.39-.39.39-1.02 0-1.41z" class="style-scope iron-icon"></path></g></svg>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>
