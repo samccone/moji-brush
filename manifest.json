@@ -1,24 +1,34 @@
 {
-  "short_name": "moji Paint",
-  "name": "moji Paint",
-  "icons": [
-    {
-      "src": "launcher-icon-2x.png",
-      "sizes": "96x96",
-      "type": "image/png"
-    },
-    {
-      "src": "launcher-icon-3x.png",
-      "sizes": "144x144",
-      "type": "image/png"
-    },
-    {
-      "src": "launcher-icon-4x.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    }
-  ],
-  "start_url": "index.html",
-  "display": "standalone",
-  "orientation": "portrait"
+    "name": "Moji Brush",
+    "short_name": "Moji Brush",
+    "icons": [{
+        "src": "images/android-chrome-36x36.png",
+        "sizes": "36x36",
+        "type": "image/png"
+    }, {
+        "src": "images/android-chrome-48x48.png",
+        "sizes": "48x48",
+        "type": "image/png"
+    }, {
+        "src": "images/android-chrome-72x72.png",
+        "sizes": "72x72",
+        "type": "image/png"
+    }, {
+        "src": "images/android-chrome-96x96.png",
+        "sizes": "96x96",
+        "type": "image/png"
+    }, {
+        "src": "images/android-chrome-144x144.png",
+        "sizes": "144x144",
+        "type": "image/png"
+    }, {
+        "src": "images/android-chrome-192x192.png",
+        "sizes": "192x192",
+        "type": "image/png"
+    }],
+    "display": "fullscreen",
+    "orientation": "portrait",
+    "background_color": "#212121",
+    "theme_color": "#202020",
+    "start_url": "index.html"
 }
