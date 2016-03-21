@@ -1,0 +1,85 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  overflow: hidden
+}
+
+canvas {
+  display: block;
+}
+
+.brush-picker {
+  right: 16px;
+  bottom: 16px;
+  background: #2979FF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.brush-picker svg {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  fill: #fff;
+}
+
+.restart {
+  background: #F44336;
+  left: 16px;
+  bottom: 16px;
+}
+
+.btn {
+  height: 40px;
+  width: 40px;
+  position: fixed;
+  box-shadow: 0 1px 1.5px 0 rgba(0,0,0,.12),0 1px 1px 0 rgba(0,0,0,.24);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.btn:active {
+  box-shadow: 0 4px 5px 0 rgba(0,0,0,.14),0 1px 10px 0 rgba(0,0,0,.12),0 2px 4px -1px rgba(0,0,0,.2);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.brush-pane {
+  background: #E0E0E0;
+  height: 25%;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  will-change: transform;
+  transform: translateY(100%);
+  transition: transform 200ms;
+}
+
+.brush-pane.active {
+  transform: translateY(0);
+}
+
+.brush-selection {
+  font-size: 40px;
+  background: #F5F5F5;
+  text-align: center;
+  border-radius: 4px;
+  display: flex;
+}
+
+emoji-print {
+  display: inline-block;
+}
+
+.brushes {
+  display: flex;
+  justify-content: space-around;
+}
+
+.brush-size {
+  width: 100%;
+}
