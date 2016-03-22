@@ -1,6 +1,15 @@
 (function() {
   'use strict';
 
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').then(_ => {
+      console.log('service worker is is all cool 🐳');
+    }).catch(e => {
+      console.error('service worker is not so cool 🔥', e);
+      throw e;
+    })
+  }
+
   var app = {
     activeBrush: '0x1F428',
     brushSize: {

@@ -1,3 +1,4 @@
 #### Dev
 
-`open index.html`
+* `python -m SimpleHTTPServer`
+* `open index.html`
