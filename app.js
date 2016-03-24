@@ -32,6 +32,9 @@
   ctx.font = `${app.brushSize.val}px Arial`
   canvas.addEventListener('touchstart', onTouch);
   canvas.addEventListener('touchmove', onTouch);
+  canvas.addEventListener('mousedown', onMouseDown);
+  canvas.addEventListener('mousemove', onMouseMove);
+  canvas.addEventListener('mouseup', onMouseUp);
 
   document.body.querySelector('.brush-size').addEventListener('change', updateBrushSize);
   document.body.querySelector('.brush-picker').addEventListener('click', togglePane);
@@ -45,13 +48,31 @@
       '.brush-pane').classList.toggle('active');
   }
 
+  function onMouseDown() {
+    app.mouseDown = true;
+  }
+
+  function onMouseUp() {
+    app.mouseDown = false;
+  }
+
+  function onMouseMove(e) {
+    if (app.mouseDown === true) {
+      paintAtPoint(e.clientX, e.clientY);
+    }
+  }
+
+  function paintAtPoint(x, y) {
+    ctx.fillText(String.fromCodePoint(app.activeBrush),
+        x * window.devicePixelRatio,
+        y * window.devicePixelRatio);
+  }
+
   function onTouch(e) {
     for(let i = 0; i < e.touches.length; ++i) {
       let touch = e.touches[i];
 
-      ctx.fillText(String.fromCodePoint(app.activeBrush),
-                   touch.clientX * window.devicePixelRatio,
-                   touch.clientY * window.devicePixelRatio);
+      paintAtPoint(touch.clientX, touch.clientY);
     }
 
     e.preventDefault();
