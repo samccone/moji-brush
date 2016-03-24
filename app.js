@@ -63,9 +63,11 @@
   }
 
   function paintAtPoint(x, y) {
+    var brushOffset = -app.brushSize.val / 2;
+
     ctx.fillText(String.fromCodePoint(app.activeBrush),
-        x * window.devicePixelRatio,
-        y * window.devicePixelRatio);
+        x * window.devicePixelRatio + brushOffset,
+        y * window.devicePixelRatio - brushOffset);
   }
 
   function onTouch(e) {
