@@ -39,7 +39,7 @@
   document.body.querySelector('.brush-size').addEventListener('change', updateBrushSize);
   document.body.querySelector('.brush-picker').addEventListener('click', togglePane);
   document.body.querySelector('.restart').addEventListener('click', clear);
-  document.body.querySelector('.brushes').addEventListener('click', selectBrush);
+  //document.body.querySelector('.brushes').addEventListener('click', selectBrush);
 
   document.body.appendChild(canvas);
 

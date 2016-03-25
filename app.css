@@ -83,3 +83,22 @@ emoji-print {
 .brush-size {
   width: 100%;
 }
+
+brush-picker {
+  display: block;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background: rgb(132, 132, 132);
+}
+
+brush-picker ul {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+brush-picker li {
+  padding: 10px;
+  display: block;
+}
