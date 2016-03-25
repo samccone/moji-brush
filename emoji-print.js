@@ -12,8 +12,13 @@
 
   proto.createdCallback = function() {
     var canvas = document.createElement('canvas');
-    canvas.setAttribute('width', this.getAttribute('size') + 'px');
-    canvas.setAttribute('height', this.getAttribute('size') + 'px');
+    let size = this.getAttribute('size');
+
+    canvas.setAttribute('width', size * window.devicePixelRatio + 'px');
+    canvas.setAttribute('height', size * window.devicePixelRatio + 'px');
+
+    canvas.style.width = size + 'px';
+    canvas.style.height = size + 'px';
 
     this.ctx = canvas.getContext('2d');
     this.ctx.font = "40px Arial"
