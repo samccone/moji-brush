@@ -96,9 +96,12 @@ brush-picker ul {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
+  height: 100%;
+  overflow: auto;
 }
 
 brush-picker li {
   padding: 10px;
   display: block;
+  cursor: pointer;
 }

@@ -3,13 +3,6 @@
 
   var proto = Object.create(HTMLElement.prototype);
 
-  var emojiMap = {
-    'apple': '0x1F34E',
-    'goat': '0x1F410',
-    'orange': '0x1F34A',
-    'koala': '0x1F428',
-  };
-
   proto.createdCallback = function() {
     var canvas = document.createElement('canvas');
     let size = this.getAttribute('size');

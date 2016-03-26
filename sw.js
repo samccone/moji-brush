@@ -1,4 +1,4 @@
-var VERSION = '0.0.1';
+var VERSION = '0.0.2';
 
 this.addEventListener('install', function(e) {
   e.waitUntil(caches.open(VERSION).then(cache => {
@@ -8,6 +8,7 @@ this.addEventListener('install', function(e) {
       '/app.css',
       '/app.js',
       '/brush-picker.js',
+      '/emoji-map.js',
       '/emoji-print.js',
       '/manifest.json',
     ]);
