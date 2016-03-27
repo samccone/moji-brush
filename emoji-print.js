@@ -14,7 +14,7 @@
     canvas.style.height = size + 'px';
 
     this.ctx = canvas.getContext('2d');
-    this.ctx.font = "40px Arial"
+    this.ctx.font = `${size * window.devicePixelRatio}px Arial`
     this.appendChild(canvas);
   };
 
@@ -23,8 +23,10 @@
   },
 
   proto.attachedCallback = function() {
+    let size = this.getAttribute('size');
+
     this.ctx.fillText(
-      String.fromCodePoint(this.getCodePoint()), 0, 40);
+      String.fromCodePoint(this.getCodePoint()), 0, (size * window.devicePixelRatio));
   };
 
   document.registerElement('emoji-print', {

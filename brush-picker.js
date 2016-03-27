@@ -3,15 +3,33 @@
 
   var proto = Object.create(HTMLElement.prototype);
 
-  proto.createdCallback = function() {
+  proto.attachedCallback = function() {
     let ul = document.createElement('ul');
+    let emojiKeys = Object.keys(emojiMap);
+    let width = Math.floor(window.innerWidth / 50);
+    let emojiRows = Math.floor(emojiKeys.length / width);
 
-    for(let i =0; i < 10; ++i) {
-      for(let emoji in emojiMap) {
-        let li = document.createElement('li');
-        li.innerHTML = `<emoji-print size="50" emoji="${emoji}"></emoji-print>`
-        ul.appendChild(li);
+    for(var i = 0; i < emojiRows; ++i) {
+      let canvas = document.createElement('canvas');
+      let li = document.createElement('li');
+
+      canvas.setAttribute('width', window.innerWidth + 'px');
+      canvas.setAttribute('height', '50px');
+      let ctx = canvas.getContext('2d');
+      ctx.font = '50px Arial'
+
+      for(var j = 0; j < width; ++j) {
+        try {
+          ctx.fillText(
+            String.fromCodePoint(emojiMap[emojiKeys[
+              (i * width) + j
+            ]]), j * 50, (50));
+        } catch (e) {
+        }
       }
+
+      li.appendChild(canvas);
+      ul.appendChild(li);
     }
 
     this.appendChild(ul);
