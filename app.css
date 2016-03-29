@@ -101,7 +101,6 @@ brush-picker ul {
 }
 
 brush-picker li {
-  padding: 10px;
   display: block;
   cursor: pointer;
 }
