@@ -7,6 +7,7 @@ this.addEventListener('install', function(e) {
       '/index.html',
       '/app.css',
       '/app.js',
+      '/menu-bar.js',
       '/brush-picker.js',
       '/emoji-map.js',
       '/manifest.json',

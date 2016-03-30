@@ -36,16 +36,30 @@
   canvas.addEventListener('mousemove', onMouseMove);
   canvas.addEventListener('mouseup', onMouseUp);
 
+  document.body.querySelector('menu-bar').addEventListener('menu-action', e => {
+    switch (e.detail) {
+      case 'reset':
+        ctx.clearRect(0, 0, (window.innerWidth * window.devicePixelRatio),
+          (window.innerHeight * window.devicePixelRatio));
+      break;
+      default:
+        console.warn(`unhanded detail, ${e.detail}`);
+    }
+    document.body.classList.remove('menu-open');
+  });
+
   document.body.querySelector('.brush-size').addEventListener('change', updateBrushSize);
-  document.body.querySelector('.brush-picker').addEventListener('click', togglePane);
-  document.body.querySelector('.restart').addEventListener('click', clear);
-  //document.body.querySelector('.brushes').addEventListener('click', selectBrush);
+  document.body.querySelector('.brush-picker').addEventListener('click', toggleMenu);
 
   document.body.appendChild(canvas);
 
-  function togglePane(e) {
-    document.querySelector(
-      '.brush-pane').classList.toggle('active');
+
+  function clearCanvas(canvas, ctx) {
+    ctx.clearRect(0, 0, canvas.getAttribute('width'), canvas.getAttribute('width'));
+  }
+
+  function toggleMenu(e) {
+    document.body.classList.toggle('menu-open');
   }
 
   function onMouseDown() {
@@ -98,10 +112,5 @@
 
     app.brushSize.val = (app.brushSize.max - app.brushSize.min) * val/100;
     ctx.font = `${app.brushSize.val}px Arial`
-  }
-
-  function clear() {
-    ctx.clearRect(0, 0, (window.innerWidth * window.devicePixelRatio),
-      (window.innerHeight * window.devicePixelRatio));
   }
 })();

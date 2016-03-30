@@ -4,7 +4,8 @@
 }
 
 body {
-  overflow: hidden
+  overflow: hidden;
+  font-family: Roboto;
 }
 
 canvas {
@@ -14,7 +15,7 @@ canvas {
 .brush-picker {
   right: 16px;
   bottom: 16px;
-  background: #2979FF;
+  background: #44269F;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -27,11 +28,6 @@ canvas {
   fill: #fff;
 }
 
-.restart {
-  background: #F44336;
-  left: 16px;
-  bottom: 16px;
-}
 
 .btn {
   height: 40px;
@@ -101,7 +97,29 @@ brush-picker div {
   font-size: 50px;
 }
 
-brush-picker li {
-  display: block;
+.menu-open .menu-bar {
+  transform: translateX(0);
+}
+.menu-bar {
+  background: #FF4081;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 200px;
+  height: 100%;
+  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.52);
+  will-change: transform;
+  transform: translateX(200px);
+  transition: all 150ms cubic-bezier(0.39, 0.58, 0.72, 1);
+}
+
+.menu-bar ul {
+  list-style: none;
+  font-size: 30px;
+  color: #fff;
+}
+
+.menu-bar li {
   cursor: pointer;
+  margin: 16px;
 }
