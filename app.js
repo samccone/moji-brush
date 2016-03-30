@@ -19,8 +19,7 @@
     },
   };
 
-  let drawCanvas = document.createElement('draw-canvas');
-  document.body.appendChild(drawCanvas);
+  let drawCanvas = document.querySelector('draw-canvas');
 
   document.body.querySelector('menu-bar').addEventListener('menu-action', e => {
     switch (e.detail) {
