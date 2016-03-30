@@ -92,12 +92,13 @@ brush-picker {
   background: rgb(132, 132, 132);
 }
 
-brush-picker ul {
+brush-picker div {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
   height: 100%;
   overflow: auto;
+  font-size: 50px;
 }
 
 brush-picker li {

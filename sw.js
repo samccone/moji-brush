@@ -9,7 +9,6 @@ this.addEventListener('install', function(e) {
       '/app.js',
       '/brush-picker.js',
       '/emoji-map.js',
-      '/emoji-print.js',
       '/manifest.json',
     ]);
 }))});
