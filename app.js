@@ -21,20 +21,23 @@
 
   let drawCanvas = document.querySelector('draw-canvas');
 
-  document.body.querySelector('menu-bar').addEventListener('menu-action', e => {
+  document.body.addEventListener('menu-action', handlePageAction);
+
+  function handlePageAction(e) {
     switch (e.detail) {
+      case 'menu':
+        toggleMenu();
+        break;
       case 'reset':
         drawCanvas.clearCanvas();
+        toggleMenu();
         break;
       default:
         console.warn(`unhanded detail, ${e.detail}`);
     }
-    document.body.classList.remove('menu-open');
-  });
+  };
 
-  document.body.querySelector('.brush-picker').addEventListener('click', toggleMenu);
-
-  function toggleMenu(e) {
+  function toggleMenu() {
     document.body.classList.toggle('menu-open');
   }
 
