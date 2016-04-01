@@ -11,6 +11,7 @@ this.addEventListener('install', function(e) {
       '/page-menu.js',
       '/draw-canvas.js',
       '/brush-picker.js',
+      '/brush-picker-pane.js',
       '/emoji-map.js',
       '/manifest.json',
     ]);

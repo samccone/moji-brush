@@ -25,26 +25,39 @@
 
   function handlePageAction(e) {
     switch (e.detail) {
-      case 'menu':
-        toggleMenu();
+      case 'large-menu':
+        onFooterMenuClick('menu-open');
+        break;
+      case 'brush-pick':
+        onFooterMenuClick('brush-picker-open');
         break;
       case 'reset':
         drawCanvas.clearCanvas();
-        toggleMenu();
+        closeAllMenus();
         break;
       default:
         console.warn(`unhanded detail, ${e.detail}`);
     }
   };
 
-  function toggleMenu() {
-    document.body.classList.toggle('menu-open');
+  function closeAllMenus() {
+    ['brush-picker-open',
+    'menu-open',
+    'pane-open',].forEach(v => {
+      document.body.classList.remove(v);
+    });
   }
 
-  function updateBrushSize(e) {
-    let val = parseInt(e.currentTarget.value, 10);
+  function onFooterMenuClick(klass) {
+    let paneAlreadyOpen = document.body.classList.contains(klass);
 
-    app.brushSize.val = (app.brushSize.max - app.brushSize.min) * val/100;
-    ctx.font = `${app.brushSize.val}px Arial`
+    if (document.body.classList.contains('pane-open')) {
+      closeAllMenus();
+    }
+
+    if (!paneAlreadyOpen) {
+      document.body.classList.add('pane-open');
+      document.body.classList.add(klass);
+    }
   }
 })();

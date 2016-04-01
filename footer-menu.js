@@ -38,7 +38,7 @@
           </g>
           </svg>
         </li>
-        <li class="open-menu" action="menu">
+        <li class="open-menu" action="large-menu">
           <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" class="style-scope iron-icon"><g class="style-scope iron-icon"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" class="style-scope iron-icon"></path></g></svg>
         </li>
       </ul>`;
