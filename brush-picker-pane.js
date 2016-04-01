@@ -39,7 +39,8 @@
   proto.renderColorGrid = function() {
     let canvas = document.createElement('canvas');
     let paneContent = this.querySelector('.pane-content');
-    let innerHeight = Math.floor(paneContent.getBoundingClientRect().height);
+    // 45px is the size of the footerbar
+    let innerHeight = Math.floor(paneContent.getBoundingClientRect().height - 45);
 
     canvas.setAttribute('width', window.innerWidth + 'px');
     canvas.setAttribute('height', innerHeight + 'px');
@@ -63,4 +64,3 @@
     prototype: proto,
   });
 })();
-
