@@ -13,8 +13,8 @@
   window.app = {
     activeBrush: '0x1F428',
     brushSize: {
-      min: 1,
-      max: 168,
+      min: 40,
+      max: 245,
       val: 84,
     },
   };
@@ -32,6 +32,9 @@
       case 'brush-pick':
         onFooterMenuClick('brush-picker-open');
         break;
+      case 'size':
+        onFooterMenuClick('size-picker-open');
+        break;
       case 'reset':
         drawCanvas.clearCanvas();
         closeAllMenus();
@@ -48,6 +51,7 @@
 
   function closeAllMenus() {
     ['brush-picker-open',
+    'size-picker-open',
     'menu-open',
     'pane-open',].forEach(v => {
       document.body.classList.remove(v);

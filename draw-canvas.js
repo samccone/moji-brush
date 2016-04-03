@@ -14,7 +14,6 @@
 
     this.ctx = canvas.getContext('2d');
 
-    this.ctx.font = `${window.app.brushSize.val}px Arial`
     canvas.addEventListener('touchstart', this.onTouch.bind(this));
     canvas.addEventListener('touchmove', this.onTouch.bind(this));
     canvas.addEventListener('mousedown', this.onMouseDown.bind(this));
@@ -46,6 +45,7 @@
   proto.paintAtPoint = function(x, y) {
     var brushOffset = -window.app.brushSize.val / 2;
 
+    this.ctx.font = `${window.app.brushSize.val}px Arial`
     this.ctx.fillText(String.fromCodePoint(window.app.activeBrush),
         x * window.devicePixelRatio + brushOffset,
         y * window.devicePixelRatio - brushOffset);
