@@ -70,8 +70,10 @@
     let colorPicker = this.querySelector('.color-picker');
     let columns = 5;
     let rows = 2;
-    let gridX = Math.floor(x / colorPicker.width / (1 / columns));
-    let gridY = Math.floor(y / colorPicker.height / (1 / rows));
+    let pixelR = window.devicePixelRatio;
+
+    let gridX = Math.floor(x / (colorPicker.width * pixelR) / (1 / columns));
+    let gridY = Math.floor(y / (colorPicker.height * pixelR) / (1 / rows));
 
     this.dispatchEvent(new CustomEvent('brush-change', {
       bubbles: true,
@@ -90,22 +92,25 @@
     let paneContent = this.querySelector('.pane-content');
     // 45px is the size of the footerbar
     let innerHeight = Math.floor(paneContent.getBoundingClientRect().height - 45);
+    let pixelR = window.devicePixelRatio;
 
-    canvas.setAttribute('width', window.innerWidth + 'px');
-    canvas.setAttribute('height', innerHeight + 'px');
+    canvas.setAttribute('width', (window.innerWidth * pixelR) + 'px');
+    canvas.setAttribute('height', (innerHeight * pixelR) + 'px');
+    canvas.style.width =  window.innerWidth + 'px';
+    canvas.style.height = innerHeight + 'px';
 
     let ctx = canvas.getContext('2d');
 
     paneContent.innerHTML = '';
     paneContent.appendChild(canvas);
-    let colorWidth = window.innerWidth / this.colorChoices.length;
+    let colorWidth = (window.innerWidth * pixelR) / this.colorChoices.length;
 
     this.colorChoices.forEach((v, i, arr) => {
       ctx.fillStyle = v;
-      let y = i >= arr.length / 2 ? innerHeight / 2 : 0;
+      let y = i >= arr.length / 2 ? (innerHeight * pixelR) / 2 : 0;
       let x = (2 * colorWidth) * (i % (arr.length / 2));
 
-      ctx.fillRect(x, y, colorWidth * 2, innerHeight / 2);
+      ctx.fillRect(x, y, colorWidth * 2, Math.ceil((innerHeight * pixelR) / 2));
     });
   };
 
