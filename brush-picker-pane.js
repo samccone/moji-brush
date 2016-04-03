@@ -16,6 +16,19 @@
     '#F5F5F5',
   ];
 
+  proto.emojiColorChoices = [
+    '0x1F34E',
+    '0x1F438',
+    '0x1F4A6',
+    '0x1F424',
+    '0x1F346',
+    '0x1F307',
+    '0x1F4A9',
+    '0x1F480',
+    '0x1F31A',
+    '0x1F3D0',
+  ];
+
   proto.template = _ => {
     return `
       <div class="brush-picker">
@@ -31,13 +44,49 @@
     `;
   };
 
+  proto.setEvents = function() {
+    this.addEventListener('click', this.onClick.bind(this));
+  };
+
+  proto.onClick = function(e) {
+    let node = e.target;
+
+    while (node.tagName !== 'BRUSH-PICKER-PANE') {
+      if (node.classList.contains('color-picker')) {
+        this.onColorClick(e);
+        break;
+      }
+
+      node = node.parentNode;
+    }
+  };
+
+  proto.onColorClick = function(e) {
+    this.getColorByXY(e.layerX, e.layerY);
+  },
+
+
+  proto.getColorByXY = function(x, y) {
+    let colorPicker = this.querySelector('.color-picker');
+    let columns = 5;
+    let rows = 2;
+    let gridX = Math.floor(x / colorPicker.width / (1 / columns));
+    let gridY = Math.floor(y / colorPicker.height / (1 / rows));
+
+    this.dispatchEvent(new CustomEvent('brush-change', {
+      bubbles: true,
+      detail: this.emojiColorChoices[gridX + (gridY * columns)]}));
+  },
+
   proto.attachedCallback = function() {
     this.innerHTML = this.template();
     this.renderColorGrid();
+    this.setEvents();
   };
 
   proto.renderColorGrid = function() {
     let canvas = document.createElement('canvas');
+    canvas.classList.add('color-picker');
     let paneContent = this.querySelector('.pane-content');
     // 45px is the size of the footerbar
     let innerHeight = Math.floor(paneContent.getBoundingClientRect().height - 45);

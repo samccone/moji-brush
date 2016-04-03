@@ -22,6 +22,7 @@
   let drawCanvas = document.querySelector('draw-canvas');
 
   document.body.addEventListener('menu-action', handlePageAction);
+  document.body.addEventListener('brush-change', handleBrushChange);
 
   function handlePageAction(e) {
     switch (e.detail) {
@@ -39,6 +40,11 @@
         console.warn(`unhanded detail, ${e.detail}`);
     }
   };
+
+  function handleBrushChange(e) {
+    window.app.activeBrush = e.detail;
+    closeAllMenus();
+  }
 
   function closeAllMenus() {
     ['brush-picker-open',
