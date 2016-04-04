@@ -72,8 +72,8 @@
     let rows = 2;
     let pixelR = window.devicePixelRatio;
 
-    let gridX = Math.floor(x / (colorPicker.width * pixelR) / (1 / columns));
-    let gridY = Math.floor(y / (colorPicker.height * pixelR) / (1 / rows));
+    let gridX = Math.floor(x / (colorPicker.width / pixelR) / (1 / columns));
+    let gridY = Math.floor(y / (colorPicker.height / pixelR) / (1 / rows));
 
     this.dispatchEvent(new CustomEvent('brush-change', {
       bubbles: true,
