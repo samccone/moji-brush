@@ -34,7 +34,6 @@
       <div class="brush-picker">
         <ul class="tabs">
           <li class="tab active">Colors</li>
-          <li class='tab">All</li>
         </ul>
         <div class="pane-content">
           <div class="colors"></div>
