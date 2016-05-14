@@ -5,41 +5,24 @@
 
   proto.template = _ => {
      return `<ul class="menu-items">
-        <li class="undo" action="undo">
-          <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" class="style-scope iron-icon"><g class="style-scope iron-icon"><path d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8z" class="style-scope iron-icon"></path></g></svg>
-        </li>
-        <li class="redo" action="redo">
-          <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" class="style-scope iron-icon"><g class="style-scope iron-icon"><path d="M18.4 10.6C16.55 8.99 14.15 8 11.5 8c-4.65 0-8.58 3.03-9.96 7.22L3.9 16c1.05-3.19 4.05-5.5 7.6-5.5 1.95 0 3.73.72 5.12 1.88L13 16h9V7l-3.6 3.6z" class="style-scope iron-icon"></path></g></svg>
-        </li>
-        <li class="brush" action="brush-pick">
-          <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet"><g class="style-scope iron-icon"><path d="M7 14c-1.66 0-3 1.34-3 3 0 1.31-1.16 2-2 2 .92 1.22 2.49 2 4 2 2.21 0 4-1.79 4-4 0-1.66-1.34-3-3-3zm13.71-9.37l-1.34-1.34c-.39-.39-1.02-.39-1.41 0L9 12.25 11.75 15l8.96-8.96c.39-.39.39-1.02 0-1.41z" class="style-scope iron-icon"></path></g></svg>
+        <li class="open-menu" action="large-menu">
+          <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet"><g id="dashboard"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></g></svg>
         </li>
         <li class="size" action="size">
-          <svg version="1.1"
-          xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
-          x="0px" y="0px" width="45.4px" height="31.5px" viewBox="0 0 45.4 31.5" style="enable-background:new 0 0 45.4 31.5;"
-          xml:space="preserve">
-          <style type="text/css">
-          .st0{fill:#FFFFFF;}
-          </style>
-          <defs>
-          </defs>
-          <g>
-          <path d="M7.2,17.1c-4,0-7.2,3.2-7.2,7.2s3.2,7.2,7.2,7.2c4,0,7.2-3.2,7.2-7.2S11.2,17.1,7.2,17.1z"/>
-          <circle class="st0" cx="9.7" cy="22.5" r="1.1"/>
-          <circle class="st0" cx="4.7" cy="22.5" r="1.1"/>
-          <path class="st0" d="M7.2,28.3c1.7,0,3.1-1.1,3.7-2.5H3.5C4.1,27.2,5.5,28.3,7.2,28.3z"/>
-          </g>
-          <g>
-          <path d="M29.6,0c-8.7,0-15.7,7.1-15.7,15.8s7,15.8,15.7,15.8c8.7,0,15.8-7.1,15.8-15.8S38.3,0,29.6,0z"/>
-          <circle class="st0" cx="35.1" cy="11.8" r="2.4"/>
-          <circle class="st0" cx="24.1" cy="11.8" r="2.4"/>
-          <path class="st0" d="M29.6,24.4c3.7,0,6.8-2.3,8.1-5.5H21.5C22.8,22.1,25.9,24.4,29.6,24.4z"/>
-          </g>
+          <svg viewBox="0 0 24 24">
+          <path d="M6.07,14.33a3.5,3.5,0,0,0-3.5,3.5A2.37,2.37,0,0,1,.23,20.17,6,6,0,0,0,4.9,22.5a4.67,4.67,0,0,0,4.67-4.67A3.5,3.5,0,0,0,6.07,14.33Zm16-10.93L20.5,1.84a1.16,1.16,0,0,0-1.64,0L8.4,12.29l3.21,3.21L22.06,5A1.16,1.16,0,0,0,22.06,3.4Z" style="fill: #e6e6e6"/>
+          <path d="M16.3,18.89a1.56,1.56,0,0,0-1.56,1.56,1.05,1.05,0,0,1-1,1,2.69,2.69,0,0,0,2.08,1,2.08,2.08,0,0,0,2.08-2.08A1.56,1.56,0,0,0,16.3,18.89ZM23.43,14l-0.7-.7a0.52,0.52,0,0,0-.73,0L17.34,18l1.43,1.43,4.66-4.66A0.52,0.52,0,0,0,23.43,14Z" style="fill: #e6e6e6"/>
           </svg>
         </li>
-        <li class="open-menu" action="large-menu">
-          <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" class="style-scope iron-icon"><g class="style-scope iron-icon"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" class="style-scope iron-icon"></path></g></svg>
+        <li class="brush" action="brush-pick">
+          <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet"><g id="palette"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></g>
+          </svg>
+        </li>
+        <li class="undo" action="undo">
+          <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet"><g><path d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8z"></path></g></svg>
+        </li>
+        <li class="redo" action="redo">
+          <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet"><g><path d="M18.4 10.6C16.55 8.99 14.15 8 11.5 8c-4.65 0-8.58 3.03-9.96 7.22L3.9 16c1.05-3.19 4.05-5.5 7.6-5.5 1.95 0 3.73.72 5.12 1.88L13 16h9V7l-3.6 3.6z"></path></g></svg>
         </li>
       </ul>`;
   };
@@ -70,4 +53,3 @@
     prototype: proto,
   });
 })();
-

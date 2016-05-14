@@ -18,9 +18,18 @@ canvas {
 
 footer-menu {
   position: fixed;
+  box-sizing: border-box;
   left: 0;
   bottom: 0;
-  background: #44269F;
+  background: #424242;
+  /*mud-brick style*/
+  /*background: linear-gradient(to bottom, #333333 0%,#2d2d2d 100%);*/
+  /* android os bottom bar integration */
+  /*background: linear-gradient(to bottom, #333333 0%,#2d2d2d 15%,#000000 100%);*/
+  /*hybrid*/
+  background: linear-gradient(to bottom, #333333 0%,#1c1c1c 100%);
+  border-top: 1px solid #424242;
+  border-bottom: 1px solid #252525;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -35,11 +44,11 @@ footer-menu ul {
   width: 100%;
 }
 
-.menu-items svg {
+page-menu svg, .menu-items svg {
   display: inline-block;
   width: 28px;
   height: 28px;
-  fill: #fff;
+  fill: #e6e6e6;
 }
 
 .brush-selection {
@@ -80,12 +89,13 @@ brush-picker div {
   font-size: 50px;
 }
 
-.menu-open .menu-bar {
+.menu-open page-menu {
   transform: translateY(0);
 }
 
-.menu-bar {
-  background: #FF4081;
+page-menu {
+  background: #4d4d4d;
+  background: linear-gradient(to bottom, #424242 0%,#212121 100%);
   position: fixed;
   bottom: 0;
   right: 0;
@@ -96,15 +106,21 @@ brush-picker div {
   transition: all 150ms cubic-bezier(0.39, 0.58, 0.72, 1);
 }
 
-.menu-bar ul {
+page-menu ul {
   list-style: none;
-  font-size: 30px;
-  color: #fff;
+  font-size: 28px;
+  color: #e6e6e6;
 }
 
-.menu-bar li {
+page-menu li {
+  display: flex;
+  align-items: center;
   cursor: pointer;
   margin: 16px;
+}
+
+page-menu li svg {
+  margin-right: 8px;
 }
 
 .brush-picker-open brush-picker-pane {
