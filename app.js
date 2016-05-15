@@ -39,6 +39,9 @@
         drawCanvas.clearCanvas();
         closeAllMenus();
         break;
+      case 'overlay-close':
+        closeAllMenus();
+        break;
       default:
         console.warn(`unhanded detail, ${e.detail}`);
     }
