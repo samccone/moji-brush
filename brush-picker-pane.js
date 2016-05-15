@@ -89,8 +89,7 @@
     let canvas = document.createElement('canvas');
     canvas.classList.add('color-picker');
     let paneContent = this.querySelector('.pane-content');
-    // 45px is the size of the footerbar
-    let innerHeight = Math.floor(paneContent.getBoundingClientRect().height - 45);
+    let innerHeight = Math.floor(paneContent.getBoundingClientRect().height);
     let pixelR = window.devicePixelRatio;
 
     canvas.setAttribute('width', (window.innerWidth * pixelR) + 'px');

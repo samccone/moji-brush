@@ -6,7 +6,7 @@
   proto.template = function() {
     return `
        <div>
-        <div class="vertical-range">
+        <div class="horizontal-range">
           <div class="thumb"></div>
         </div>
         <div class="brush-size-preview"></div>
@@ -19,26 +19,25 @@
   };
 
   proto.onTap = function(e) {
-    let y = e.touches ? e.touches[0].pageY : e.layerY
-
-    this.updateValue(y / this.innerHeight);
+    let x = e.touches ? e.touches[0].pageX : e.layerX
+    this.updateValue(x / this.innerWidth);
   };
 
   proto.updateValue = function(percent) {
-    this.querySelector('.thumb').style.top = percent * 100 + '%';
-    window.app.brushSize.val = (window.app.brushSize.max - window.app.brushSize.min) * (1 - percent);
+    this.querySelector('.thumb').style.left = percent * 100 + '%';
+    window.app.brushSize.val = (window.app.brushSize.max - window.app.brushSize.min) * (percent);
   };
 
   proto.attachedCallback = function() {
     this.render();
-    let verticalRange = this.querySelector('.vertical-range');
+    let horizontalRange = this.querySelector('.horizontal-range');
 
     let eventName =  'ontouchstart' in window ? 'touchstart': 'click';
 
-    verticalRange.addEventListener(eventName, this.onTap.bind(this));
-    verticalRange.addEventListener('touchmove', this.onTap.bind(this));
+    horizontalRange.addEventListener(eventName, this.onTap.bind(this));
+    horizontalRange.addEventListener('touchmove', this.onTap.bind(this));
 
-    this.innerHeight = this.getBoundingClientRect().height;
+    this.innerWidth = this.getBoundingClientRect().width;
   };
 
   document.registerElement('size-picker', {
