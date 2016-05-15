@@ -217,7 +217,7 @@ brush-picker-pane .tabs li {
   text-align: center;
   padding: 16px;
   font-size: 18px;
-  cursor: default;
+  cursor: pointer;
   margin: 0 16px;
 }
 

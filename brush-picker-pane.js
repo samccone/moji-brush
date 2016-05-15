@@ -92,7 +92,7 @@
     let innerHeight = Math.floor(paneContent.getBoundingClientRect().height);
     let innerWidth = Math.floor(paneContent.getBoundingClientRect().width);
     let pixelR = window.devicePixelRatio;
-    // TODO: update to innerWidth on window resize (also need to update draw-canvas)
+    // TODO: update innerWidth on window resize (also need to update draw-canvas)
     canvas.setAttribute('width', (innerWidth * pixelR) + 'px');
     canvas.setAttribute('height', (innerHeight * pixelR) + 'px');
     canvas.style.width =  innerWidth + 'px';
