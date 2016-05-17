@@ -89,20 +89,20 @@
     let canvas = document.createElement('canvas');
     canvas.classList.add('color-picker');
     let paneContent = this.querySelector('.pane-content');
-    // 45px is the size of the footerbar
-    let innerHeight = Math.floor(paneContent.getBoundingClientRect().height - 45);
+    let innerHeight = Math.floor(paneContent.getBoundingClientRect().height);
+    let innerWidth = Math.floor(paneContent.getBoundingClientRect().width);
     let pixelR = window.devicePixelRatio;
-
-    canvas.setAttribute('width', (window.innerWidth * pixelR) + 'px');
+    // TODO: update innerWidth on window resize (also need to update draw-canvas)
+    canvas.setAttribute('width', (innerWidth * pixelR) + 'px');
     canvas.setAttribute('height', (innerHeight * pixelR) + 'px');
-    canvas.style.width =  window.innerWidth + 'px';
+    canvas.style.width =  innerWidth + 'px';
     canvas.style.height = innerHeight + 'px';
 
     let ctx = canvas.getContext('2d');
 
     paneContent.innerHTML = '';
     paneContent.appendChild(canvas);
-    let colorWidth = (window.innerWidth * pixelR) / this.colorChoices.length;
+    let colorWidth = (innerWidth * pixelR) / this.colorChoices.length;
 
     this.colorChoices.forEach((v, i, arr) => {
       ctx.fillStyle = v;

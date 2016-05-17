@@ -5,7 +5,27 @@
 
 body {
   overflow: hidden;
-  font-family: Roboto;
+  /* multi-platform system font stack */
+  font-family: -apple-system, BlinkMacSystemFont,
+    "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+    "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+}
+
+.overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  bottom: 0;
+  z-index: -1;
+  background-color: rgba(255, 255, 255, 0);
+  transition: all 150ms cubic-bezier(0.39, 0.58, 0.72, 1);
+}
+
+.pane-open .overlay {
+  background-color: rgba(0, 0, 0, 0.15);
+  z-index: 0;
+  cursor: pointer;
 }
 
 .pane-open draw-canvas {
@@ -14,18 +34,40 @@ body {
 
 canvas {
   display: block;
+  cursor: crosshair;
 }
 
 footer-menu {
-  position: fixed;
+  position: relative;
+  box-sizing: border-box;
   left: 0;
   bottom: 0;
-  background: #44269F;
+  background: linear-gradient(to bottom, #333333 0%,#1c1c1c 100%);
+  border-top: 1px solid #424242;
+  border-bottom: 1px solid #252525;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 45px;
   width: 100%;
+}
+
+.menusys {
+  position: fixed;
+  bottom: 0;
+  width: 100%
+}
+
+@media (min-width: 600px) {
+  .menusys {
+    position: fixed;
+    max-width: 600px;
+    left: calc(50% - (600px / 2));
+  }
+  footer-menu {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+  }
 }
 
 footer-menu ul {
@@ -35,11 +77,12 @@ footer-menu ul {
   width: 100%;
 }
 
-.menu-items svg {
+page-menu svg, .menu-items svg {
   display: inline-block;
   width: 28px;
   height: 28px;
-  fill: #fff;
+  fill: #e6e6e6;
+  cursor: pointer;
 }
 
 .brush-selection {
@@ -65,7 +108,7 @@ emoji-print {
 
 brush-picker {
   display: block;
-  position: fixed;
+  position: absolute;
   height: 100%;
   width: 100%;
   background: rgb(132, 132, 132);
@@ -80,42 +123,73 @@ brush-picker div {
   font-size: 50px;
 }
 
-.menu-open .menu-bar {
+.menu-open page-menu {
   transform: translateY(0);
 }
 
-.menu-bar {
-  background: #FF4081;
-  position: fixed;
+page-menu {
+  box-sizing: border-box;
+  background: #4d4d4d;
+  background: linear-gradient(to bottom, #424242 0%,#212121 100%);
+  border-top: 1px solid #424242;
+  border-bottom: 1px solid #252525;
+  position: absolute;
   bottom: 0;
   right: 0;
   width: 100%;
-  height: 80%;
+  margin-bottom: 45px;
   will-change: transform;
   transform: translateY(100%);
   transition: all 150ms cubic-bezier(0.39, 0.58, 0.72, 1);
 }
 
-.menu-bar ul {
+page-menu ul {
   list-style: none;
-  font-size: 30px;
-  color: #fff;
+  font-size: 18px;
+  font-weight: 300;
+  color: #e6e6e6;
 }
 
-.menu-bar li {
+page-menu li {
+  display: flex;
+  align-items: center;
+  margin: 24px 16px;
+  /* clicking the menu open icon sometimes selects the text underneath it */
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* Internet Explorer/Edge */
+  user-select: none;
   cursor: pointer;
-  margin: 16px;
+}
+
+page-menu li svg {
+  margin-right: 8px;
+}
+
+.disabled {
+  color: #909090;
+  cursor: default;
+}
+
+.disabled svg {
+  fill: #909090;
+  cursor: default;
 }
 
 .brush-picker-open brush-picker-pane {
   transform: translateY(0);
 }
 
+.brush-picker-open canvas {
+  cursor: pointer;
+}
+
 brush-picker-pane {
-  background: #FF4081;
-  height: 40%;
+  /*background: #FF4081;*/
   width: 100%;
-  position: fixed;
+  position: absolute;
+  margin-bottom: 45px;
   left: 0;
   bottom: 0;
   will-change: transform;
@@ -127,16 +201,19 @@ brush-picker-pane .tabs {
   display: flex;
   justify-content: space-around;
   list-style: none;
-  color: #fff;
+  color: #e6e6e6;
+  background: linear-gradient(to bottom, #424242 0%,#212121 100%);
+  border-top: 1px solid #424242;
+  border-bottom: 1px solid #252525;
   height: 60px;
-  position: relative;
+  /*position: relative;*/
   z-index: 1;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.37);
 }
 
 
 brush-picker-pane .tabs li {
-  width: 50%;
+  width: 33%;
   text-align: center;
   padding: 16px;
   font-size: 18px;
@@ -145,20 +222,26 @@ brush-picker-pane .tabs li {
 }
 
 brush-picker-pane .tabs li.active {
-  border-bottom: solid 3px #f5f5f5;
+  border-bottom: solid 3px #cbcbcb;
 }
 
 .pane-content {
-  height: calc(100% - 60px);
+  height: 120px;
   background: #f5f5f5;
   box-shadow: inset 0 3px 10px #737373;
 }
 
 size-picker {
-  background: #f5f5f5;
-  height: 100%;
+  box-sizing: border-box;
+  background: linear-gradient(to bottom, #424242 0%,#212121 100%);
+  border-top: 1px solid #424242;
+  border-bottom: 1px solid #252525;
+  bottom: 0;
+  left: 0;
+  height: 90px;
+  margin-bottom: 45px;
   width: 100%;
-  position: fixed;
+  position: absolute;
   will-change: transform;
   transform: translateY(100%);
   transition: all 150ms cubic-bezier(0.39, 0.58, 0.72, 1);
@@ -168,21 +251,29 @@ size-picker {
   transform: translateY(0);
 }
 
-size-picker .vertical-range {
-  height: calc(100% - 45px);
-  width: 7px;
-  background: black;
-  position: relative;
-  left: calc(50% - 3.5px);
+size-picker .horizontal-range {
+  position: absolute;
+  width: calc(100% - 20px);
+  top: calc(50% - (8px / 2));
+  margin: 0 10px;
+  height: 8px;
+  cursor: pointer;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7), 0px 0px 1px rgba(13, 13, 13, 0.7);
+  background: #1a1a1a;
+  border-radius: 2px;
 }
 
 size-picker .thumb {
+  box-sizing: border-box;
   position: absolute;
   display: block;
   left: calc(50% - 15px);
-  top: 50%;
-  width: 30px;
+  top: calc(50% - 15px);
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.55), 0px 0px 1px rgba(13, 13, 13, 0.7);
+  border: 3px solid #707070;
   height: 30px;
-  background: red;
+  width: 30px;
   border-radius: 50%;
+  background: linear-gradient(to bottom, #424242 0%,#212121 100%);
+  cursor: pointer;
 }
