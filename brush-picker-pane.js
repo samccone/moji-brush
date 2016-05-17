@@ -3,31 +3,28 @@
 
   var proto = Object.create(HTMLElement.prototype);
 
-  proto.colorChoices = [
-    '#F44336',
-    '#4CAF50',
-    '#2196F3',
-    '#FFEB3B',
-    '#9C27B0',
-    '#FF9800',
-    '#795548',
-    '#9E9E9E',
-    '#212121',
-    '#F5F5F5',
-  ];
-
-  proto.emojiColorChoices = [
-    '0x1F34E',
-    '0x1F438',
-    '0x1F4A6',
-    '0x1F424',
-    '0x1F346',
-    '0x1F307',
-    '0x1F4A9',
-    '0x1F480',
-    '0x1F31A',
-    '0x1F3D0',
-  ];
+  proto.choices = {
+    // Red
+    '#F44336': 'red-apple',
+    // Green
+    '#4CAF50': 'frog-face',
+    // Blue
+    '#2196F3': 'splashing-sweat-symbol',
+    // Yellow
+    '#FFEB3B': 'baby-chick',
+    // Purple
+    '#9C27B0': 'grapes',
+    // Orange
+    '#FF9800': 'sunset-over-buildings',
+    // Brown
+    '#795548': 'pile-of-poo',
+    // Grey
+    '#9E9E9E': 'skull',
+    // Black
+    '#212121': 'new-moon-with-face',
+    // White
+    '#F5F5F5': 'volleyball'
+  };
 
   proto.template = _ => {
     return `
@@ -76,7 +73,10 @@
 
     this.dispatchEvent(new CustomEvent('brush-change', {
       bubbles: true,
-      detail: this.emojiColorChoices[gridX + (gridY * columns)]}));
+      detail: emojiMap[
+        this.choices[
+          Object.keys(this.choices)[gridX + (gridY * columns)]]]
+    }));
   },
 
   proto.attachedCallback = function() {
@@ -102,9 +102,9 @@
 
     paneContent.innerHTML = '';
     paneContent.appendChild(canvas);
-    let colorWidth = (innerWidth * pixelR) / this.colorChoices.length;
+    let colorWidth = (innerWidth * pixelR) / Object.keys(this.choices).length;
 
-    this.colorChoices.forEach((v, i, arr) => {
+    Object.keys(this.choices).forEach((v, i, arr) => {
       ctx.fillStyle = v;
       let y = i >= arr.length / 2 ? (innerHeight * pixelR) / 2 : 0;
       let x = (2 * colorWidth) * (i % (arr.length / 2));

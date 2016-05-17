@@ -840,5 +840,6 @@ var emojiMap = {
   "clock-face-nine-thirty": "0x1F564",
   "clock-face-ten-thirty": "0x1F565",
   "clock-face-eleven-thirty": "0x1F566",
-  "clock-face-twelve-thirty": "0x1F567"
+  "clock-face-twelve-thirty": "0x1F567",
+  "volleyball": "0x1F3D0"
 }
