@@ -10,7 +10,6 @@ this.addEventListener('install', function(e) {
       '/footer-menu.js',
       '/page-menu.js',
       '/draw-canvas.js',
-      '/brush-picker.js',
       '/brush-picker-pane.js',
       '/emoji-map.js',
       '/size-picker.js',
