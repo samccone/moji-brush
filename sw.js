@@ -14,6 +14,7 @@ this.addEventListener('install', function(e) {
       '/brush-picker-pane.js',
       '/emoji-map.js',
       '/size-picker.js',
+      '/background-overlay.js',
       '/manifest.json',
     ]);
 }))});
