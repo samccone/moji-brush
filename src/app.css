@@ -12,6 +12,10 @@ body {
     sans-serif;
 }
 
+:root {
+--active-button-fill: #33a0e2;
+}
+
 .overlay {
   position: fixed;
   width: 100%;
@@ -40,8 +44,6 @@ canvas {
 footer-menu {
   position: relative;
   box-sizing: border-box;
-  /*left: 0;*/
-  /*bottom: 0;*/
   background: linear-gradient(to bottom, #333333 0%,#1c1c1c 100%);
   border-top: 1px solid #424242;
   border-bottom: 1px solid #252525;
@@ -145,11 +147,8 @@ brush-picker div {
   font-size: 50px;
 }
 
-.menu-open page-menu {
-  /*transform: translateY(0);*/
-}
 .dashboard-open .dashboard svg {
-  fill: rgb(51, 160, 226);
+  fill: var(--active-button-fill);;
 }
 
 page-menu {
@@ -158,15 +157,8 @@ page-menu {
   background: linear-gradient(to bottom, #424242 0%,#212121 100%);
   border-top: 1px solid #424242;
   border-bottom: 1px solid #252525;
-  /*position: absolute;*/
-  /*bottom: 0;
-  right: 0;*/
   height: 120px;
   width: 100%;
-  /*margin-bottom: 45px;*/
-  /*will-change: transform;
-  transform: translateY(100%);
-  transition: all 150ms cubic-bezier(0.39, 0.58, 0.72, 1);*/
 }
 
 page-menu ul {
@@ -203,11 +195,8 @@ page-menu li svg {
   cursor: default;
 }
 
-.brush-picker-open brush-picker-pane {
-  /*transform: translateY(0);*/
-}
 .brush-picker-open .brush svg {
-  fill: rgb(51, 160, 226);
+  fill: var(--active-button-fill);;
 }
 
 .brush-picker-open canvas {
@@ -215,17 +204,8 @@ page-menu li svg {
 }
 
 brush-picker-pane {
-  /*background: #FF4081;*/
   width: 100%;
   height: 120px;
-
-  /*position: absolute;*/
-  /*margin-bottom: 45px;*/
-  /*left: 0;
-  bottom: 0;*/
-  /*will-change: transform;
-  transform: translateY(100%);
-  transition: all 150ms cubic-bezier(0.39, 0.58, 0.72, 1);*/
 }
 
 brush-picker-pane .tabs {
@@ -237,7 +217,6 @@ brush-picker-pane .tabs {
   border-top: 1px solid #424242;
   border-bottom: 1px solid #252525;
   height: 60px;
-  /*position: relative;*/
   z-index: 1;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.37);
 }
@@ -267,24 +246,13 @@ size-picker {
   background: linear-gradient(to bottom, #424242 0%,#212121 100%);
   border-top: 1px solid #424242;
   border-bottom: 1px solid #252525;
-  /*bottom: 0;
-  left: 0;*/
   height: 120px;
-  /*margin-bottom: 45px;*/
   width: 100%;
-  /*position: absolute;*/
-  /*will-change: transform;
-  transform: translateY(100%);
-  transition: all 150ms cubic-bezier(0.39, 0.58, 0.72, 1);*/
 }
 
-.size-picker-open size-picker {
-  /*transform: translateY(0);*/
-}
 .size-picker-open .size svg {
-  fill: #33a0e2;
+  fill: var(--active-button-fill);;
 }
-
 
 size-picker .range-holder {
   position: relative;
