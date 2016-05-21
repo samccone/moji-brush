@@ -5,14 +5,14 @@
 
   proto.template = _ => {
      return `<ul class="menu-items">
-        <li class="open-menu" action="large-menu">
+        <li class="dashboard" action="dashboard-menu">
           <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet"><g id="dashboard"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></g></svg>
         </li>
         <li class="size" action="size">
           <svg id="plusminus" viewBox="0 0 21 17">
-            <polygon id="plus" points="9 3.27 5.73 3.27 5.73 0 3.27 0 3.27 3.27 0 3.27 0 5.73 3.27 5.73 3.27 9 5.73 9 5.73 5.73 9 5.73 9 3.27" />
-            <line id="slash" x1="2.5" y1="18.5" x2="18.63" y2="2" style="fill: none;stroke: #e6e6e6;stroke-miterlimit: 10;stroke-width: 2px"/>
-            <rect id="minus" x="12" y="15" width="9" height="2.7" />
+            <polygon id="plus" points="9 3.27 5.73 3.27 5.73 0 3.27 0 3.27 3.27 0 3.27 0 5.73 3.27 5.73 3.27 9 5.73 9 5.73 5.73 9 5.73 9 3.27"/>
+            <rect id="slash" x="0.53" y="12.25" width="23.07" height="2" transform="translate(-7.34 9.61) rotate(-45.63)"/>
+            <rect id="minus" x="12" y="15" width="9" height="2.7"/>
           </svg>
         </li>
         <li class="brush" action="brush-pick">

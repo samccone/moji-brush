@@ -5,12 +5,12 @@
 
   proto.template = function() {
     return `
-       <div>
+       <div class="range-holder">
         <div class="horizontal-range">
           <div class="thumb"></div>
         </div>
-        <div class="brush-size-preview"></div>
-       </div>
+      </div>
+      <div class="brush-size-preview"></div>
     `
   };
 
@@ -19,8 +19,11 @@
   };
 
   proto.onTap = function(e) {
-    let x = e.touches ? e.touches[0].pageX : e.layerX
-    this.updateValue(x / this.innerWidth);
+    // have to change from layerX to clientX-10 or pageX-10 or offsetX in this layout
+    // MDN suggests caution w/ layerX:
+    // https://developer.mozilla.org/en-US/docs/Web/API/UIEvent/layerX
+    let x = e.touches ? e.touches[0].pageX : e.offsetX;
+    this.updateValue((x-10) / this.innerWidth);
   };
 
   proto.updateValue = function(percent) {

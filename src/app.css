@@ -22,13 +22,13 @@ body {
   transition: all 150ms cubic-bezier(0.39, 0.58, 0.72, 1);
 }
 
-.pane-open .overlay {
+.menu-open .overlay {
   background-color: rgba(0, 0, 0, 0.15);
   z-index: 0;
   cursor: pointer;
 }
 
-.pane-open draw-canvas {
+.menu-open draw-canvas {
   pointer-events: none;
 }
 
@@ -40,8 +40,8 @@ canvas {
 footer-menu {
   position: relative;
   box-sizing: border-box;
-  left: 0;
-  bottom: 0;
+  /*left: 0;*/
+  /*bottom: 0;*/
   background: linear-gradient(to bottom, #333333 0%,#1c1c1c 100%);
   border-top: 1px solid #424242;
   border-bottom: 1px solid #252525;
@@ -55,7 +55,29 @@ footer-menu {
 .menusys {
   position: fixed;
   bottom: 0;
-  width: 100%
+  width: 100%;
+  will-change: transform;
+  transform: translateY(120px);
+  transition: all 150ms cubic-bezier(0.39, 0.58, 0.72, 1);
+}
+
+.pane-slider-container {
+  overflow: hidden;
+}
+
+#pane-slider {
+  display: flex;
+  flex-direction: row;
+  will-change: transform;
+  transition: transform 0.13s cubic-bezier(0,0,0.3,1);
+}
+
+#pane-slider > * {
+  min-width: 100%;
+}
+
+.menu-open .menusys{
+  transform: translateY(0);
 }
 
 @media (min-width: 600px) {
@@ -108,7 +130,7 @@ emoji-print {
 
 brush-picker {
   display: block;
-  position: absolute;
+  /*position: absolute;*/
   height: 100%;
   width: 100%;
   background: rgb(132, 132, 132);
@@ -124,7 +146,10 @@ brush-picker div {
 }
 
 .menu-open page-menu {
-  transform: translateY(0);
+  /*transform: translateY(0);*/
+}
+.dashboard-open .dashboard svg {
+  fill: rgb(51, 160, 226);
 }
 
 page-menu {
@@ -133,14 +158,15 @@ page-menu {
   background: linear-gradient(to bottom, #424242 0%,#212121 100%);
   border-top: 1px solid #424242;
   border-bottom: 1px solid #252525;
-  position: absolute;
-  bottom: 0;
-  right: 0;
+  /*position: absolute;*/
+  /*bottom: 0;
+  right: 0;*/
+  height: 120px;
   width: 100%;
-  margin-bottom: 45px;
-  will-change: transform;
+  /*margin-bottom: 45px;*/
+  /*will-change: transform;
   transform: translateY(100%);
-  transition: all 150ms cubic-bezier(0.39, 0.58, 0.72, 1);
+  transition: all 150ms cubic-bezier(0.39, 0.58, 0.72, 1);*/
 }
 
 page-menu ul {
@@ -178,7 +204,10 @@ page-menu li svg {
 }
 
 .brush-picker-open brush-picker-pane {
-  transform: translateY(0);
+  /*transform: translateY(0);*/
+}
+.brush-picker-open .brush svg {
+  fill: rgb(51, 160, 226);
 }
 
 .brush-picker-open canvas {
@@ -188,13 +217,15 @@ page-menu li svg {
 brush-picker-pane {
   /*background: #FF4081;*/
   width: 100%;
-  position: absolute;
-  margin-bottom: 45px;
-  left: 0;
-  bottom: 0;
-  will-change: transform;
+  height: 120px;
+
+  /*position: absolute;*/
+  /*margin-bottom: 45px;*/
+  /*left: 0;
+  bottom: 0;*/
+  /*will-change: transform;
   transform: translateY(100%);
-  transition: all 150ms cubic-bezier(0.39, 0.58, 0.72, 1);
+  transition: all 150ms cubic-bezier(0.39, 0.58, 0.72, 1);*/
 }
 
 brush-picker-pane .tabs {
@@ -226,7 +257,7 @@ brush-picker-pane .tabs li.active {
 }
 
 .pane-content {
-  height: 120px;
+  height: 100%;
   background: #f5f5f5;
   box-shadow: inset 0 3px 10px #737373;
 }
@@ -236,19 +267,29 @@ size-picker {
   background: linear-gradient(to bottom, #424242 0%,#212121 100%);
   border-top: 1px solid #424242;
   border-bottom: 1px solid #252525;
-  bottom: 0;
-  left: 0;
-  height: 90px;
-  margin-bottom: 45px;
+  /*bottom: 0;
+  left: 0;*/
+  height: 120px;
+  /*margin-bottom: 45px;*/
   width: 100%;
-  position: absolute;
-  will-change: transform;
+  /*position: absolute;*/
+  /*will-change: transform;
   transform: translateY(100%);
-  transition: all 150ms cubic-bezier(0.39, 0.58, 0.72, 1);
+  transition: all 150ms cubic-bezier(0.39, 0.58, 0.72, 1);*/
 }
 
 .size-picker-open size-picker {
-  transform: translateY(0);
+  /*transform: translateY(0);*/
+}
+.size-picker-open .size svg {
+  fill: #33a0e2;
+}
+
+
+size-picker .range-holder {
+  position: relative;
+  height: 100%;
+  width: 100%;
 }
 
 size-picker .horizontal-range {
