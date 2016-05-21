@@ -15,7 +15,7 @@
     // Purple
     '#9C27B0': 'grapes',
     // Orange
-    '#FF9800': 'sunset-over-buildings',
+    '#FF9800': 'tangerine',
     // Brown
     '#795548': 'pile-of-poo',
     // Grey
