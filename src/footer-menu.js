@@ -9,13 +9,11 @@
           <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet"><g id="dashboard"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></g></svg>
         </li>
         <li class="size" action="size">
-          <svg id="plusminus" xmlns="http://www.w3.org/2000/svg" width="21" height="19.2" viewBox="0 0 21 17">
-            <title>plusminus2</title>
-            <polygon id="plus" points="9 3.27 5.73 3.27 5.73 0 3.27 0 3.27 3.27 0 3.27 0 5.73 3.27 5.73 3.27 9 5.73 9 5.73 5.73 9 5.73 9 3.27" style="fill: #e6e6e6"/>
+          <svg id="plusminus" viewBox="0 0 21 17">
+            <polygon id="plus" points="9 3.27 5.73 3.27 5.73 0 3.27 0 3.27 3.27 0 3.27 0 5.73 3.27 5.73 3.27 9 5.73 9 5.73 5.73 9 5.73 9 3.27" />
             <line id="slash" x1="2.5" y1="18.5" x2="18.63" y2="2" style="fill: none;stroke: #e6e6e6;stroke-miterlimit: 10;stroke-width: 2px"/>
-            <rect id="minus" x="12" y="15" width="9" height="2.7" style="fill: #e6e6e6"/>
+            <rect id="minus" x="12" y="15" width="9" height="2.7" />
           </svg>
-
         </li>
         <li class="brush" action="brush-pick">
           <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet"><g id="brush"><path d="M7 14c-1.66 0-3 1.34-3 3 0 1.31-1.16 2-2 2 .92 1.22 2.49 2 4 2 2.21 0 4-1.79 4-4 0-1.66-1.34-3-3-3zm13.71-9.37l-1.34-1.34c-.39-.39-1.02-.39-1.41 0L9 12.25 11.75 15l8.96-8.96c.39-.39.39-1.02 0-1.41z"/></g>
