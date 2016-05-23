@@ -23,7 +23,8 @@
     // MDN suggests caution w/ layerX:
     // https://developer.mozilla.org/en-US/docs/Web/API/UIEvent/layerX
     let x = e.touches ? e.touches[0].pageX : e.offsetX;
-    this.updateValue((x-10) / this.innerWidth);
+    // need to do some math here to put center of thumb where the click happens
+    this.updateValue(x / this.innerWidth);
   };
 
   proto.updateValue = function(percent) {

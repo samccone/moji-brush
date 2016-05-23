@@ -1,0 +1,38 @@
+{
+  "name": "moji-brush",
+  "version": "1.0.0",
+  "description": "Paint with emoji progressive web app",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "webcomponents.js": "^0.7.22"
+  },
+  "devDependencies": {
+    "babel-preset-es2015": "^6.9.0",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-babel": "^6.1.2"
+  },
+  "scripts": {
+    "test": "test",
+    "start": "gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samccone/moji-brush.git"
+  },
+  "keywords": [
+    "Moji",
+    "Paint",
+    "Emoji",
+    "Painting",
+    "Progressive",
+    "Web",
+    "App"
+  ],
+  "author": "samccone",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/samccone/moji-brush/issues"
+  },
+  "homepage": "https://github.com/samccone/moji-brush#readme"
+}
