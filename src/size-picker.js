@@ -24,7 +24,7 @@
     // MDN suggests caution w/ layerX:
     // https://developer.mozilla.org/en-US/docs/Web/API/UIEvent/layerX
     let x = e.touches ? e.touches[0].pageX : e.offsetX;
-    // below puts the .thumb element where it is supposed to be
+    // below puts the .thumb element where it is supposed to be, doesn't allow it to be dragged outside of range
     let leftLoc = x;
     if (x < 0) {leftLoc = minLeft;}
     if (x > maxRight) {leftLoc = maxRight;}
@@ -33,7 +33,7 @@
   };
 
   proto.updateValue = function(percent) {
-    // commented line below causes the .thumb to not be in exactly the right place, moved to onTap
+    // when uncommented, line below causes the .thumb to not be in exactly the right place. moved to onTap.
     // this.querySelector('.thumb').style.left = percent * 100 + '%';
     // add the min value at the end to get the proper size
     window.app.brushSize.val = (((window.app.brushSize.max - window.app.brushSize.min) * percent) + window.app.brushSize.min);

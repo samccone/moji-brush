@@ -206,7 +206,7 @@ page-menu li svg {
 brush-picker-pane {
   width: 100%;
   height: 120px;
-  /* this pointer event none/auto combo with .brush-picker-open doesn't work because the event setting is switched to auto the moment the button is pressed, and the brush pane below instantly interferes with the button  */
+  /* this pointer event none/auto combo with .brush-picker-open doesn't work because the event setting is switched to auto the moment the button is pressed, and the brush pane below it instantly interferes with the button  */
   /*pointer-events: none;*/
 }
 

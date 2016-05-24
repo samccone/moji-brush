@@ -37,6 +37,7 @@
   };
 
   proto.onMenuClick = function(e) {
+    e.preventDefault();
     var node = e.target;
 
     while(node !== undefined && node.tagName !== 'FOOTER-MENU') {

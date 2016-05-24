@@ -67,7 +67,6 @@
   function handleBrushChange(e) {
     window.app.activeBrush = e.detail;
     showBrushPreview();
-    // closeAllMenus();
   }
 
   function closeAllMenus() {
