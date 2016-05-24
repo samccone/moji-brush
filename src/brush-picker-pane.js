@@ -15,7 +15,7 @@
     // Purple
     '#9C27B0': 'grapes',
     // Orange
-    '#FF9800': 'sunset-over-buildings',
+    '#FF9800': 'tangerine',
     // Brown
     '#795548': 'pile-of-poo',
     // Grey
@@ -29,9 +29,6 @@
   proto.template = _ => {
     return `
       <div class="brush-picker">
-        <ul class="tabs">
-          <li class="tab active">Colors</li>
-        </ul>
         <div class="pane-content">
           <div class="colors"></div>
           <div class="all"></div>
@@ -58,7 +55,10 @@
   };
 
   proto.onColorClick = function(e) {
-    this.getColorByXY(e.layerX, e.layerY);
+    // have to change from layerX to clientX-10 or pageX-10 or offsetX in this layout
+    // MDN suggests caution w/ layerX:
+    // https://developer.mozilla.org/en-US/docs/Web/API/UIEvent/layerX
+    this.getColorByXY(e.offsetX, e.offsetY);
   },
 
 

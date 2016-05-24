@@ -26,14 +26,14 @@
 
   function handlePageAction(e) {
     switch (e.detail) {
-      case 'large-menu':
-        onFooterMenuClick('menu-open');
+      case 'dashboard-menu':
+        onFooterMenuClick('dashboard-open', 0);
         break;
       case 'brush-pick':
-        onFooterMenuClick('brush-picker-open');
+        onFooterMenuClick('brush-picker-open', 2);
         break;
       case 'size':
-        onFooterMenuClick('size-picker-open');
+        onFooterMenuClick('size-picker-open', 1);
         break;
       case 'reset':
         drawCanvas.clearCanvas();
@@ -55,22 +55,23 @@
   function closeAllMenus() {
     ['brush-picker-open',
     'size-picker-open',
-    'menu-open',
-    'pane-open',].forEach(v => {
+    'dashboard-open',
+    'menu-open',].forEach(v => {
       document.body.classList.remove(v);
     });
   }
 
-  function onFooterMenuClick(klass) {
+  function onFooterMenuClick(klass, index) {
     let paneAlreadyOpen = document.body.classList.contains(klass);
-
-    if (document.body.classList.contains('pane-open')) {
+    let x = index * -100;
+    if (document.body.classList.contains('menu-open')) {
       closeAllMenus();
     }
 
     if (!paneAlreadyOpen) {
-      document.body.classList.add('pane-open');
+      document.body.classList.add('menu-open');
       document.body.classList.add(klass);
+      document.getElementById('pane-slider').style.transform = `translateX(${x}%)`;
     }
   }
 })();

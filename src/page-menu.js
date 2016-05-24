@@ -16,7 +16,8 @@
           </svg>
           <span>Save</span>
         </li>
-      </ul>`;
+      </ul>
+      `;
   };
 
   proto.attachedCallback = function() {
