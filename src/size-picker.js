@@ -10,8 +10,7 @@
           <div class="thumb"></div>
         </div>
       </div>
-      <div class="brush-size-preview"></div>
-    `
+    `;
   };
 
   proto.render = function() {
@@ -19,17 +18,24 @@
   };
 
   proto.onTap = function(e) {
-    // have to change from layerX to clientX-10 or pageX-10 or offsetX in this layout
+    // have to change from layerX to clientX or pageX or offsetX in this layout
     // MDN suggests caution w/ layerX:
     // https://developer.mozilla.org/en-US/docs/Web/API/UIEvent/layerX
     let x = e.touches ? e.touches[0].pageX : e.offsetX;
-    // need to do some math here to put center of thumb where the click happens
+    // below puts the .thumb element where it is supposed to be
+    this.querySelector('.thumb').style.left = x - 15 + 'px';
     this.updateValue(x / this.innerWidth);
   };
 
   proto.updateValue = function(percent) {
-    this.querySelector('.thumb').style.left = percent * 100 + '%';
-    window.app.brushSize.val = (window.app.brushSize.max - window.app.brushSize.min) * (percent);
+    // below causes the .thumb to not be in exactly the right place, moved to onTap
+    // this.querySelector('.thumb').style.left = percent * 100 + '%';
+    // add the min value at the end to get the proper size
+    window.app.brushSize.val = ((window.app.brushSize.max - window.app.brushSize.min) * percent) + window.app.brushSize.min;
+    this.dispatchEvent(new CustomEvent('size-change', {
+      bubbles: true,
+      detail: window.app.brushSize.val
+    }));
   };
 
   proto.attachedCallback = function() {
