@@ -14,7 +14,7 @@
     activeBrush: '0x1F428',
     brushSize: {
       min: 40,
-      max: 245,
+      max: 205,
       val: 84,
     },
   };
@@ -23,7 +23,7 @@
 
   document.body.addEventListener('menu-action', handlePageAction);
   document.body.addEventListener('brush-change', handleBrushChange);
-  document.body.addEventListener('size-change', handleSizeChange);
+  document.body.addEventListener('size-change', showBrushPreview);
 
   function handlePageAction(e) {
     switch (e.detail) {
@@ -48,24 +48,26 @@
     }
   };
 
-  function handleBrushChange(e) {
-    window.app.activeBrush = e.detail;
-    closeAllMenus();
-  }
-
-  function handleSizeChange(e) {
+  function showBrushPreview() {
     // make preview temporarily visible
     document.body.classList.add('size-picker-select');
     // update size of preview to reflect selection
     let preview = document.getElementById('preview');
     // apply brush size
-    preview.innerText = String.fromCodePoint(window.app.activeBrush);
     let size = window.app.brushSize.val / window.devicePixelRatio;
     preview.style.font = `${size}px Arial`;
+    // preview the brush
+    preview.innerText = String.fromCodePoint(window.app.activeBrush);
     // remove preview visibility after 1500ms
     setTimeout(function(){
       document.body.classList.remove('size-picker-select');
     }, 1500);
+  }
+
+  function handleBrushChange(e) {
+    window.app.activeBrush = e.detail;
+    showBrushPreview();
+    // closeAllMenus();
   }
 
   function closeAllMenus() {

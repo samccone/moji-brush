@@ -53,7 +53,7 @@
   };
 
   proto.onColorClick = function(e) {
-    // have to change from layerX to clientX or pageX or offsetX in this layout
+    // have to change from layerX to clientX or pageX or offsetX in the panel slide layout
     // MDN suggests caution w/ layerX:
     // https://developer.mozilla.org/en-US/docs/Web/API/UIEvent/layerX
     this.getColorByXY(e.offsetX, e.offsetY);
