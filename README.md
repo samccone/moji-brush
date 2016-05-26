@@ -5,6 +5,7 @@ https://www.moji-brush.com/
 
 #### Dev
 
+* `cd src/`
 * `python -m SimpleHTTPServer`
 * `open localhost:8000`
 
