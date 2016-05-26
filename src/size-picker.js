@@ -18,18 +18,19 @@
   };
 
   proto.onTap = function(e) {
-    let minLeft = 0;
-    let maxRight = this.querySelector('.horizontal-range').getBoundingClientRect().width;
     // have to change from layerX to clientX or pageX or offsetX in the panel slide layout
     // MDN suggests caution w/ layerX:
     // https://developer.mozilla.org/en-US/docs/Web/API/UIEvent/layerX
-    let x = e.touches ? e.touches[0].pageX : e.offsetX;
-    // below puts the .thumb element where it is supposed to be, doesn't allow it to be dragged outside of range
-    let leftLoc = x;
-    if (x < 0) {leftLoc = minLeft;}
-    if (x > maxRight) {leftLoc = maxRight;}
-    this.querySelector('.thumb').style.left = leftLoc - 15 + 'px';
-    this.updateValue(x / this.innerWidth);
+    let touchX = e.touches ? e.touches[0].pageX : e.offsetX;
+
+    // Prevent the slider from going off the left or right of the screen.
+    let sliderX = Math.min(Math.max(touchX, 0), this.rangeWidth);
+
+    // Recenter the slider knob.
+    this.querySelector('.thumb').style.transform = `translateX(${sliderX - 15}px)`;
+
+    // Finally set the value by passing a value between 0 and 1.
+    this.updateValue(touchX / this.innerWidth);
   };
 
   proto.updateValue = function(percent) {
@@ -45,14 +46,18 @@
 
   proto.attachedCallback = function() {
     this.render();
-    let horizontalRange = this.querySelector('.horizontal-range');
 
-    let eventName =  'ontouchstart' in window ? 'touchstart': 'click';
-
-    horizontalRange.addEventListener(eventName, this.onTap.bind(this));
-    horizontalRange.addEventListener('touchmove', this.onTap.bind(this));
+    // Cache the range width so we do not need to requery the val.
+    this.rangeWidth = this.querySelector(
+        '.horizontal-range').getBoundingClientRect().width;
 
     this.innerWidth = this.getBoundingClientRect().width;
+
+    // Sniff if this is a touch device.
+    let eventName =  'ontouchstart' in window ? 'touchstart': 'click';
+
+    this.addEventListener(eventName, this.onTap.bind(this));
+    this.addEventListener('touchmove', this.onTap.bind(this));
   };
 
   document.registerElement('size-picker', {

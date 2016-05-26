@@ -20,10 +20,11 @@
   };
 
   let drawCanvas = document.querySelector('draw-canvas');
+  let brushChangeTimeoutId;
 
   document.body.addEventListener('menu-action', handlePageAction);
   document.body.addEventListener('brush-change', handleBrushChange);
-  document.body.addEventListener('size-change', showBrushPreview);
+  document.body.addEventListener('size-change', handleBrushSizeChange);
 
   function handlePageAction(e) {
     switch (e.detail) {
@@ -49,24 +50,44 @@
   };
 
   function showBrushPreview() {
-    // make preview temporarily visible
-    document.body.classList.add('size-picker-select');
     // update size of preview to reflect selection
-    let preview = document.getElementById('preview');
+    let preview = document.getElementById('preview-content');
     // apply brush size
     let size = window.app.brushSize.val / window.devicePixelRatio;
-    preview.style.font = `${size}px Arial`;
+    preview.style.fontSize = `${size}px`;
+
     // preview the brush
     preview.innerText = String.fromCodePoint(window.app.activeBrush);
-    // remove preview visibility after 1500ms
-    setTimeout(function(){
-      document.body.classList.remove('size-picker-select');
-    }, 1500);
+    brushChangeTimeoutId = undefined;
+  }
+
+  function throttledPreviewUpdate() {
+    // Throttle this to never fire more than once per frame :).
+    if (brushChangeTimeoutId === undefined) {
+      brushChangeTimeoutId = setTimeout(function() {
+        requestAnimationFrame(showBrushPreview);
+      }, 16.66);
+    }
+  }
+
+  function handleBrushSizeChange() {
+    // make preview visible
+    if (!document.body.classList.contains('size-picker-select')) {
+      document.body.classList.add('size-picker-select');
+    }
+
+    throttledPreviewUpdate();
   }
 
   function handleBrushChange(e) {
     window.app.activeBrush = e.detail;
-    showBrushPreview();
+
+    // make preview visible
+    if (!document.body.classList.contains('size-picker-select')) {
+      document.body.classList.add('size-picker-select');
+    }
+
+    throttledPreviewUpdate();
   }
 
   function closeAllMenus() {

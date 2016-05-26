@@ -283,7 +283,7 @@ size-picker .thumb {
   box-sizing: border-box;
   position: absolute;
   display: block;
-  left: calc(50% - 15px);
+  transform: translateX(calc(50% - 15px));
   top: calc(50% - 15px);
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.55), 0px 0px 1px rgba(13, 13, 13, 0.7);
   border: 3px solid #707070;
@@ -294,6 +294,7 @@ size-picker .thumb {
   cursor: pointer;
   /* on desktop, clicking on the thumb itself will cause it to jump to zero, but changing pointer-events to "none" causes problems with touch */
   pointer-events: auto;
+  will-change: transform;
 }
 
 #preview {
