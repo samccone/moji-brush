@@ -5,15 +5,15 @@ this.addEventListener('install', function(e) {
     return cache.addAll([
       '/',
       '/index.html',
-      '/src/app.css',
-      '/src/app.js',
-      '/src/footer-menu.js',
-      '/src/page-menu.js',
-      '/src/draw-canvas.js',
-      '/src/brush-picker-pane.js',
-      '/src/emoji-map.js',
-      '/src/size-picker.js',
-      '/src/background-overlay.js',
+      '/app.css',
+      '/app.js',
+      '/footer-menu.js',
+      '/page-menu.js',
+      '/draw-canvas.js',
+      '/brush-picker-pane.js',
+      '/emoji-map.js',
+      '/size-picker.js',
+      '/background-overlay.js',
       '/manifest.json',
     ]);
 }))});
@@ -25,7 +25,7 @@ this.addEventListener('fetch', function(e) {
 });
 
 this.addEventListener('activate', function(e) {
-  e.waitUntil(caches.key().then((keys) => {
+  e.waitUntil(caches.keys().then((keys) => {
     return Promise.all(keys.map(k => {
       if (k !== VERSION) {
         return caches.delete(k);
