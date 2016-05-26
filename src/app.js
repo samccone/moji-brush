@@ -76,6 +76,8 @@
     'menu-open',].forEach(v => {
       document.body.classList.remove(v);
     });
+    document.body.classList.remove('size-picker-select');
+
   }
 
   function onFooterMenuClick(klass, index) {
