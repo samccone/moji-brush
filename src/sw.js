@@ -24,7 +24,7 @@ this.addEventListener('fetch', function(e) {
   }))
 });
 
-this.addEventListener('active', function(e) {
+this.addEventListener('activate', function(e) {
   e.waitUntil(caches.key().then((keys) => {
     return Promise.all(keys.map(k => {
       if (k !== VERSION) {
@@ -37,7 +37,7 @@ this.addEventListener('active', function(e) {
 // and put into our cache
 function handleNoCacheMatch(e) {
   return fetch(e.request).then(res => {
-    caches.open(VERSION).then(cache => {
+    return caches.open(VERSION).then(cache => {
       cache.put(e.request, res.clone());
 
       return res;
