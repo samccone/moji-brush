@@ -72,8 +72,6 @@
   };
 
   proto.recordHistory = function(x, y) {
-    // clear the redo history
-    window.app.redos = [];
     // record the paint stroke into the newest array
     window.app.undos[window.app.undos.length - 1].push({
       brush: window.app.activeBrush,
@@ -81,6 +79,8 @@
       x: x,
       y: y
     });
+    // clear the redo history
+    window.app.redos = [];
     this.updateUndoRedoButtonState();
   };
 
