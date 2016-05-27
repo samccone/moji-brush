@@ -297,6 +297,10 @@ size-picker .thumb {
   will-change: transform;
 }
 
+#preview-content {
+  will-change: transform;
+}
+
 #preview {
   position: fixed;
   display:flex;

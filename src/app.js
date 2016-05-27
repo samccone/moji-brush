@@ -21,10 +21,16 @@
 
   let drawCanvas = document.querySelector('draw-canvas');
   let brushChangeTimeoutId;
+  let brushPreview = document.getElementById('preview-content');
 
   document.body.addEventListener('menu-action', handlePageAction);
   document.body.addEventListener('brush-change', handleBrushChange);
   document.body.addEventListener('size-change', handleBrushSizeChange);
+
+
+  // Init the preview content to
+  brushPreview.style.fontSize = `${window.app.brushSize.max / window.devicePixelRatio}px`;
+  brushPreview.style.transform = `scale(${window.app.brushSize.val / (window.app.brushSize.max - window.app.brushSize.min)})`;
 
   function handlePageAction(e) {
     switch (e.detail) {
@@ -50,14 +56,13 @@
   };
 
   function showBrushPreview() {
-    // update size of preview to reflect selection
-    let preview = document.getElementById('preview-content');
-    // apply brush size
-    let size = window.app.brushSize.val / window.devicePixelRatio;
-    preview.style.fontSize = `${size}px`;
+    // Apply brush size.
+    brushPreview.style.transform = `scale(${window.app.brushSize.val / (window.app.brushSize.max - window.app.brushSize.min)})`;
 
-    // preview the brush
-    preview.innerText = String.fromCodePoint(window.app.activeBrush);
+    // Preview the brush.
+    brushPreview.innerText = String.fromCodePoint(window.app.activeBrush);
+
+    // Reset the preview change timeout value.
     brushChangeTimeoutId = undefined;
   }
 

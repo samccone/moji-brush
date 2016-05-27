@@ -34,13 +34,16 @@
   };
 
   proto.updateValue = function(percent) {
-    // when uncommented, line below causes the .thumb to not be in exactly the right place. moved to onTap.
-    // this.querySelector('.thumb').style.left = percent * 100 + '%';
-    // add the min value at the end to get the proper size
-    window.app.brushSize.val = (((window.app.brushSize.max - window.app.brushSize.min) * percent) + window.app.brushSize.min);
+    // Clamp btw 1 and 0.1
+    percent = Math.min(1, Math.max(0.1, percent));
+
+    let newSize = (window.app.brushSize.max - window.app.brushSize.min) * percent + window.app.brushSize.min;
+
+    window.app.brushSize.val = newSize
+
     this.dispatchEvent(new CustomEvent('size-change', {
       bubbles: true,
-      detail: window.app.brushSize.val
+      detail: window.app.brushSize.val,
     }));
   };
 
