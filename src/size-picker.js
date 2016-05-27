@@ -17,6 +17,11 @@
     this.innerHTML = this.template();
   };
 
+  proto._setThumbPosition = function(x) {
+    // Recenter the slider knob.
+    this.querySelector('.thumb').style.transform = `translateX(${x - 15}px)`;
+  }
+
   proto.onTap = function(e) {
     // have to change from layerX to clientX or pageX or offsetX in the panel slide layout
     // MDN suggests caution w/ layerX:
@@ -26,8 +31,7 @@
     // Prevent the slider from going off the left or right of the screen.
     let sliderX = Math.min(Math.max(touchX, 0), this.rangeWidth);
 
-    // Recenter the slider knob.
-    this.querySelector('.thumb').style.transform = `translateX(${sliderX - 15}px)`;
+    this._setThumbPosition(sliderX);
 
     // Finally set the value by passing a value between 0 and 1.
     this.updateValue(touchX / this.innerWidth);
@@ -55,6 +59,9 @@
         '.horizontal-range').getBoundingClientRect().width;
 
     this.innerWidth = this.getBoundingClientRect().width;
+
+    // When attached set the correct position of the thumb.
+    this._setThumbPosition(window.app.getBrushSizePercent() * this.rangeWidth);
 
     // Sniff if this is a touch device.
     let eventName =  'ontouchstart' in window ? 'touchstart': 'click';

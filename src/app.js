@@ -15,7 +15,10 @@
     brushSize: {
       min: 40,
       max: 205,
-      val: 84,
+      val: 82.5,
+    },
+    getBrushSizePercent: function() {
+      return (this.brushSize.val / (this.brushSize.max - this.brushSize.min));
     },
   };
 
@@ -30,7 +33,7 @@
 
   // Init the preview content to
   brushPreview.style.fontSize = `${window.app.brushSize.max / window.devicePixelRatio}px`;
-  brushPreview.style.transform = `scale(${window.app.brushSize.val / (window.app.brushSize.max - window.app.brushSize.min)})`;
+  brushPreview.style.transform = `scale(${window.app.getBrushSizePercent()})`;
 
   function handlePageAction(e) {
     switch (e.detail) {
@@ -57,7 +60,7 @@
 
   function showBrushPreview() {
     // Apply brush size.
-    brushPreview.style.transform = `scale(${window.app.brushSize.val / (window.app.brushSize.max - window.app.brushSize.min)})`;
+    brushPreview.style.transform = `scale(${window.app.getBrushSizePercent()})`;
 
     // Preview the brush.
     brushPreview.innerText = String.fromCodePoint(window.app.activeBrush);
