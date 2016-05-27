@@ -3,7 +3,7 @@
 
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js').then(_ => {
-      console.log('service worker is is all cool 🐳');
+      console.log('service worker is all cool 🐳');
     }).catch(e => {
       console.error('service worker is not so cool 🔥', e);
       throw e;
@@ -17,6 +17,8 @@
       max: 205,
       val: 84,
     },
+    undos: [],
+    redos: []
   };
 
   let drawCanvas = document.querySelector('draw-canvas');
@@ -49,6 +51,12 @@
         break;
       case 'overlay-close':
         closeAllMenus();
+        break;
+      case 'undo':
+        console.log(window.app.undos, drawCanvas);
+        break;
+      case 'redo':
+        console.log(window.app.undos, drawCanvas);
         break;
       default:
         console.warn(`unhanded detail, ${e.detail}`);
