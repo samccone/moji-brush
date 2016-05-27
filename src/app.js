@@ -21,7 +21,7 @@
       return (this.brushSize.val / (this.brushSize.max - this.brushSize.min));
     },
     undos: [],
-    redos: []
+    redos: [],
   };
 
   let drawCanvas = document.querySelector('draw-canvas');
@@ -49,6 +49,8 @@
         onFooterMenuClick('size-picker-open', 1);
         break;
       case 'reset':
+        window.app.undos = [];
+        window.app.redos = [];
         drawCanvas.clearCanvas();
         closeAllMenus();
         break;
@@ -56,10 +58,10 @@
         closeAllMenus();
         break;
       case 'undo':
-        console.log(window.app.undos, drawCanvas);
+        drawCanvas.undo();
         break;
       case 'redo':
-        console.log(window.app.undos, drawCanvas);
+        drawCanvas.redo();
         break;
       default:
         console.warn(`unhanded detail, ${e.detail}`);

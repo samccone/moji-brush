@@ -25,47 +25,42 @@
 
   proto.onMouseDown = function() {
     window.app.mouseDown = true;
+    // paint stroke happening, so establish an array to capture it
     window.app.undos.push([]);
-  }
+  };
 
   proto.onMouseUp = function() {
     window.app.mouseDown = false;
-  }
+  };
 
   proto.onMouseMove = function(e) {
     if (app.mouseDown === true) {
       this.paintAtPoint(e.clientX, e.clientY);
       this.recordHistory(e.clientX, e.clientY);
     }
-  }
+  };
 
   proto.clearCanvas = function() {
     this.ctx.clearRect(0, 0, (window.innerWidth * window.devicePixelRatio),
         (window.innerHeight * window.devicePixelRatio));
-  }
-  //
-  // proto.paintAtPoint = function(x, y) {
-  //   var brushOffset = -window.app.brushSize.val / 2;
-  //
-  //   this.ctx.font = `${window.app.brushSize.val}px`
-  //   this.ctx.fillText(String.fromCodePoint(window.app.activeBrush),
-  //       x * window.devicePixelRatio + brushOffset,
-  //       y * window.devicePixelRatio - brushOffset);
-  // }
+    this.updateUndoRedoButtonState();
+  };
 
   proto.paintAtPoint = function(x, y, s, b) {
+    // if there is no b | s, this is a new paint stroke and gets active size and brush values instead of history values
     let size = s || window.app.brushSize.val;
     let brush = b || window.app.activeBrush;
-    console.log(size, brush);
     let brushOffset = -size / 2;
-    this.ctx.font = `${size}px`;
-
+    // 'Arial' is necessary to establish correct emoji size
+    this.ctx.font = `${size}px Arial`;
+    // this is the emoji paint stroke
     this.ctx.fillText(String.fromCodePoint(brush),
         x * window.devicePixelRatio + brushOffset,
         y * window.devicePixelRatio - brushOffset);
   },
 
   proto.onTouch = function(e) {
+    // paint stroke happening, so establish an array to capture it
     window.app.undos.push([]);
     for(let i = 0; i < e.touches.length; ++i) {
       let touch = e.touches[i];
@@ -74,25 +69,69 @@
       this.recordHistory(touch.clientX, touch.clientY);
     }
     e.preventDefault();
-  },
+  };
 
   proto.recordHistory = function(x, y) {
-    window.app.undos[window.app.undos.length - 1].push({brush: window.app.activeBrush, size: window.app.brushSize.val, x: x, y: y});
-  },
+    // record the paint stroke into the newest array
+    window.app.undos[window.app.undos.length - 1].push({
+      brush: window.app.activeBrush,
+      size: window.app.brushSize.val,
+      x: x,
+      y: y
+    });
+    this.updateUndoRedoButtonState();
+  };
 
-  proto.repaintHistory = function(history) {
-    for (let i=0; i<history.length; i++) {
-
+  proto.repaintHistory = function() {
+    // iterate through all paint stroke history
+    for (let i=0; i<window.app.undos.length; i++) {
+      // iterate within individual paint strokes
+      for (let j=0; j<window.app.undos[i].length; j++) {
+        // repaint beautiful dabs of emoji
+        this.paintAtPoint(
+          window.app.undos[i][j].x,
+          window.app.undos[i][j].y,
+          window.app.undos[i][j].size,
+          window.app.undos[i][j].brush
+        );
+      }
     }
-  },
+  };
 
   proto.redo = function() {
-
-  },
+    if (window.app.redos.length) {
+      // move the last undone paint stroke back to the undo array
+      window.app.undos.push(window.app.redos.pop());
+      this.clearCanvas();
+      this.repaintHistory();
+    }
+    this.updateUndoRedoButtonState();
+    return;
+  };
 
   proto.undo = function() {
+    if (window.app.undos.length) {
+      // move the last paint stroke to the redo array
+      window.app.redos.push(window.app.undos.pop());
+      this.clearCanvas();
+      this.repaintHistory();
+    }
+    this.updateUndoRedoButtonState();
+    return;
+  };
 
-  },
+  proto.updateUndoRedoButtonState = function() {
+    if (window.app.undos.length) {
+      document.querySelector('.undo').classList.remove('disabled');
+    } else {
+      document.querySelector('.undo').classList.add('disabled');
+    }
+    if (window.app.redos.length) {
+      document.querySelector('.redo').classList.remove('disabled');
+    } else {
+      document.querySelector('.redo').classList.add('disabled');
+    }
+  };
 
   document.registerElement('draw-canvas', {
     prototype: proto,
