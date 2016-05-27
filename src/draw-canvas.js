@@ -72,8 +72,11 @@
   };
 
   proto.recordHistory = function(x, y) {
+<<<<<<< HEAD
     // clear the redo history
     window.app.redos = [];
+=======
+>>>>>>> fdd5cd3f0f4f3666793029e62780122f125b4c99
     // record the paint stroke into the newest array
     window.app.undos[window.app.undos.length - 1].push({
       brush: window.app.activeBrush,
