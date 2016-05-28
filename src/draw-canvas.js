@@ -23,10 +23,18 @@
     this.appendChild(canvas);
   };
 
+  proto.newBrush = function() {
+    window.app.undos.push({
+      "brush": window.app.activeBrush,
+      "size": window.app.brushSize.val,
+      "xy" : []
+    });
+  };
+
   proto.onMouseDown = function() {
     window.app.mouseDown = true;
-    // paint stroke happening, so establish an array to capture it
-    window.app.undos.push([]);
+    // paint stroke happening, so establish a new object to capture it
+    this.newBrush();
   };
 
   proto.onMouseUp = function() {
@@ -60,8 +68,8 @@
   },
 
   proto.onTouch = function(e) {
-    // paint stroke happening, so establish an array to capture it
-    window.app.undos.push([]);
+    // paint stroke happening, so establish a new object to capture it
+    this.newBrush();
     for(let i = 0; i < e.touches.length; ++i) {
       let touch = e.touches[i];
 
@@ -73,12 +81,7 @@
 
   proto.recordHistory = function(x, y) {
     // record the paint stroke into the newest array
-    window.app.undos[window.app.undos.length - 1].push({
-      brush: window.app.activeBrush,
-      size: window.app.brushSize.val,
-      x: x,
-      y: y
-    });
+    window.app.undos[window.app.undos.length - 1].xy.push([x,y]);
     // clear the redo history
     window.app.redos = [];
     this.updateUndoRedoButtonState();
@@ -88,13 +91,13 @@
     // iterate through all paint stroke history
     for (let i=0; i<window.app.undos.length; i++) {
       // iterate within individual paint strokes
-      for (let j=0; j<window.app.undos[i].length; j++) {
+      for (let j=0; j<window.app.undos[i].xy.length; j++) {
         // repaint beautiful dabs of emoji
         this.paintAtPoint(
-          window.app.undos[i][j].x,
-          window.app.undos[i][j].y,
-          window.app.undos[i][j].size,
-          window.app.undos[i][j].brush
+          window.app.undos[i].xy[j][0],
+          window.app.undos[i].xy[j][1],
+          window.app.undos[i].size,
+          window.app.undos[i].brush
         );
       }
     }
@@ -139,3 +142,15 @@
     prototype: proto,
   });
 })();
+
+
+// revised brush stroke history model:
+// [
+//   {"brush": "0x1F428",
+//     "size": 61.8625,
+//     "xy": [[49,48],[50,50],[51,51]]
+//   },
+//   {
+//
+//   },
+// ]
