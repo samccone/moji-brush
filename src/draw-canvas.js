@@ -6,10 +6,8 @@
   proto.loadWelcome = function() {
     // (this is a rough, but working, implementation)
     let dc = this;
-    let request = new Request('./welcome.json');
 
-    // TODO: install polyfill if we use fetch
-    fetch(request)
+    fetch('welcome.json')
       .then(function(response) {
         return response.json();
       }).then(function(welcome) {

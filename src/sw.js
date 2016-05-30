@@ -16,6 +16,8 @@ this.addEventListener('install', function(e) {
       '/background-overlay.js',
       '/welcome.json',
       '/manifest.json',
+      '/vendor/fetch.js',
+      '/vendor/webcomponents-lite.min.js',
     ]);
 }))});
 
