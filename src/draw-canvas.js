@@ -3,6 +3,57 @@
 
   var proto = Object.create(HTMLElement.prototype);
 
+  proto.loadWelcome = function() {
+    // (this is a rough, but working, implementation)
+    let dc = this;
+    let request = new Request('./welcome.json');
+
+    // TODO: install polyfill if we use fetch
+    fetch(request)
+      .then(function(response) {
+        return response.json();
+      }).then(function(welcome) {
+        // get dimensions so we can center it
+        let maxX = 0;
+        let maxY = 0;
+        let minX = 10000;
+        let minY = 10000;
+        for (let i=0; i<welcome.length; i++) {
+          for (let j=0; j<welcome[i].xy.length; j++) {
+            if (welcome[i].xy[j][0] > maxX) {maxX = welcome[i].xy[j][0];}
+            if (welcome[i].xy[j][0] < minX) {minX = welcome[i].xy[j][0];}
+            if (welcome[i].xy[j][1] > maxY) {maxY = welcome[i].xy[j][1];}
+            if (welcome[i].xy[j][1] < minY) {minY = welcome[i].xy[j][1];}
+          }
+        }
+        let leftStartPoint = (window.innerWidth - maxX - minX) / 2;
+        let topStartPoint = (window.innerHeight - maxY - minY - 60) / 2;
+        // animate the welcome
+        for (let i=0; i<welcome.length; i++) {
+          (function animateStroke(j) {
+            setTimeout(function () {
+              dc.paintAtPoint(
+                // add left and top start points to center the message
+                welcome[i].xy[j][0] + leftStartPoint,
+                welcome[i].xy[j][1] + topStartPoint,
+                welcome[i].size,
+                // TODO: randomize the brush
+                welcome[i].brush
+              );
+              if (j<welcome[i].xy.length-1) {
+                j++;
+                animateStroke(j);
+              }
+            }, 16.67);
+          })(0);
+        }
+      });
+    // clear the welcome message
+    setTimeout(function() {
+      dc.clearCanvas();
+    }, 5000);
+  };
+
   proto.createdCallback = function() {
     var canvas = document.createElement('canvas');
 
@@ -21,6 +72,7 @@
     canvas.addEventListener('mouseup', this.onMouseUp.bind(this));
 
     this.appendChild(canvas);
+    this.loadWelcome();
   };
 
   proto.newBrush = function() {
@@ -111,7 +163,7 @@
       this.repaintHistory();
     }
     this.updateUndoRedoButtonState();
-    return;
+    // return;
   };
 
   proto.undo = function() {
@@ -122,7 +174,7 @@
       this.repaintHistory();
     }
     this.updateUndoRedoButtonState();
-    return;
+    // return;
   };
 
   proto.updateUndoRedoButtonState = function() {
@@ -141,8 +193,8 @@
   document.registerElement('draw-canvas', {
     prototype: proto,
   });
-})();
 
+})();
 
 // revised brush stroke history model:
 // [

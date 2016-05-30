@@ -32,7 +32,6 @@
   document.body.addEventListener('brush-change', handleBrushChange);
   document.body.addEventListener('size-change', handleBrushSizeChange);
 
-
   // Init the preview content to
   brushPreview.style.fontSize = `${window.app.brushSize.max / window.devicePixelRatio}px`;
   brushPreview.style.transform = `scale(${window.app.getBrushSizePercent()})`;
@@ -120,6 +119,9 @@
   }
 
   function onFooterMenuClick(klass, index) {
+    //clear the welcome message on first click
+
+
     let paneAlreadyOpen = document.body.classList.contains(klass);
     let x = index * -100;
     if (document.body.classList.contains('menu-open')) {
