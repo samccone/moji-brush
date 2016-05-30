@@ -1,4 +1,4 @@
-var VERSION = '0.0.9';
+var VERSION = '0.0.10';
 
 this.addEventListener('install', function(e) {
   e.waitUntil(caches.open(VERSION).then(cache => {
@@ -16,6 +16,8 @@ this.addEventListener('install', function(e) {
       '/background-overlay.js',
       '/welcome.json',
       '/manifest.json',
+      '/vendor/fetch.js',
+      '/vendor/webcomponents-lite.min.js',
     ]);
 }))});
 

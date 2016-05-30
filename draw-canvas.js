@@ -8,10 +8,8 @@
   proto.loadWelcome = function () {
     // (this is a rough, but working, implementation)
     var dc = this;
-    var request = new Request('./welcome.json');
 
-    // TODO: install polyfill if we use fetch
-    fetch(request).then(function (response) {
+    fetch('welcome.json').then(function (response) {
       return response.json();
     }).then(function (welcome) {
       // get dimensions so we can center it
