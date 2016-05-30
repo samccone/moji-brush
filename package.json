@@ -17,8 +17,8 @@
     "gulp-replace": "^0.5.4"
   },
   "scripts": {
-    "test": "test",
-    "start": "gulp"
+    "build": "gulp",
+    "deploy": "./deploy.sh"
   },
   "repository": {
     "type": "git",

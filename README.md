@@ -14,7 +14,11 @@ https://www.moji-brush.com/
 
 #### Testing in Safari/Firefox/Edge/IE
 
-* `gulp` to build an ES5, CSS3, Web Component-polyfilled version
+* `npm run build` to build an ES5, CSS3, Web Component-polyfilled version
 * `cd dist/`
 * `python -m SimpleHTTPServer`
 * `open localhost:8000`
+
+#### Deploying
+
+* `npm run deploy`
