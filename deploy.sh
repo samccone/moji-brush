@@ -9,7 +9,7 @@ git fetch
 git add .
 git commit -m "🎄 Deploy $(date)"
 git checkout gh-pages
-git cherry-pick --keep-redundant-commits master
+git cherry-pick master --keep-redundant-commits --strategy-option theirs
 git push
 cd ..
 rm -rf dist
