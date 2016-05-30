@@ -36,12 +36,25 @@ gulp.task('vendor', function () {
   .pipe(gulp.dest('dist/vendor'));
 });
 
+gulp.task('assets', function () {
+  return gulp.src('src/*.json')
+  .pipe(gulp.dest('dist/'));
+});
+
+
 gulp.task('github', function () {
   return gulp.src('CNAME')
   .pipe(gulp.dest('dist'));
 });
 
 
-gulp.task('default', ['babelify', 'css', 'images', 'html', 'vendor', 'github'], function() {
-  console.log('Build Done');
-});
+gulp.task('default', [
+  'babelify',
+  'css',
+  'images',
+  'html',
+  'vendor',
+  'assets',
+  'github'], function() {
+    console.log('Build Done');
+  });
