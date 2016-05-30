@@ -1,10 +1,10 @@
 'use strict';
 
-var VERSION = '0.0.8';
+var VERSION = '0.0.9';
 
 undefined.addEventListener('install', function (e) {
   e.waitUntil(caches.open(VERSION).then(function (cache) {
-    return cache.addAll(['/', '/index.html', '/app.css', '/app.js', '/footer-menu.js', '/page-menu.js', '/draw-canvas.js', '/brush-picker-pane.js', '/emoji-map.js', '/size-picker.js', '/background-overlay.js', '/manifest.json']);
+    return cache.addAll(['/', '/index.html', '/app.css', '/app.js', '/footer-menu.js', '/page-menu.js', '/draw-canvas.js', '/brush-picker-pane.js', '/emoji-map.js', '/size-picker.js', '/background-overlay.js', '/welcome.json', '/manifest.json']);
   }));
 });
 
