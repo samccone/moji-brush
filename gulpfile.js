@@ -6,7 +6,7 @@ var autoprefixer = require('autoprefixer');
 var replace = require('gulp-replace');
 
 gulp.task('babelify', function () {
-  return gulp.src('src/**/*.js')
+  return gulp.src(['src/**/*.js', '!src/sw.js'])
   .pipe(babel())
   .pipe(gulp.dest('dist'));
 });
@@ -37,7 +37,7 @@ gulp.task('vendor', function () {
 });
 
 gulp.task('assets', function () {
-  return gulp.src('src/*.json')
+  return gulp.src(['src/*.json', 'src/sw.js'])
   .pipe(gulp.dest('dist/'));
 });
 
