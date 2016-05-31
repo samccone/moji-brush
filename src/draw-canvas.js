@@ -109,8 +109,8 @@
     let size = s || window.app.brushSize.val;
     let brush = b || window.app.activeBrush;
     let brushOffset = -size / 2;
-    // 'Arial' is necessary to establish correct emoji size
-    this.ctx.font = `${size}px Arial`;
+    // A font name/type is necessary to establish correct emoji size
+    this.ctx.font = `${size}px sans-serif`;
     // this is the emoji paint stroke
     this.ctx.fillText(String.fromCodePoint(brush),
         x * window.devicePixelRatio + brushOffset,
