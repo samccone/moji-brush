@@ -75,8 +75,6 @@ footer-menu {
 #pane-slider {
   display: flex;
   flex-direction: row;
-  will-change: transform;
-  transition: transform 0.13s cubic-bezier(0,0,0.3,1);
 }
 
 #pane-slider > * {
@@ -176,7 +174,7 @@ page-menu ul {
 page-menu li {
   display: flex;
   align-items: center;
-  margin: 24px 16px;
+  margin: 20px 16px;
   /* clicking the menu open icon sometimes selects the text underneath it */
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none;   /* Chrome/Safari/Opera */
