@@ -74,8 +74,9 @@
 
     this.ctx = canvas.getContext('2d');
 
-    canvas.addEventListener('touchstart', this.onTouch.bind(this));
+    canvas.addEventListener('touchstart', this.onTouchStart.bind(this));
     canvas.addEventListener('touchmove', this.onTouch.bind(this));
+    canvas.addEventListener('touchend', this.onTouchEnd.bind(this));
     canvas.addEventListener('mousedown', this.onMouseDown.bind(this));
     canvas.addEventListener('mousemove', this.onMouseMove.bind(this));
     canvas.addEventListener('mouseup', this.onMouseUp.bind(this));
@@ -123,14 +124,24 @@
     this.ctx.font = size + 'px sans-serif';
     // this is the emoji paint stroke
     this.ctx.fillText(String.fromCodePoint(brush), x * window.devicePixelRatio + brushOffset, y * window.devicePixelRatio - brushOffset);
-  }, proto.onTouch = function (e) {
+  }, proto.onTouchStart = function () {
+    window.app.touchStart = true;
     // paint stroke happening, so establish a new object to capture it
     this.newBrush();
-    for (var i = 0; i < e.touches.length; ++i) {
-      var touch = e.touches[i];
+  };
 
-      this.paintAtPoint(touch.clientX, touch.clientY);
-      this.recordHistory(touch.clientX, touch.clientY);
+  proto.onTouchEnd = function () {
+    window.app.touchStart = false;
+  };
+
+  proto.onTouch = function (e) {
+    if (app.touchStart === true) {
+      for (var i = 0; i < e.touches.length; ++i) {
+        var touch = e.touches[i];
+
+        this.paintAtPoint(touch.clientX, touch.clientY);
+        this.recordHistory(touch.clientX, touch.clientY);
+      }
     }
     e.preventDefault();
   };
