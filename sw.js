@@ -1,4 +1,4 @@
-var VERSION = '0.0.11';
+var VERSION = '0.0.10';
 
 this.addEventListener('install', function(e) {
   e.waitUntil(caches.open(VERSION).then(cache => {
@@ -18,7 +18,7 @@ this.addEventListener('install', function(e) {
       '/manifest.json',
       '/vendor/fetch.js',
       '/vendor/webcomponents-lite.min.js',
-    ]);
+    ]).then(_ => this.skipWaiting());
 }))});
 
 this.addEventListener('fetch', function(e) {
@@ -33,7 +33,9 @@ this.addEventListener('activate', function(e) {
       if (k !== VERSION) {
         return caches.delete(k);
       }
-    }));
+    })).then(_ => {
+      return this.clients.claim()
+    });
 }))});
 
 // fetch from network
