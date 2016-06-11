@@ -10,11 +10,20 @@
     })
   }
 
+  function platformDetect() {
+    let agent = navigator.userAgent.toLowerCase();
+    let isAndroid = agent.indexOf("android") > -1;
+    if (isAndroid) {
+      return 'google';
+    }
+    return 'apple';
+  }
+
   window.app = {
     baseImgPath: './images/emoji',
-    platformChoice: 'apple',
-    colorChoice: 'black',
-    activeBrush: '1f41c.png',
+    platformChoice: platformDetect(),
+    colorChoice: 'green-dark',
+    activeBrush: emojiMap[platformDetect()]['green-dark'][0],
     brushSize: {
       min: 40,
       max: 205,
@@ -30,6 +39,13 @@
   let drawCanvas = document.querySelector('draw-canvas');
   let brushChangeTimeoutId;
   let brushPreview = document.getElementById('preview-content');
+
+  // let cacheDefaultEmoji = function() {
+  //   for (let color in emojiMap[window.app.platformChoice]) {
+  //     window.app[color] = window.app.platformChoice[color][0];
+  //     console.log(window.app[color], window.app.platformChoice.color);
+  //   }
+  // }();
 
   document.body.addEventListener('menu-action', handlePageAction);
   document.body.addEventListener('brush-change', handleBrushChange);

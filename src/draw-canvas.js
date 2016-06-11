@@ -36,8 +36,9 @@
                 welcome[i].xy[j][1] + topStartPoint,
                 welcome[i].size,
                 // TODO: randomize the brush
-                // welcome[i].brush
-                emojiMap.apple.black[1]
+                window.app.platformChoice,
+                window.app.colorChoice,
+                window.app.brush
               );
               if (j<welcome[i].xy.length-1) {
                 j++;
@@ -87,6 +88,8 @@
 // ]
   proto.newBrush = function() {
     window.app.undos.push({
+      "platform": window.app.platformChoice,
+      "color": window.app.colorChoice,
       "brush": window.app.activeBrush,
       "size": window.app.brushSize.val,
       "xy" : []
@@ -117,14 +120,15 @@
     this.updateUndoRedoButtonState();
   };
 
-  proto.paintAtPoint = function(x, y, s, b) {
+  proto.paintAtPoint = function(x, y, s, p, c, b) {
       // if there is no b | s, this is a new paint stroke and gets active size and brush values instead of history values
       let brush = new Image();
-      let brushPath = window.app.baseImgPath + '/' +
-                      window.app.platformChoice + '/' +
-                      window.app.colorChoice + '/';
-
       let size = s || window.app.brushSize.val;
+      let platform = p || window.app.platformChoice;
+      let color = c || window.app.colorChoice;
+      let brushPath = window.app.baseImgPath + '/' +
+                      platform + '/' +
+                      color + '/';
       brush.src = brushPath + (b || window.app.activeBrush);
       let brushOffset = -size / 2;
       this.ctx.drawImage(
@@ -164,6 +168,8 @@
     // clear the redo history
     window.app.redos = [];
     this.updateUndoRedoButtonState();
+    console.log(window.app.undos[window.app.undos.length - 1]);
+
   };
 
   proto.repaintHistory = function() {
@@ -171,11 +177,14 @@
     for (let i=0; i<window.app.undos.length; i++) {
       // iterate within individual paint strokes
       for (let j=0; j<window.app.undos[i].xy.length; j++) {
+        console.log(window.app.undos[i]);
         // repaint beautiful dabs of emoji
         this.paintAtPoint(
           window.app.undos[i].xy[j][0],
           window.app.undos[i].xy[j][1],
           window.app.undos[i].size,
+          window.app.undos[i].platform,
+          window.app.undos[i].color,
           window.app.undos[i].brush
         );
       }

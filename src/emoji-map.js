@@ -2,7 +2,7 @@ const emojiMap = {
     "apple": {
         "black": ["1f393.png", "1f3a5.png", "1f3a9.png", "1f3ae.png", "1f3b1.png", "1f403.png", "1f41c.png", "1f4de.png", "1f50c.png"],
 
-        "blue": ["1f4d8.png", "1f698.png", "1f6e2.png", "2693.png"],
+        "blue": ["1f6e2.png", "1f4d8.png", "1f698.png", "2693.png"],
 
         "brown-dark": ["1f330.png", "1f357.png", "1f369.png", "1f3c8.png", "1f45c.png", "1f45e.png", "1f4a9.png", "1f982.png"],
 
@@ -10,7 +10,7 @@ const emojiMap = {
 
         "brown-light": ["1f36a.png", "1f3c6.png", "1f3c9.png", "1f42a.png", "1f43b.png", "1f4e6.png", "1f6aa.png"],
 
-        "green-dark": ["1f335.png", "1f409.png", "1f40a.png", "1f40d.png", "1f422.png", "1f432.png"],
+        "green-dark": ["1f422.png", "1f335.png", "1f409.png", "1f40a.png", "1f40d.png", "1f432.png"],
 
         "green-light": ["1f340.png", "1f343.png", "1f34f.png", "1f438.png", "1f4d7.png", "2618.png", "267b.png"],
 
@@ -20,9 +20,9 @@ const emojiMap = {
 
         "grey-medium": ["1f480.png", "1f400.png", "1f517.png", "1f58b.png", "2620.png", "2694.png", "26d3.png"],
 
-        "indigo": ["1f346.png", "1f456.png", "1f699.png", "1f6cb.png", "2602.png", "2614.png"],
+        "indigo": ["1f456.png", "1f346.png", "1f699.png", "1f6cb.png", "2602.png", "2614.png"],
 
-        "orange": ["1f32d.png", "1f34a.png", "1f383.png", "1f3c0.png", "1f458.png"],
+        "orange": ["1f34a.png", "1f383.png", "1f3c0.png", "1f458.png"],
 
         "pink": ["1f338.png", "1f33a.png", "1f380.png", "1f39f.png", "1f437.png", "1f43d.png", "1f444.png", "1f459.png", "1f45b.png"],
 
