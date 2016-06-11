@@ -166,9 +166,29 @@
     }
   };
 
+  proto.addFooter = function() {
+    const bannerWidth = Math.min(600, window.innerWidth) * window.devicePixelRatio;
+    const bannerHeight = 45 * window.devicePixelRatio;
+    const bannerX = window.innerWidth / 2 * window.devicePixelRatio - bannerWidth / 2;
+    const bannerY = window.innerHeight * window.devicePixelRatio - bannerHeight;
+
+    this.ctx.fillStyle = '#111';
+    this.ctx.fillRect(bannerX, bannerY, bannerWidth, bannerHeight);
+    this.ctx.font = `${25 * window.devicePixelRatio}px Arial`;
+    this.ctx.fillStyle = 'white';
+    this.ctx.fillText(
+        '🎨  moji-brush.com',
+        bannerX + bannerWidth / 2 - 105 * window.devicePixelRatio,
+        bannerY + bannerHeight / 2 + 5 * window.devicePixelRatio);
+  };
+
   proto.download = function() {
+    // Add the footer credit.
+    this.addFooter();
+
     const anchor = document.createElement('a');
     const dataURI = this.querySelector('canvas').toDataURL();
+
 
     // http://caniuse.com/#feat=download
     if (!('download' in anchor)) {
