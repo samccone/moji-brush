@@ -100,7 +100,8 @@
   };
 
   proto.clearCanvas = function() {
-    this.ctx.clearRect(0, 0, (window.innerWidth * window.devicePixelRatio),
+    this.ctx.fillStyle = '#fff';
+    this.ctx.fillRect(0, 0, (window.innerWidth * window.devicePixelRatio),
         (window.innerHeight * window.devicePixelRatio));
     this.updateUndoRedoButtonState();
   };
@@ -163,6 +164,20 @@
         );
       }
     }
+  };
+
+  proto.download = function() {
+    const anchor = document.createElement('a');
+    const dataURI = this.querySelector('canvas').toDataURL();
+
+    // http://caniuse.com/#feat=download
+    if (!('download' in anchor)) {
+      return window.open(dataURI);
+    }
+
+    anchor.setAttribute('download', `moji-brush-${Date.now()}.png`);
+    anchor.setAttribute('href', dataURI);
+    anchor.click();
   };
 
   proto.redo = function() {

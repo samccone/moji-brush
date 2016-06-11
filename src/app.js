@@ -47,6 +47,10 @@
       case 'size':
         onFooterMenuClick('size-picker-open', 1);
         break;
+      case 'save':
+        drawCanvas.download();
+        closeAllMenus();
+        break;
       case 'reset':
         window.app.undos = [];
         window.app.redos = [];
