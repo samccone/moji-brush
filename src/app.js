@@ -91,26 +91,19 @@
   };
 
   function showBrushPreview() {
-    let ctx = document.getElementById('preview-content').getContext('2d');
     // Apply brush size.
     brushPreview.style.transform = `scale(${window.app.getBrushSizePercent()})`;
 
     // Preview the brush.
     // brushPreview.innerText = String.fromCodePoint(window.app.activeBrush);
-    let brush = new Image();
     let brushPath = window.app.baseImgPath + '/' +
                     window.app.platformChoice + '/' +
                     window.app.colorChoice + '/';
 
-    let size = s || window.app.brushSize.val;
-    brush.src = brushPath + (b || window.app.activeBrush);
-    let brushOffset = -size / 2;
-    ctx.drawImage(
-      brush,
-      10 * window.devicePixelRatio + brushOffset,
-      10 * window.devicePixelRatio + brushOffset,
-      size,
-      size);
+    let size = window.app.brushSize.val;
+    document.body.querySelector('#preview-content').setAttribute(
+      'src',
+      brushPath + window.app.activeBrush);
 
     // Reset the preview change timeout value.
     brushChangeTimeoutId = undefined;
