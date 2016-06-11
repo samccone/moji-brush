@@ -64,6 +64,10 @@
         closeAllMenus();
         break;
       case 'reset':
+        if (!window.confirm('All progress will be lost, are you sure?')) {
+          return;
+        }
+
         window.app.undos = [];
         window.app.redos = [];
         drawCanvas.clearCanvas();
