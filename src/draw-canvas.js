@@ -7,6 +7,13 @@
     // (this is a rough, but working, implementation)
     let dc = this;
 
+    // Only play intro once.
+    if (localStorage.getItem('moji-intro-played') === "true") {
+      return;
+    }
+
+    localStorage.setItem('moji-intro-played', true);
+
     fetch('welcome.json')
       .then(function(response) {
         return response.json();
