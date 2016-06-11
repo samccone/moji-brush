@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  var proto = Object.create(HTMLElement.prototype);
+  let proto = Object.create(HTMLElement.prototype);
 
   proto.loadWelcome = function() {
     // (this is a rough, but working, implementation)
@@ -36,7 +36,8 @@
                 welcome[i].xy[j][1] + topStartPoint,
                 welcome[i].size,
                 // TODO: randomize the brush
-                welcome[i].brush
+                // welcome[i].brush
+                emojiMap.apple.black[1]
               );
               if (j<welcome[i].xy.length-1) {
                 j++;
@@ -117,16 +118,21 @@
   };
 
   proto.paintAtPoint = function(x, y, s, b) {
-    // if there is no b | s, this is a new paint stroke and gets active size and brush values instead of history values
-    let size = s || window.app.brushSize.val;
-    let brush = b || window.app.activeBrush;
-    let brushOffset = -size / 2;
-    // A font name/type is necessary to establish correct emoji size
-    this.ctx.font = `${size}px sans-serif`;
-    // this is the emoji paint stroke
-    this.ctx.fillText(String.fromCodePoint(brush),
+      // if there is no b | s, this is a new paint stroke and gets active size and brush values instead of history values
+      let brush = new Image();
+      let brushPath = window.app.baseImgPath + '/' +
+                      window.app.platformChoice + '/' +
+                      window.app.colorChoice + '/';
+
+      let size = s || window.app.brushSize.val;
+      brush.src = brushPath + (b || window.app.activeBrush);
+      let brushOffset = -size / 2;
+      this.ctx.drawImage(
+        brush,
         x * window.devicePixelRatio + brushOffset,
-        y * window.devicePixelRatio - brushOffset);
+        y * window.devicePixelRatio + brushOffset,
+        size,
+        size);
   },
 
   proto.onTouchStart = function() {

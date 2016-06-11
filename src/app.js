@@ -11,7 +11,10 @@
   }
 
   window.app = {
-    activeBrush: '0x1F428',
+    baseImgPath: './images/emoji',
+    platformChoice: 'apple',
+    colorChoice: 'black',
+    activeBrush: '1f41c.png',
     brushSize: {
       min: 40,
       max: 205,
@@ -33,7 +36,7 @@
   document.body.addEventListener('size-change', handleBrushSizeChange);
 
   // Init the preview content to
-  brushPreview.style.fontSize = `${window.app.brushSize.max / window.devicePixelRatio}px`;
+  // brushPreview.style.fontSize = `${window.app.brushSize.max / window.devicePixelRatio}px`;
   brushPreview.style.transform = `scale(${window.app.getBrushSizePercent()})`;
 
   function handlePageAction(e) {
@@ -72,11 +75,26 @@
   };
 
   function showBrushPreview() {
+    let ctx = document.getElementById('preview-content').getContext('2d');
     // Apply brush size.
     brushPreview.style.transform = `scale(${window.app.getBrushSizePercent()})`;
 
     // Preview the brush.
-    brushPreview.innerText = String.fromCodePoint(window.app.activeBrush);
+    // brushPreview.innerText = String.fromCodePoint(window.app.activeBrush);
+    let brush = new Image();
+    let brushPath = window.app.baseImgPath + '/' +
+                    window.app.platformChoice + '/' +
+                    window.app.colorChoice + '/';
+
+    let size = s || window.app.brushSize.val;
+    brush.src = brushPath + (b || window.app.activeBrush);
+    let brushOffset = -size / 2;
+    ctx.drawImage(
+      brush,
+      10 * window.devicePixelRatio + brushOffset,
+      10 * window.devicePixelRatio + brushOffset,
+      size,
+      size);
 
     // Reset the preview change timeout value.
     brushChangeTimeoutId = undefined;
@@ -101,8 +119,9 @@
   }
 
   function handleBrushChange(e) {
-    window.app.activeBrush = e.detail;
-
+    window.app.colorChoice = e.detail.color;
+    window.app.activeBrush = e.detail.brush;
+    console.log(window.app.colorChoice, window.app.activeBrush);
     // make preview visible
     if (!document.body.classList.contains('size-picker-select')) {
       document.body.classList.add('size-picker-select');

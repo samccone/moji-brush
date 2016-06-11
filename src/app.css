@@ -82,6 +82,7 @@ footer-menu {
 
 #pane-slider > * {
   min-width: 100%;
+  overflow: hidden;
 }
 
 .menu-open .menusys{
