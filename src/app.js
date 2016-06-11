@@ -27,7 +27,7 @@
       name: emojiMap[platformDetect()]['green-dark'][0]
     },
     brushSize: {
-      min: 10,
+      min: 5,
       max: 200,
     },
     getBrushSizePercent: function(val=window.app.brushSize.val) {
