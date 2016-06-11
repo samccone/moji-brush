@@ -130,7 +130,6 @@
   function handleBrushChange(e) {
     window.app.colorChoice = e.detail.color;
     window.app.activeBrush = e.detail.brush;
-    console.log(window.app.colorChoice, window.app.activeBrush);
     // make preview visible
     if (!document.body.classList.contains('size-picker-select')) {
       document.body.classList.add('size-picker-select');

@@ -175,8 +175,6 @@
     // clear the redo history
     window.app.redos = [];
     this.updateUndoRedoButtonState();
-    console.log(window.app.undos[window.app.undos.length - 1]);
-
   };
 
   proto.repaintHistory = function() {
@@ -184,7 +182,6 @@
     for (let i=0; i<window.app.undos.length; i++) {
       // iterate within individual paint strokes
       for (let j=0; j<window.app.undos[i].xy.length; j++) {
-        console.log(window.app.undos[i]);
         // repaint beautiful dabs of emoji
         this.paintAtPoint(
           window.app.undos[i].xy[j][0],
@@ -267,5 +264,4 @@
   document.registerElement('draw-canvas', {
     prototype: proto,
   });
-
 })();
