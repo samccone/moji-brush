@@ -127,23 +127,36 @@
     this.updateUndoRedoButtonState();
   };
 
-  proto.paintAtPoint = function(x, y, size = window.app.brushSize.val, brush = {platform: window.app.brush.platform, color: window.app.brush.color, name: window.app.brush.name}) {
-      // if there is no b | s, this is a new paint stroke and gets active size and brush values instead of history values
-      let paint = new Image();
-      // let size = s || window.app.brushSize.val;
-      // let platform = b.platform || window.app.brush.platform;
-      // let color = b.color || window.app.brush.color;
+  proto.paintAtPoint = function(x,
+                                y,
+                                size = window.app.brushSize.val,
+                                brush = {
+                                  platform: window.app.brush.platform,
+                                  color: window.app.brush.color,
+                                  name: window.app.brush.name}) {
+
+      let emojiImage = new Image();
       let brushPath = window.app.baseImgPath + '/' +
                       brush.platform + '/' +
                       brush.color + '/';
-      paint.src = brushPath + brush.name;
-      let brushOffset = -size / 2;
+      emojiImage.src = brushPath + brush.name;
+
+      /*
+       * Get the image emoji height and width then convert them to the brush size percent
+       * and then multiple that by the device pixel amount so that we get a 1:1 size.
+       *
+       * For instance... a 200px wide image painted at 50% size on a 2x screen
+       * would be displayed on screen as (200 * .5 * 2) which would be 200px :).
+       */
+      const emojiPaintWidth = emojiImage.width * window.app.getBrushSizePercent(size) * window.devicePixelRatio;
+      const emojiPaintHeight = emojiImage.height * window.app.getBrushSizePercent(size) * window.devicePixelRatio;
+
       this.ctx.drawImage(
-        paint,
-        x * window.devicePixelRatio + brushOffset,
-        y * window.devicePixelRatio + brushOffset,
-        size,
-        size);
+        emojiImage,
+        x * window.devicePixelRatio - emojiPaintWidth / 2,
+        y * window.devicePixelRatio - emojiPaintHeight / 2,
+        emojiPaintWidth,
+        emojiPaintHeight);
   },
 
   proto.onTouchStart = function() {

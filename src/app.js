@@ -27,35 +27,26 @@
       name: emojiMap[platformDetect()]['green-dark'][0]
     },
     brushSize: {
-      min: 40,
-      max: 205,
-      val: 82.5,
+      min: 10,
+      max: 200,
     },
-    getBrushSizePercent: function() {
-      return (this.brushSize.val / (this.brushSize.max - this.brushSize.min));
+    getBrushSizePercent: function(val=window.app.brushSize.val) {
+      return (val / (this.brushSize.max - this.brushSize.min));
     },
     undos: [],
     redos: [],
   };
 
+  // Init the starting brush val to be 50%.
+  window.app.brushSize.val = (window.app.brushSize.max - window.app.brushSize.min) / 2
+
   let drawCanvas = document.querySelector('draw-canvas');
   let brushChangeTimeoutId;
   let brushPreview = document.getElementById('preview-content');
 
-  // let cacheDefaultEmoji = function() {
-  //   for (let color in emojiMap[window.app.platformChoice]) {
-  //     window.app[color] = window.app.platformChoice[color][0];
-  //     console.log(window.app[color], window.app.platformChoice.color);
-  //   }
-  // }();
-
   document.body.addEventListener('menu-action', handlePageAction);
   document.body.addEventListener('brush-change', handleBrushChange);
   document.body.addEventListener('size-change', handleBrushSizeChange);
-
-  // Init the preview content to
-  // brushPreview.style.fontSize = `${window.app.brushSize.max / window.devicePixelRatio}px`;
-  brushPreview.style.transform = `scale(${window.app.getBrushSizePercent()})`;
 
   function handlePageAction(e) {
     switch (e.detail) {
@@ -96,8 +87,6 @@
     // Apply brush size.
     brushPreview.style.transform = `scale(${window.app.getBrushSizePercent()})`;
 
-    // Preview the brush.
-    // brushPreview.innerText = String.fromCodePoint(window.app.activeBrush);
     let brushPath = window.app.baseImgPath + '/' +
                     window.app.brush.platform + '/' +
                     window.app.brush.color + '/';
