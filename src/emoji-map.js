@@ -1,12 +1,12 @@
 const emojiMap = {
     "apple": {
-        "black": ["1f393.png", "1f3a5.png", "1f3a9.png", "1f3ae.png", "1f3b1.png", "1f403.png", "1f41c.png", "1f4de.png", "1f50c.png"],
+        "black": ["1f3a5.png", "1f393.png", "1f3a9.png", "1f3b1.png", "1f403.png", "1f41c.png", "1f4de.png", "1f50c.png"],
 
         "blue": ["1f6e2.png", "1f4d8.png", "1f698.png", "2693.png"],
 
-        "brown-dark": ["1f330.png", "1f357.png", "1f369.png", "1f3c8.png", "1f45c.png", "1f45e.png", "1f4a9.png", "1f982.png"],
+        "brown-dark": ["1f4a9.png", "1f330.png", "1f357.png", "1f369.png", "1f3c8.png", "1f45c.png", "1f45e.png", "1f982.png"],
 
-        "blue-light": ["1f3bd.png", "1f433.png", "1f455.png", "1f4a7.png", "2744.png"],
+        "blue-light": ["1f4a7.png", "1f3bd.png", "1f433.png", "1f455.png", "2744.png"],
 
         "brown-light": ["1f36a.png", "1f3c6.png", "1f3c9.png", "1f42a.png", "1f43b.png", "1f4e6.png", "1f6aa.png"],
 
@@ -14,9 +14,9 @@ const emojiMap = {
 
         "green-light": ["1f340.png", "1f343.png", "1f34f.png", "1f438.png", "1f4d7.png", "2618.png", "267b.png"],
 
-        "grey-dark": ["1f311.png", "1f399.png", "1f529.png", "1f58a.png", "1f68a.png"],
+        "grey-dark": ["1f3ae.png", "1f311.png", "1f399.png", "1f529.png", "1f58a.png", "1f68a.png"],
 
-        "grey-light": ["1f368.png", "1f3d0.png", "1f40f.png", "1f516.png", "1f527.png", "1f56f.png", "1f5d1.png", "1f5dc.png"],
+        "grey-light": ["1f527.png", "1f368.png", "1f3d0.png", "1f40f.png", "1f516.png", "1f56f.png", "1f5d1.png", "1f5dc.png"],
 
         "grey-medium": ["1f480.png", "1f400.png", "1f517.png", "1f58b.png", "2620.png", "2694.png", "26d3.png"],
 
@@ -24,13 +24,13 @@ const emojiMap = {
 
         "orange": ["1f34a.png", "1f383.png", "1f3c0.png", "1f458.png"],
 
-        "pink": ["1f338.png", "1f33a.png", "1f380.png", "1f39f.png", "1f437.png", "1f43d.png", "1f444.png", "1f459.png", "1f45b.png"],
+        "pink": ["1f45b.png", "1f338.png", "1f33a.png", "1f380.png", "1f39f.png", "1f437.png", "1f43d.png", "1f444.png", "1f459.png"],
 
         "red": ["1f34e.png", "1f336.png", "1f353.png", "1f392.png", "1f47a.png", "1f58d.png", "1f980.png", "260e.png"],
 
         "white": ["1f35a.png", "1f3f3.png", "1f401.png", "1f407.png", "1f410.png", "1f4ad.png", "1f984.png", "2601.png"],
 
-        "yellow": ["1f315.png", "1f319.png", "1f31d.png", "1f34b.png", "1f424.png", "1f431.png"]
+        "yellow": ["1f34b.png", "1f315.png", "1f319.png", "1f31d.png", "1f424.png", "1f431.png"]
     },
 
     "google": {

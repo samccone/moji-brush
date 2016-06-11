@@ -68,10 +68,13 @@
     this.dispatchEvent(new CustomEvent('brush-change', {
       bubbles: true,
       detail: {
-        color: this.choices[Object.keys(this.choices)[gridX + (gridY * columns)]],
-        brush: emojiMap[window.app.platformChoice]
-                      [this.choices[Object.keys(this.choices)[gridX + (gridY * columns)]]]
-                      [0]
+        brush: {
+          platform: window.app.brush.platform,
+          color: this.choices[Object.keys(this.choices)[gridX + (gridY * columns)]],
+          name: emojiMap[window.app.brush.platform]
+                        [this.choices[Object.keys(this.choices)[gridX + (gridY * columns)]]]
+                        [0]
+        }
       }
     }));
   },

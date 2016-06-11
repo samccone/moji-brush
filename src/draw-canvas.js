@@ -43,9 +43,7 @@
                 welcome[i].xy[j][1] + topStartPoint,
                 welcome[i].size,
                 // TODO: randomize the brush
-                window.app.platformChoice,
-                window.app.colorChoice,
-                window.app.brush
+                {platform: window.app.brush.platform, color: 'white', name: '1f410.png'}
               );
               if (j<welcome[i].xy.length-1) {
                 j++;
@@ -95,9 +93,11 @@
 // ]
   proto.newBrush = function() {
     window.app.undos.push({
-      "platform": window.app.platformChoice,
-      "color": window.app.colorChoice,
-      "brush": window.app.activeBrush,
+      "brush": {
+        platform: window.app.brush.platform,
+        color: window.app.brush.color,
+        name: window.app.brush.name
+      },
       "size": window.app.brushSize.val,
       "xy" : []
     });
@@ -127,19 +127,19 @@
     this.updateUndoRedoButtonState();
   };
 
-  proto.paintAtPoint = function(x, y, s, p, c, b) {
+  proto.paintAtPoint = function(x, y, size = window.app.brushSize.val, brush = {platform: window.app.brush.platform, color: window.app.brush.color, name: window.app.brush.name}) {
       // if there is no b | s, this is a new paint stroke and gets active size and brush values instead of history values
-      let brush = new Image();
-      let size = s || window.app.brushSize.val;
-      let platform = p || window.app.platformChoice;
-      let color = c || window.app.colorChoice;
+      let paint = new Image();
+      // let size = s || window.app.brushSize.val;
+      // let platform = b.platform || window.app.brush.platform;
+      // let color = b.color || window.app.brush.color;
       let brushPath = window.app.baseImgPath + '/' +
-                      platform + '/' +
-                      color + '/';
-      brush.src = brushPath + (b || window.app.activeBrush);
+                      brush.platform + '/' +
+                      brush.color + '/';
+      paint.src = brushPath + brush.name;
       let brushOffset = -size / 2;
       this.ctx.drawImage(
-        brush,
+        paint,
         x * window.devicePixelRatio + brushOffset,
         y * window.devicePixelRatio + brushOffset,
         size,
@@ -187,8 +187,6 @@
           window.app.undos[i].xy[j][0],
           window.app.undos[i].xy[j][1],
           window.app.undos[i].size,
-          window.app.undos[i].platform,
-          window.app.undos[i].color,
           window.app.undos[i].brush
         );
       }
@@ -237,7 +235,6 @@
       this.repaintHistory();
     }
     this.updateUndoRedoButtonState();
-    // return;
   };
 
   proto.undo = function() {
@@ -248,7 +245,6 @@
       this.repaintHistory();
     }
     this.updateUndoRedoButtonState();
-    // return;
   };
 
   proto.updateUndoRedoButtonState = function() {

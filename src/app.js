@@ -21,9 +21,11 @@
 
   window.app = {
     baseImgPath: './images/emoji',
-    platformChoice: platformDetect(),
-    colorChoice: 'green-dark',
-    activeBrush: emojiMap[platformDetect()]['green-dark'][0],
+    brush: {
+      platform: platformDetect(),
+      color: 'green-dark',
+      name: emojiMap[platformDetect()]['green-dark'][0]
+    },
     brushSize: {
       min: 40,
       max: 205,
@@ -97,13 +99,13 @@
     // Preview the brush.
     // brushPreview.innerText = String.fromCodePoint(window.app.activeBrush);
     let brushPath = window.app.baseImgPath + '/' +
-                    window.app.platformChoice + '/' +
-                    window.app.colorChoice + '/';
+                    window.app.brush.platform + '/' +
+                    window.app.brush.color + '/';
 
     let size = window.app.brushSize.val;
     document.body.querySelector('#preview-content').setAttribute(
       'src',
-      brushPath + window.app.activeBrush);
+      brushPath + window.app.brush.name);
 
     // Reset the preview change timeout value.
     brushChangeTimeoutId = undefined;
@@ -128,8 +130,7 @@
   }
 
   function handleBrushChange(e) {
-    window.app.colorChoice = e.detail.color;
-    window.app.activeBrush = e.detail.brush;
+    window.app.brush = e.detail.brush;
     // make preview visible
     if (!document.body.classList.contains('size-picker-select')) {
       document.body.classList.add('size-picker-select');
