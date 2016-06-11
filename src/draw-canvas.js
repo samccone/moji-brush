@@ -74,6 +74,16 @@
     this.loadWelcome();
   };
 
+// revised brush stroke history model:
+// [
+//   {"brush": "0x1F428",
+//     "size": 61.8625,
+//     "xy": [[49,48],[50,50],[51,51]]
+//   },
+//   {
+//
+//   },
+// ]
   proto.newBrush = function() {
     window.app.undos.push({
       "brush": window.app.activeBrush,
@@ -223,16 +233,13 @@
   };
 
   proto.updateUndoRedoButtonState = function() {
-    if (window.app.undos.length) {
-      document.querySelector('.undo').classList.remove('disabled');
-    } else {
-      document.querySelector('.undo').classList.add('disabled');
-    }
-    if (window.app.redos.length) {
-      document.querySelector('.redo').classList.remove('disabled');
-    } else {
-      document.querySelector('.redo').classList.add('disabled');
-    }
+    document.querySelector('.undo').classList.toggle(
+        'disabled',
+        !window.app.undos.length);
+
+    document.querySelector('.redo').classList.toggle(
+        'disabled',
+        !window.app.redos.length);
   };
 
   document.registerElement('draw-canvas', {
@@ -240,14 +247,3 @@
   });
 
 })();
-
-// revised brush stroke history model:
-// [
-//   {"brush": "0x1F428",
-//     "size": 61.8625,
-//     "xy": [[49,48],[50,50],[51,51]]
-//   },
-//   {
-//
-//   },
-// ]
