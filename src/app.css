@@ -70,6 +70,12 @@ footer-menu {
   transform: translateY(120px);
 }
 
+.menu-items li {
+  justify-content: center;
+  display: flex;
+  width: 20%;
+}
+
 .pane-slider-container {
   overflow: hidden;
 }
