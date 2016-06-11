@@ -166,7 +166,23 @@
     }
   };
 
+  proto.addFooter = function () {
+    var bannerWidth = Math.min(600, window.innerWidth) * window.devicePixelRatio;
+    var bannerHeight = 45 * window.devicePixelRatio;
+    var bannerX = window.innerWidth / 2 * window.devicePixelRatio - bannerWidth / 2;
+    var bannerY = window.innerHeight * window.devicePixelRatio - bannerHeight;
+
+    this.ctx.fillStyle = '#111';
+    this.ctx.fillRect(bannerX, bannerY, bannerWidth, bannerHeight);
+    this.ctx.font = 25 * window.devicePixelRatio + 'px Arial';
+    this.ctx.fillStyle = 'white';
+    this.ctx.fillText('🎨  moji-brush.com', bannerX + bannerWidth / 2 - 105 * window.devicePixelRatio, bannerY + bannerHeight / 2 + 5 * window.devicePixelRatio);
+  };
+
   proto.download = function () {
+    // Add the footer credit.
+    this.addFooter();
+
     var anchor = document.createElement('a');
     var dataURI = this.querySelector('canvas').toDataURL();
 
