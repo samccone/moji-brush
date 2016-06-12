@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 (function () {
   'use strict';
@@ -6,30 +6,26 @@
   var proto = Object.create(HTMLElement.prototype);
 
   proto.choices = {
-    // Red
-    '#F44336': 'red-apple',
-    // Green
-    '#4CAF50': 'frog-face',
-    // Blue
-    '#2196F3': 'splashing-sweat-symbol',
-    // Yellow
-    '#FFEB3B': 'baby-chick',
-    // Purple
-    '#9C27B0': 'grapes',
-    // Orange
-    '#FF9800': 'tangerine',
-    // Brown
-    '#795548': 'pile-of-poo',
-    // Grey
-    '#9E9E9E': 'skull',
-    // Black
-    '#212121': 'new-moon-with-face',
-    // White
-    '#F5F5F5': 'volleyball'
+    "#F5F5F5": "white",
+    "#ffff02": "yellow",
+    "#ff6600": "orange",
+    "#dd0000": "red",
+    "#ff0199": "pink",
+    "#330099": "indigo",
+    "#0002cc": "blue",
+    "#0099ff": "blue-light",
+    "#00aa00": "green-light",
+    "#006600": "green-dark",
+    "#663300": "brown-dark",
+    "#996633": "brown-light",
+    "#bbbbbb": "grey-light",
+    "#888888": "grey-medium",
+    "#444444": "grey-dark",
+    "#000000": "black"
   };
 
   proto.template = function (_) {
-    return '\n      <div class="brush-picker">\n        <div class="pane-content">\n        </div>\n      </div>\n    ';
+    return "\n      <div class='brush-picker'>\n        <div class='pane-content'>\n        </div>\n      </div>\n    ";
   };
 
   proto.setEvents = function () {
@@ -56,7 +52,7 @@
     this.getColorByXY(e.offsetX, e.offsetY);
   }, proto.getColorByXY = function (x, y) {
     var colorPicker = this.querySelector('.color-picker');
-    var columns = 5;
+    var columns = 8;
     var rows = 2;
     var pixelR = window.devicePixelRatio;
 
@@ -65,7 +61,13 @@
 
     this.dispatchEvent(new CustomEvent('brush-change', {
       bubbles: true,
-      detail: emojiMap[this.choices[Object.keys(this.choices)[gridX + gridY * columns]]]
+      detail: {
+        brush: {
+          platform: window.app.brush.platform,
+          color: this.choices[Object.keys(this.choices)[gridX + gridY * columns]],
+          name: emojiMap[window.app.brush.platform][this.choices[Object.keys(this.choices)[gridX + gridY * columns]]][0]
+        }
+      }
     }));
   }, proto.attachedCallback = function () {
     this.innerHTML = this.template();

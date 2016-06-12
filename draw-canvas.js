@@ -9,6 +9,13 @@
     // (this is a rough, but working, implementation)
     var dc = this;
 
+    // Only play intro once.
+    if (localStorage.getItem('moji-intro-played') === "true") {
+      return;
+    }
+
+    localStorage.setItem('moji-intro-played', true);
+
     fetch('welcome.json').then(function (response) {
       return response.json();
     }).then(function (welcome) {
@@ -44,7 +51,7 @@
             // add left and top start points to center the message
             welcome[_i].xy[j][0] + leftStartPoint, welcome[_i].xy[j][1] + topStartPoint, welcome[_i].size,
             // TODO: randomize the brush
-            welcome[_i].brush);
+            { platform: window.app.brush.platform, color: 'white', name: '1f410.png' });
             if (j < welcome[_i].xy.length - 1) {
               j++;
               animateStroke(j);
@@ -85,9 +92,23 @@
     this.loadWelcome();
   };
 
+  // revised brush stroke history model:
+  // [
+  //   {"brush": "0x1F428",
+  //     "size": 61.8625,
+  //     "xy": [[49,48],[50,50],[51,51]]
+  //   },
+  //   {
+  //
+  //   },
+  // ]
   proto.newBrush = function () {
     window.app.undos.push({
-      "brush": window.app.activeBrush,
+      "brush": {
+        platform: window.app.brush.platform,
+        color: window.app.brush.color,
+        name: window.app.brush.name
+      },
       "size": window.app.brushSize.val,
       "xy": []
     });
@@ -116,15 +137,29 @@
     this.updateUndoRedoButtonState();
   };
 
-  proto.paintAtPoint = function (x, y, s, b) {
-    // if there is no b | s, this is a new paint stroke and gets active size and brush values instead of history values
-    var size = s || window.app.brushSize.val;
-    var brush = b || window.app.activeBrush;
-    var brushOffset = -size / 2;
-    // A font name/type is necessary to establish correct emoji size
-    this.ctx.font = size + 'px sans-serif';
-    // this is the emoji paint stroke
-    this.ctx.fillText(String.fromCodePoint(brush), x * window.devicePixelRatio + brushOffset, y * window.devicePixelRatio - brushOffset);
+  proto.paintAtPoint = function (x, y) {
+    var size = arguments.length <= 2 || arguments[2] === undefined ? window.app.brushSize.val : arguments[2];
+    var brush = arguments.length <= 3 || arguments[3] === undefined ? {
+      platform: window.app.brush.platform,
+      color: window.app.brush.color,
+      name: window.app.brush.name } : arguments[3];
+
+
+    var emojiImage = new Image();
+    var brushPath = window.app.baseImgPath + '/' + brush.platform + '/' + brush.color + '/';
+    emojiImage.src = brushPath + brush.name;
+
+    /*
+     * Get the image emoji height and width then convert them to the brush size percent
+     * and then multiple that by the device pixel amount so that we get a 1:1 size.
+     *
+     * For instance... a 200px wide image painted at 50% size on a 2x screen
+     * would be displayed on screen as (200 * .5 * 2) which would be 200px :).
+     */
+    var emojiPaintWidth = emojiImage.width * window.app.getBrushSizePercent(size) * window.devicePixelRatio;
+    var emojiPaintHeight = emojiImage.height * window.app.getBrushSizePercent(size) * window.devicePixelRatio;
+
+    this.ctx.drawImage(emojiImage, x * window.devicePixelRatio - emojiPaintWidth / 2, y * window.devicePixelRatio - emojiPaintHeight / 2, emojiPaintWidth, emojiPaintHeight);
   }, proto.onTouchStart = function () {
     window.app.touchStart = true;
     // paint stroke happening, so establish a new object to capture it
@@ -204,7 +239,6 @@
       this.repaintHistory();
     }
     this.updateUndoRedoButtonState();
-    // return;
   };
 
   proto.undo = function () {
@@ -215,34 +249,15 @@
       this.repaintHistory();
     }
     this.updateUndoRedoButtonState();
-    // return;
   };
 
   proto.updateUndoRedoButtonState = function () {
-    if (window.app.undos.length) {
-      document.querySelector('.undo').classList.remove('disabled');
-    } else {
-      document.querySelector('.undo').classList.add('disabled');
-    }
-    if (window.app.redos.length) {
-      document.querySelector('.redo').classList.remove('disabled');
-    } else {
-      document.querySelector('.redo').classList.add('disabled');
-    }
+    document.querySelector('.undo').classList.toggle('disabled', !window.app.undos.length);
+
+    document.querySelector('.redo').classList.toggle('disabled', !window.app.redos.length);
   };
 
   document.registerElement('draw-canvas', {
     prototype: proto
   });
 })();
-
-// revised brush stroke history model:
-// [
-//   {"brush": "0x1F428",
-//     "size": 61.8625,
-//     "xy": [[49,48],[50,50],[51,51]]
-//   },
-//   {
-//
-//   },
-// ]

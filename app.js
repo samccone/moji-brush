@@ -12,19 +12,37 @@
     });
   }
 
+  function platformDetect() {
+    var agent = navigator.userAgent.toLowerCase();
+    var isAndroid = agent.indexOf("android") > -1;
+    if (isAndroid) {
+      return 'google';
+    }
+    return 'apple';
+  }
+
   window.app = {
-    activeBrush: '0x1F428',
+    baseImgPath: './images/emoji',
+    brush: {
+      platform: platformDetect(),
+      color: 'green-dark',
+      name: emojiMap[platformDetect()]['green-dark'][0]
+    },
     brushSize: {
-      min: 40,
-      max: 205,
-      val: 82.5
+      min: 5,
+      max: 200
     },
     getBrushSizePercent: function getBrushSizePercent() {
-      return this.brushSize.val / (this.brushSize.max - this.brushSize.min);
+      var val = arguments.length <= 0 || arguments[0] === undefined ? window.app.brushSize.val : arguments[0];
+
+      return val / (this.brushSize.max - this.brushSize.min);
     },
     undos: [],
     redos: []
   };
+
+  // Init the starting brush val to be 50%.
+  window.app.brushSize.val = (window.app.brushSize.max - window.app.brushSize.min) / 2;
 
   var drawCanvas = document.querySelector('draw-canvas');
   var brushChangeTimeoutId = void 0;
@@ -33,10 +51,6 @@
   document.body.addEventListener('menu-action', handlePageAction);
   document.body.addEventListener('brush-change', handleBrushChange);
   document.body.addEventListener('size-change', handleBrushSizeChange);
-
-  // Init the preview content to
-  brushPreview.style.fontSize = window.app.brushSize.max / window.devicePixelRatio + 'px';
-  brushPreview.style.transform = 'scale(' + window.app.getBrushSizePercent() + ')';
 
   function handlePageAction(e) {
     switch (e.detail) {
@@ -54,6 +68,10 @@
         closeAllMenus();
         break;
       case 'reset':
+        if (!window.confirm('All progress will be lost, are you sure?')) {
+          return;
+        }
+
         window.app.undos = [];
         window.app.redos = [];
         drawCanvas.clearCanvas();
@@ -77,8 +95,10 @@
     // Apply brush size.
     brushPreview.style.transform = 'scale(' + window.app.getBrushSizePercent() + ')';
 
-    // Preview the brush.
-    brushPreview.innerText = String.fromCodePoint(window.app.activeBrush);
+    var brushPath = window.app.baseImgPath + '/' + window.app.brush.platform + '/' + window.app.brush.color + '/';
+
+    var size = window.app.brushSize.val;
+    document.body.querySelector('#preview-content').setAttribute('src', brushPath + window.app.brush.name);
 
     // Reset the preview change timeout value.
     brushChangeTimeoutId = undefined;
@@ -103,8 +123,7 @@
   }
 
   function handleBrushChange(e) {
-    window.app.activeBrush = e.detail;
-
+    window.app.brush = e.detail.brush;
     // make preview visible
     if (!document.body.classList.contains('size-picker-select')) {
       document.body.classList.add('size-picker-select');
