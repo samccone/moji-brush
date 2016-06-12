@@ -13,7 +13,7 @@ body {
 }
 
 :root {
-  --active-button-fill: #e23396;
+  --active-button-fill: #c6ff00;
 }
 
 .overlay {
@@ -58,7 +58,7 @@ footer-menu {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 45px;
+  height: 60px;
   width: 100%;
 }
 
@@ -114,7 +114,6 @@ footer-menu ul {
 }
 
 page-menu svg, .menu-items svg {
-  display: inline-block;
   width: 28px;
   height: 28px;
   fill: #e6e6e6;
@@ -168,26 +167,39 @@ page-menu {
   background: linear-gradient(to bottom, #424242 0%,#212121 100%);
   border-top: 1px solid #424242;
   border-bottom: 1px solid #252525;
+  padding-left: 24px;
+  padding-right: 24px;
   height: 120px;
   width: 100%;
 }
 
 page-menu ul {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 100%;
+  width: 100%;
   list-style: none;
-  font-size: 18px;
+  font-size: 12px;
+  line-height: 1.4;
   font-weight: 300;
   color: #e6e6e6;
 }
 
 page-menu li {
-  display: flex;
-  align-items: center;
-  margin: 20px 16px;
+  display: block;
   cursor: pointer;
 }
 
 page-menu li svg {
-  margin-right: 8px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+page-menu .menu-item-title {
+  margin-top: 4px;
+  text-align: center;
 }
 
 .disabled {
@@ -198,6 +210,31 @@ page-menu li svg {
 .disabled svg {
   fill: #909090;
   cursor: default;
+}
+
+.toggle-box {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 36px;
+  min-width: 120px;
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+page-menu li .button svg {
+  height: 36px;
+  width: 36px;
+}
+
+page-menu li .toggle-box svg {
+  margin-top: -3px;
+  width: 24px;
+  height: 24px;
+}
+
+.active svg {
+  fill: var(--active-button-fill);;
 }
 
 .brush-picker-open .brush svg {

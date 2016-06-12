@@ -50,6 +50,12 @@
 
   function handlePageAction(e) {
     switch (e.detail) {
+      case 'apple-emoji':
+        changePlatform('apple');
+        break;
+      case 'google-emoji':
+        changePlatform('google');
+        break;
       case 'dashboard-menu':
         onFooterMenuClick('dashboard-open', 0);
         break;
@@ -86,6 +92,13 @@
         console.warn(`unhanded detail, ${e.detail}`);
     }
   };
+
+  function changePlatform(platform) {
+    window.app.brush.platform = platform;
+    document.getElementById('apple').classList.toggle('active', platform =='apple');
+    document.getElementById('google').classList.toggle('active', platform =='google');
+    window.app.brush.name = emojiMap[platform][window.app.brush.color][0];
+  }
 
   function showBrushPreview() {
     // Apply brush size.
