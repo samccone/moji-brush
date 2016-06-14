@@ -94,7 +94,11 @@
 
   // revised brush stroke history model:
   // [
-  //   {"brush": "0x1F428",
+  //   {"brush": {
+  //     platform: 'google',
+  //     color: 'blue-light',
+  //     name: '1f4a7.png'
+  //   },
   //     "size": 61.8625,
   //     "xy": [[49,48],[50,50],[51,51]]
   //   },
