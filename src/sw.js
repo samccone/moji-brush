@@ -120,9 +120,11 @@ this.addEventListener('install', function(e) {
 }))});
 
 this.addEventListener('fetch', function(e) {
-  e.respondWith(caches.match(e.request).catch(_ => {
-    return handleNoCacheMatch();
-  }))
+  e.respondWith(caches.match(e.request).then((res) => {
+    // If there is no match in the cache, we get undefined back,
+    // in that case go to the network!
+    return res ? res : handleNoCacheMatch(e);
+  }));
 });
 
 this.addEventListener('activate', function(e) {
