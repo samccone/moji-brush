@@ -7,7 +7,17 @@
     }).catch(e => {
       console.error('service worker is not so cool 🔥', e);
       throw e;
-    })
+    });
+
+
+    if (navigator.serviceWorker.controller) {
+      // Correctly prompt the user to reload during SW phase change.
+      navigator.serviceWorker.controller.onstatechange = e => {
+        if (e.target.state === 'redundant') {
+          document.querySelector('#reload-prompt').style.visibility = 'visible';
+        }
+      }
+    }
   }
 
   function platformDetect() {
