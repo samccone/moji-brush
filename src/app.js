@@ -70,9 +70,11 @@
         break;
       case 'brush-pick':
         onFooterMenuClick('brush-picker-open', 2);
+        showBrushPreviewIfMenuOpen();
         break;
       case 'size':
         onFooterMenuClick('size-picker-open', 1);
+        showBrushPreviewIfMenuOpen();
         break;
       case 'save':
         drawCanvas.download();
@@ -144,8 +146,6 @@
       window.app.brushSize.val = e.detail.brushSize;
     }
 
-    document.body.classList.add('size-picker-select');
-
     throttledPreviewUpdate();
   }
 
@@ -157,7 +157,13 @@
       document.body.classList.remove(v);
     });
 
-    document.body.classList.remove('size-picker-select');
+    document.body.classList.remove('brush-preview-open');
+  }
+
+  function showBrushPreviewIfMenuOpen() {
+    if (document.body.classList.contains('menu-open')) {
+      document.body.classList.add('brush-preview-open');
+    }
   }
 
   function onFooterMenuClick(klass, index) {
