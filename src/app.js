@@ -56,7 +56,6 @@
 
   document.body.addEventListener('menu-action', handlePageAction);
   document.body.addEventListener('brush-change', handleBrushChange);
-  document.body.addEventListener('size-change', handleBrushSizeChange);
 
   function handlePageAction(e) {
     switch (e.detail) {
@@ -136,21 +135,16 @@
     }
   }
 
-  function handleBrushSizeChange() {
-    // make preview visible
-    if (!document.body.classList.contains('size-picker-select')) {
-      document.body.classList.add('size-picker-select');
-    }
-
-    throttledPreviewUpdate();
-  }
-
   function handleBrushChange(e) {
-    window.app.brush = e.detail.brush;
-    // make preview visible
-    if (!document.body.classList.contains('size-picker-select')) {
-      document.body.classList.add('size-picker-select');
+    if (e.detail.brush) {
+      window.app.brush = e.detail.brush;
     }
+
+    if (e.detail.brushSize !== undefined) {
+      window.app.brushSize.val = e.detail.brushSize;
+    }
+
+    document.body.classList.add('size-picker-select');
 
     throttledPreviewUpdate();
   }
@@ -162,14 +156,11 @@
     'menu-open',].forEach(v => {
       document.body.classList.remove(v);
     });
-    document.body.classList.remove('size-picker-select');
 
+    document.body.classList.remove('size-picker-select');
   }
 
   function onFooterMenuClick(klass, index) {
-    //clear the welcome message on first click
-
-
     let paneAlreadyOpen = document.body.classList.contains(klass);
     let x = index * -100;
     if (document.body.classList.contains('menu-open')) {
