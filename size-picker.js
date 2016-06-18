@@ -39,11 +39,11 @@
 
     var newSize = (window.app.brushSize.max - window.app.brushSize.min) * percent + window.app.brushSize.min;
 
-    window.app.brushSize.val = newSize;
-
-    this.dispatchEvent(new CustomEvent('size-change', {
+    this.dispatchEvent(new CustomEvent('brush-change', {
       bubbles: true,
-      detail: window.app.brushSize.val
+      detail: {
+        brushSize: newSize
+      }
     }));
   };
 

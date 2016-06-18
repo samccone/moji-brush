@@ -55,11 +55,10 @@
 
   var drawCanvas = document.querySelector('draw-canvas');
   var brushChangeTimeoutId = void 0;
-  var brushPreview = document.getElementById('preview-content');
+  var brushPreview = document.querySelector('brush-preview');
 
   document.body.addEventListener('menu-action', handlePageAction);
   document.body.addEventListener('brush-change', handleBrushChange);
-  document.body.addEventListener('size-change', handleBrushSizeChange);
 
   function handlePageAction(e) {
     switch (e.detail) {
@@ -74,9 +73,11 @@
         break;
       case 'brush-pick':
         onFooterMenuClick('brush-picker-open', 2);
+        showBrushPreviewIfMenuOpen();
         break;
       case 'size':
         onFooterMenuClick('size-picker-open', 1);
+        showBrushPreviewIfMenuOpen();
         break;
       case 'save':
         drawCanvas.download();
@@ -113,57 +114,37 @@
     window.app.brush.name = emojiMap[platform][window.app.brush.color][0];
   }
 
-  function showBrushPreview() {
-    // Apply brush size.
-    brushPreview.style.transform = 'scale(' + window.app.getBrushSizePercent() + ')';
-
-    var brushPath = window.app.baseImgPath + '/' + window.app.brush.platform + '/' + window.app.brush.color + '/';
-
-    var size = window.app.brushSize.val;
-    document.body.querySelector('#preview-content').setAttribute('src', brushPath + window.app.brush.name);
-
-    // Reset the preview change timeout value.
-    brushChangeTimeoutId = undefined;
-  }
-
-  function throttledPreviewUpdate() {
-    // Throttle this to never fire more than once per frame :).
-    if (brushChangeTimeoutId === undefined) {
-      brushChangeTimeoutId = setTimeout(function () {
-        requestAnimationFrame(showBrushPreview);
-      }, 16.66);
-    }
-  }
-
-  function handleBrushSizeChange() {
-    // make preview visible
-    if (!document.body.classList.contains('size-picker-select')) {
-      document.body.classList.add('size-picker-select');
-    }
-
-    throttledPreviewUpdate();
+  function getBrushSrcPath() {
+    return window.app.baseImgPath + '/' + window.app.brush.platform + '/' + window.app.brush.color + '/' + window.app.brush.name;
   }
 
   function handleBrushChange(e) {
-    window.app.brush = e.detail.brush;
-    // make preview visible
-    if (!document.body.classList.contains('size-picker-select')) {
-      document.body.classList.add('size-picker-select');
+    if (e.detail.brush) {
+      window.app.brush = e.detail.brush;
     }
 
-    throttledPreviewUpdate();
+    if (e.detail.brushSize !== undefined) {
+      window.app.brushSize.val = e.detail.brushSize;
+    }
+
+    brushPreview.updatePreviewState(window.app.getBrushSizePercent(), getBrushSrcPath());
   }
 
   function closeAllMenus() {
     ['brush-picker-open', 'size-picker-open', 'dashboard-open', 'menu-open'].forEach(function (v) {
       document.body.classList.remove(v);
     });
-    document.body.classList.remove('size-picker-select');
+
+    brushPreview.hide();
+  }
+
+  function showBrushPreviewIfMenuOpen() {
+    if (document.body.classList.contains('menu-open')) {
+      brushPreview.show();
+    }
   }
 
   function onFooterMenuClick(klass, index) {
-    //clear the welcome message on first click
-
     var paneAlreadyOpen = document.body.classList.contains(klass);
     var x = index * -100;
     if (document.body.classList.contains('menu-open')) {

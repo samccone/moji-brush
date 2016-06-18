@@ -1,4 +1,4 @@
-var VERSION = '0.0.16';
+var VERSION = '0.0.17';
 
 // generated via https://gist.github.com/samccone/f9ab817944a7b69d2b8716e37d887ce9
 var emojiList = [
@@ -108,6 +108,7 @@ this.addEventListener('install', function(e) {
       '/footer-menu.js',
       '/page-menu.js',
       '/draw-canvas.js',
+      '/brush-preview.js',
       '/brush-picker-pane.js',
       '/emoji-map.js',
       '/size-picker.js',
