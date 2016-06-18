@@ -52,7 +52,7 @@
 
   let drawCanvas = document.querySelector('draw-canvas');
   let brushChangeTimeoutId;
-  let brushPreview = document.getElementById('preview-content');
+  let brushPreview = document.querySelector('brush-preview');
 
   document.body.addEventListener('menu-action', handlePageAction);
   document.body.addEventListener('brush-change', handleBrushChange);
@@ -111,30 +111,11 @@
     window.app.brush.name = emojiMap[platform][window.app.brush.color][0];
   }
 
-  function showBrushPreview() {
-    // Apply brush size.
-    brushPreview.style.transform = `scale(${window.app.getBrushSizePercent()})`;
-
-    let brushPath = window.app.baseImgPath + '/' +
-                    window.app.brush.platform + '/' +
-                    window.app.brush.color + '/';
-
-    let size = window.app.brushSize.val;
-    document.body.querySelector('#preview-content').setAttribute(
-      'src',
-      brushPath + window.app.brush.name);
-
-    // Reset the preview change timeout value.
-    brushChangeTimeoutId = undefined;
-  }
-
-  function throttledPreviewUpdate() {
-    // Throttle this to never fire more than once per frame :).
-    if (brushChangeTimeoutId === undefined) {
-      brushChangeTimeoutId = setTimeout(function() {
-        requestAnimationFrame(showBrushPreview);
-      }, 16.66);
-    }
+  function getBrushSrcPath() {
+    return window.app.baseImgPath + '/' +
+      window.app.brush.platform + '/' +
+      window.app.brush.color + '/' +
+      window.app.brush.name;
   }
 
   function handleBrushChange(e) {
@@ -146,7 +127,8 @@
       window.app.brushSize.val = e.detail.brushSize;
     }
 
-    throttledPreviewUpdate();
+    brushPreview.updatePreviewState(window.app.getBrushSizePercent(),
+        getBrushSrcPath());
   }
 
   function closeAllMenus() {
@@ -157,12 +139,12 @@
       document.body.classList.remove(v);
     });
 
-    document.body.classList.remove('brush-preview-open');
+    brushPreview.hide();
   }
 
   function showBrushPreviewIfMenuOpen() {
     if (document.body.classList.contains('menu-open')) {
-      document.body.classList.add('brush-preview-open');
+      brushPreview.show();
     }
   }
 
