@@ -81,7 +81,7 @@ footer-menu {
   bottom: 0;
   width: 100%;
   will-change: transform;
-  transform: translateY(120px);
+  transform: translateY(240px);
 }
 
 .menu-items li {
@@ -358,7 +358,7 @@ size-picker .thumb {
   align-items:center;
   line-height: 245px;
   z-index: -1;
-  top: calc(50% - (245px / 2) - ((240px + 45px) / 2));
+  top: calc(50% - (245px / 2) - ((240px + 60px) / 2));
   left: calc(50% - (245px / 2));
   width: 245px;
   height: 245px;

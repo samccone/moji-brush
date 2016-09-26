@@ -125,8 +125,10 @@
       // console.log(v, i);
       const columns = 4;
       const rows = 4;
+      const padding = 20;
+      const backGroundOpacity = 0.4;
       const currRow = Math.floor(i/rows);
-      ctx.fillStyle = this.hex2Rgba(v, 0.6);
+      ctx.fillStyle = this.hex2Rgba(v, backGroundOpacity);
       const y = (innerHeight * pixelR / rows) * currRow;
       const x = (columns * colorWidth) * (i % (arr.length / columns));
       const width = colorWidth * columns;
@@ -149,10 +151,10 @@
       emojiImage.onload = function() {
         ctx.drawImage(
           emojiImage,
-          x + (width/2 - (height - 20)/2),
-          y + 20/2,
-          height - 20,
-          height - 20
+          x + (width / 2 - (height - padding)/2),
+          y + padding / 2,
+          height - padding,
+          height - padding
         );
       }
 
