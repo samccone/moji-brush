@@ -118,10 +118,13 @@
     });
   };
 
-  proto.onMouseDown = function () {
+  proto.onMouseDown = function (e) {
     window.app.mouseDown = true;
     // paint stroke happening, so establish a new object to capture it
     this.newBrush();
+    var touch = e;
+    this.paintAtPoint(touch.clientX, touch.clientY);
+    this.recordHistory(touch.clientX, touch.clientY);
   };
 
   proto.onMouseUp = function () {
@@ -155,7 +158,7 @@
 
     /*
      * Get the image emoji height and width then convert them to the brush size percent
-     * and then multiple that by the device pixel amount so that we get a 1:1 size.
+     * and then multiply that by the device pixel amount so that we get a 1:1 size.
      *
      * For instance... a 200px wide image painted at 50% size on a 2x screen
      * would be displayed on screen as (200 * .5 * 2) which would be 200px :).
@@ -164,10 +167,13 @@
     var emojiPaintHeight = emojiImage.height * window.app.getBrushSizePercent(size) * window.devicePixelRatio;
 
     this.ctx.drawImage(emojiImage, x * window.devicePixelRatio - emojiPaintWidth / 2, y * window.devicePixelRatio - emojiPaintHeight / 2, emojiPaintWidth, emojiPaintHeight);
-  }, proto.onTouchStart = function () {
+  }, proto.onTouchStart = function (e) {
+    var touch = e.touches[0];
     window.app.touchStart = true;
     // paint stroke happening, so establish a new object to capture it
     this.newBrush();
+    this.paintAtPoint(touch.clientX, touch.clientY);
+    this.recordHistory(touch.clientX, touch.clientY);
   };
 
   proto.onTouchEnd = function () {
