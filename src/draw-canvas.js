@@ -167,7 +167,6 @@
   },
 
   proto.onTouchStart = function(e) {
-    console.log('touchStart', e);
     let touch = e.touches[0]
     window.app.touchStart = true;
     // paint stroke happening, so establish a new object to capture it
