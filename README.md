@@ -6,7 +6,7 @@ https://www.moji-brush.com/
 #### Dev (Chrome)
 
 * `cd src/`
-* `python -m SimpleHTTPServer`
+* `python2.7 -m SimpleHTTPServer`
 * `open localhost:8000`
 
 > When deving make sure to command+shift+r to reload to bypass service worker.
@@ -16,7 +16,7 @@ https://www.moji-brush.com/
 
 * `npm run build` to build an ES5, CSS3, Web Component-polyfilled version
 * `cd dist/`
-* `python -m SimpleHTTPServer`
+* `python2.7 -m SimpleHTTPServer`
 * `open localhost:8000`
 
 #### Deploying
