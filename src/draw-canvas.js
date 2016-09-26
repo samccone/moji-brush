@@ -111,7 +111,7 @@
     window.app.mouseDown = true;
     // paint stroke happening, so establish a new object to capture it
     this.newBrush();
-    let touch = e
+    let touch = e;
     this.paintAtPoint(touch.clientX, touch.clientY);
     this.recordHistory(touch.clientX, touch.clientY);
   };
@@ -167,7 +167,7 @@
   },
 
   proto.onTouchStart = function(e) {
-    let touch = e.touches[0]
+    let touch = e.touches[0];
     window.app.touchStart = true;
     // paint stroke happening, so establish a new object to capture it
     this.newBrush();
