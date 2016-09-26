@@ -144,6 +144,8 @@
 
   function showBrushPreviewIfMenuOpen() {
     if (document.body.classList.contains('menu-open')) {
+      brushPreview.updatePreviewState(window.app.getBrushSizePercent(),
+          getBrushSrcPath());
       brushPreview.show();
     }
   }

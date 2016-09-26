@@ -60,7 +60,7 @@
   };
 
   proto.createdCallback = function() {
-    var canvas = document.createElement('canvas');
+    const canvas = document.createElement('canvas');
 
     canvas.setAttribute('width', (window.innerWidth * window.devicePixelRatio) + 'px');
     canvas.setAttribute('height', (window.innerHeight * window.devicePixelRatio) + 'px');
@@ -108,6 +108,7 @@
   };
 
   proto.onMouseDown = function(e) {
+    console.log(e);
     window.app.mouseDown = true;
     // paint stroke happening, so establish a new object to capture it
     this.newBrush();
@@ -167,6 +168,10 @@
   },
 
   proto.onTouchStart = function(e) {
+    // prevent mousedown from firing
+    e.preventDefault();
+    const canvas = document.querySelector('canvas');
+    canvas.removeEventListener('mousedown', this.onMouseDown.bind(this));
     let touch = e.touches[0];
     window.app.touchStart = true;
     // paint stroke happening, so establish a new object to capture it
