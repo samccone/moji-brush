@@ -17,6 +17,8 @@
   };
 
   proto.onOverlayClick = function (e) {
+    // prevent mousedown from firing
+    e.preventDefault();
     var node = e.target;
 
     this.dispatchEvent(new CustomEvent('menu-action', {
