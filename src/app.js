@@ -50,9 +50,10 @@
   // Init the starting brush val to be 50%.
   window.app.brushSize.val = (window.app.brushSize.max - window.app.brushSize.min) / 2
 
-  let drawCanvas = document.querySelector('draw-canvas');
+  const drawCanvas = document.querySelector('draw-canvas');
+  const brushPreview = document.querySelector('brush-preview');
+  const brushPicker = document.querySelector('brush-picker-pane');
   let brushChangeTimeoutId;
-  let brushPreview = document.querySelector('brush-preview');
 
   document.body.addEventListener('menu-action', handlePageAction);
   document.body.addEventListener('brush-change', handleBrushChange);
@@ -109,6 +110,7 @@
     document.getElementById('apple').classList.toggle('active', platform =='apple');
     document.getElementById('google').classList.toggle('active', platform =='google');
     window.app.brush.name = emojiMap[platform][window.app.brush.color][0];
+    brushPicker.renderColorGrid();
   }
 
   function getBrushSrcPath() {

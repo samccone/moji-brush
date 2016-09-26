@@ -58,8 +58,8 @@
 
   proto.getColorByXY = function(x, y) {
     let colorPicker = this.querySelector('.color-picker');
-    let columns = 8;
-    let rows = 2;
+    let columns = 4;
+    let rows = 4;
     let pixelR = window.devicePixelRatio;
 
     let gridX = Math.floor(x / (colorPicker.width / pixelR) / (1 / columns));
@@ -85,6 +85,16 @@
     this.setEvents();
   };
 
+  // credit to http://jsfiddle.net/subodhghulaxe/t568u/
+  proto.hex2Rgba = function(hex,opacity){
+    hex = hex.replace('#','');
+    let r = parseInt(hex.substring(0,2), 16);
+    let g = parseInt(hex.substring(2,4), 16);
+    let b = parseInt(hex.substring(4,6), 16);
+    let result = `rgba(${r},${g},${b},${opacity})`;
+    return result;
+  };
+
   proto.renderColorGrid = function() {
     let canvas = document.createElement('canvas');
     canvas.classList.add('color-picker');
@@ -104,12 +114,49 @@
     paneContent.appendChild(canvas);
     let colorWidth = (innerWidth * pixelR) / Object.keys(this.choices).length;
 
+    // Object.keys(this.choices).forEach((v, i, arr) => {
+    //   ctx.fillStyle = v;
+    //   let y = i >= arr.length / 2 ? (innerHeight * pixelR) / 2 : 0;
+    //   let x = (2 * colorWidth) * (i % (arr.length / 2));
+    //
+    //   ctx.fillRect(x, y, colorWidth * 2, Math.ceil((innerHeight * pixelR) / 2));
+    // });
     Object.keys(this.choices).forEach((v, i, arr) => {
-      ctx.fillStyle = v;
-      let y = i >= arr.length / 2 ? (innerHeight * pixelR) / 2 : 0;
-      let x = (2 * colorWidth) * (i % (arr.length / 2));
+      // console.log(v, i);
+      const columns = 4;
+      const rows = 4;
+      const currRow = Math.floor(i/rows);
+      ctx.fillStyle = this.hex2Rgba(v, 0.6);
+      const y = (innerHeight * pixelR / rows) * currRow;
+      const x = (columns * colorWidth) * (i % (arr.length / columns));
+      const width = colorWidth * columns;
+      const height = Math.ceil((innerHeight * pixelR) / rows);
+      ctx.fillRect(x, y, width, height);
 
-      ctx.fillRect(x, y, colorWidth * 2, Math.ceil((innerHeight * pixelR) / 2));
+      const platform = window.app.brush.platform;
+      const color = this.choices[v];
+      const name = emojiMap[window.app.brush.platform][color][0];
+
+      const emojiImage = new Image();
+      const brushPath = window.app.baseImgPath + '/' +
+                      platform + '/' +
+                      color + '/';
+      emojiImage.src = brushPath + name;
+
+      const emojiPaintWidth = emojiImage.width * window.app.getBrushSizePercent(width) * window.devicePixelRatio;
+      const emojiPaintHeight = emojiImage.height * window.app.getBrushSizePercent(height) * window.devicePixelRatio;
+
+      emojiImage.onload = function() {
+        ctx.drawImage(
+          emojiImage,
+          x + (width/2 - (height - 20)/2),
+          y + 20/2,
+          height - 20,
+          height - 20
+        );
+      }
+
+
     });
   };
 
