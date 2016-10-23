@@ -22,6 +22,15 @@
     this.querySelector('.thumb').style.transform = `translateX(${x - 15}px)`;
   }
 
+  proto.setThumbFromPreview = function(size) {
+    // update the slider knob when emoji is scaled with pinch/unpinch
+    let percent = (size - window.app.brushSize.min) / (window.app.brushSize.max - window.app.brushSize.min);
+    percent = (percent + 0.1) * percent - 0.1;
+    let x = (percent * this.rangeWidth);
+    let sliderX = Math.min(Math.max(x, 0), this.rangeWidth);
+    this._setThumbPosition(sliderX);
+  }
+
   proto.onTap = function(e) {
     // have to change from layerX to clientX or pageX or offsetX in the panel slide layout
     // MDN suggests caution w/ layerX:

@@ -32,6 +32,7 @@
     this.dispatchEvent(new CustomEvent('brush-change', {
       bubbles: true,
       detail: {
+        fromMultiTouch: true,
         brushSize: newSize,
         brushRotation: rad,
       }

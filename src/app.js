@@ -54,6 +54,8 @@
   const drawCanvas = document.querySelector('draw-canvas');
   const brushPreview = document.querySelector('brush-preview');
   const brushPicker = document.querySelector('brush-picker-pane');
+  const sizePicker = document.querySelector('size-picker');
+
   let brushChangeTimeoutId;
 
   document.body.addEventListener('menu-action', handlePageAction);
@@ -131,13 +133,19 @@
     }
     if (e.detail.brushSize !== undefined) {
       window.app.brushSize.val = e.detail.brushSize;
+      if (e.detail.fromMultiTouch) {
+        sizePicker.setThumbFromPreview(e.detail.brushSize);
+      }
     }
-    
-    brushPreview.updatePreviewState(
-      window.app.getBrushSizePercent(),
-      window.app.brushRotation,
-      getBrushSrcPath()
-    );
+
+    if (!e.detail.fromMultiTouch) {
+      brushPreview.updatePreviewState(
+        window.app.getBrushSizePercent(),
+        window.app.brushRotation,
+        getBrushSrcPath()
+      );
+    }
+
   }
 
   function closeAllMenus() {
