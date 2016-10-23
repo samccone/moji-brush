@@ -183,7 +183,7 @@ page-menu {
   border-bottom: 1px solid #252525;
   padding-left: 24px;
   padding-right: 24px;
-  height: 120px;
+  height: 240px;
   width: 100%;
 }
 
@@ -304,7 +304,7 @@ size-picker {
   background: linear-gradient(to bottom, #424242 0%,#212121 100%);
   border-top: 1px solid #424242;
   border-bottom: 1px solid #252525;
-  height: 120px;
+  height: 240px;
   width: 100%;
 }
 
@@ -356,12 +356,12 @@ size-picker .thumb {
   display:flex;
   justify-content:center;
   align-items:center;
-  line-height: 245px;
+  line-height: 240px;
   z-index: -1;
-  top: calc(50% - (245px / 2) - ((240px + 60px) / 2));
-  left: calc(50% - (245px / 2));
-  width: 245px;
-  height: 245px;
+  top: calc(50% - (255px / 2) - ((240px + 60px) / 2));
+  left: calc(50% - (255px / 2));
+  width: 255px;
+  height: 255px;
   background-color: rgba(255, 255, 255, 0.8);
   border-radius: 8px;
   opacity: 0;
