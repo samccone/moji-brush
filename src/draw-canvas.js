@@ -89,6 +89,7 @@
 //     name: '1f4a7.png'
 //   },
 //     "size": 61.8625,
+//     "rotation": 0,
 //     "xy": [[49,48],[50,50],[51,51]]
 //   },
 //   {
@@ -103,12 +104,12 @@
         name: window.app.brush.name
       },
       "size": window.app.brushSize.val,
+      "rotation": window.app.brushRotation,
       "xy" : []
     });
   };
 
   proto.onMouseDown = function(e) {
-    console.log(e);
     window.app.mouseDown = true;
     // paint stroke happening, so establish a new object to capture it
     this.newBrush();
@@ -138,6 +139,7 @@
   proto.paintAtPoint = function(x,
                                 y,
                                 size = window.app.brushSize.val,
+                                rotation = window.app.brushRotation,
                                 brush = {
                                   platform: window.app.brush.platform,
                                   color: window.app.brush.color,
@@ -148,7 +150,6 @@
                       brush.platform + '/' +
                       brush.color + '/';
       emojiImage.src = brushPath + brush.name;
-
       /*
        * Get the image emoji height and width then convert them to the brush size percent
        * and then multiply that by the device pixel amount so that we get a 1:1 size.
@@ -159,12 +160,20 @@
       const emojiPaintWidth = emojiImage.width * window.app.getBrushSizePercent(size) * window.devicePixelRatio;
       const emojiPaintHeight = emojiImage.height * window.app.getBrushSizePercent(size) * window.devicePixelRatio;
 
+      // save the current coordinate system
+    	this.ctx.save();
+
+    	this.ctx.translate(x * window.devicePixelRatio,
+      y * window.devicePixelRatio);
+      this.ctx.rotate(rotation)
       this.ctx.drawImage(
         emojiImage,
-        x * window.devicePixelRatio - emojiPaintWidth / 2,
-        y * window.devicePixelRatio - emojiPaintHeight / 2,
+        -emojiPaintWidth/2,
+        -emojiPaintHeight/2,
         emojiPaintWidth,
         emojiPaintHeight);
+
+      this.ctx.restore();
   },
 
   proto.onTouchStart = function(e) {
@@ -215,6 +224,7 @@
           window.app.undos[i].xy[j][0],
           window.app.undos[i].xy[j][1],
           window.app.undos[i].size,
+          window.app.undos[i].rotation,
           window.app.undos[i].brush
         );
       }

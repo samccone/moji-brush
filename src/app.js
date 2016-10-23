@@ -40,6 +40,7 @@
       min: 5,
       max: 200,
     },
+    brushRotation: 0,
     getBrushSizePercent: function(val=window.app.brushSize.val) {
       return (val / (this.brushSize.max - this.brushSize.min));
     },
@@ -125,11 +126,15 @@
       window.app.brush = e.detail.brush;
     }
 
+    if (e.detail.brushRotation !== undefined) {
+      window.app.brushRotation = e.detail.brushRotation;
+    }
+
     if (e.detail.brushSize !== undefined) {
       window.app.brushSize.val = e.detail.brushSize;
     }
-
-    brushPreview.updatePreviewState(window.app.getBrushSizePercent(),
+    
+    brushPreview.updatePreviewState(window.app.getBrushSizePercent(), window.app.brushRotation,
         getBrushSrcPath());
   }
 
@@ -146,7 +151,7 @@
 
   function showBrushPreviewIfMenuOpen() {
     if (document.body.classList.contains('menu-open')) {
-      brushPreview.updatePreviewState(window.app.getBrushSizePercent(),
+      brushPreview.updatePreviewState(window.app.getBrushSizePercent(), window.app.brushRotation,
           getBrushSrcPath());
       brushPreview.show();
     }

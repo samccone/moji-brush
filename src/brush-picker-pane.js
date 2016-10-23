@@ -86,7 +86,7 @@
   };
 
   // credit to http://jsfiddle.net/subodhghulaxe/t568u/
-  proto.hex2Rgba = function(hex,opacity){
+  proto.hex2Rgba = function(hex, opacity){
     hex = hex.replace('#','');
     let r = parseInt(hex.substring(0,2), 16);
     let g = parseInt(hex.substring(2,4), 16);
@@ -114,15 +114,7 @@
     paneContent.appendChild(canvas);
     let colorWidth = (innerWidth * pixelR) / Object.keys(this.choices).length;
 
-    // Object.keys(this.choices).forEach((v, i, arr) => {
-    //   ctx.fillStyle = v;
-    //   let y = i >= arr.length / 2 ? (innerHeight * pixelR) / 2 : 0;
-    //   let x = (2 * colorWidth) * (i % (arr.length / 2));
-    //
-    //   ctx.fillRect(x, y, colorWidth * 2, Math.ceil((innerHeight * pixelR) / 2));
-    // });
     Object.keys(this.choices).forEach((v, i, arr) => {
-      // console.log(v, i);
       const columns = 4;
       const rows = 4;
       const padding = 20;

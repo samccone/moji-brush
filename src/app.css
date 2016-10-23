@@ -365,7 +365,7 @@ size-picker .thumb {
   background-color: rgba(255, 255, 255, 0.8);
   border-radius: 8px;
   opacity: 0;
-  pointer-events: none;
+  /*pointer-events: none;*/
   transition: all 0.23s cubic-bezier(0,0,0.3,1);
 }
 
