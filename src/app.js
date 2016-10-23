@@ -58,6 +58,7 @@
 
   document.body.addEventListener('menu-action', handlePageAction);
   document.body.addEventListener('brush-change', handleBrushChange);
+  document.body.addEventListener('brush-geometry', handleBrushGeometry);
 
   function handlePageAction(e) {
     switch (e.detail) {
@@ -126,16 +127,22 @@
       window.app.brush = e.detail.brush;
     }
 
-    if (e.detail.brushRotation !== undefined) {
-      window.app.brushRotation = e.detail.brushRotation;
-    }
+    window.app.brushRotation = 0,
 
-    if (e.detail.brushSize !== undefined) {
+    brushPreview.updatePreviewState(
+      window.app.getBrushSizePercent(),
+      window.app.brushRotation,
+      getBrushSrcPath()
+    );
+  }
+
+  function handleBrushGeometry(e) {
+    // if (e.detail.brushRotation !== undefined) {
+      window.app.brushRotation = e.detail.brushRotation;
+    // }
+    // if (e.detail.brushSize !== undefined) {
       window.app.brushSize.val = e.detail.brushSize;
-    }
-    
-    brushPreview.updatePreviewState(window.app.getBrushSizePercent(), window.app.brushRotation,
-        getBrushSrcPath());
+    // }
   }
 
   function closeAllMenus() {

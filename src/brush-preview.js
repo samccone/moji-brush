@@ -29,7 +29,7 @@
   prototype.updateValue = function(percent, rad) {
     let newSize = (window.app.brushSize.max - window.app.brushSize.min) * percent + window.app.brushSize.min;
 
-    this.dispatchEvent(new CustomEvent('brush-change', {
+    this.dispatchEvent(new CustomEvent('brush-geometry', {
       bubbles: true,
       detail: {
         brushSize: newSize,
@@ -57,7 +57,6 @@
     this._throttleId = setTimeout(_ => {
       this._updateBrushImage(this._imgPath);
       this._updateBrushGeometry(this._size, this._rad);
-      // console.log(this._size, this._rad);
       this._throttleId = undefined;
 
     }, 16.66);
@@ -77,7 +76,6 @@
   prototype.prevTouches = [];
 
   prototype.onTouchStart = function(e) {
-    // console.log(this._size, this._rad);
     if (e.touches.length === 2) {
       this.gesture = true;
       let dX = e.touches[1].clientX - e.touches[0].clientX;
@@ -108,7 +106,7 @@
       let size = Math.min(1, Math.max(0.1, scaleChange));
 
       this.updatePreviewState(size, this._rad);
-      this.updateValue(this._size, this._rad);
+      this.updateValue(size, this._rad);
 
     }
   };
