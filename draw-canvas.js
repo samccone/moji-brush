@@ -100,6 +100,7 @@
   //     name: '1f4a7.png'
   //   },
   //     "size": 61.8625,
+  //     "rotation": 0,
   //     "xy": [[49,48],[50,50],[51,51]]
   //   },
   //   {
@@ -114,12 +115,12 @@
         name: window.app.brush.name
       },
       "size": window.app.brushSize.val,
+      "rotation": window.app.brushRotation,
       "xy": []
     });
   };
 
   proto.onMouseDown = function (e) {
-    console.log(e);
     window.app.mouseDown = true;
     // paint stroke happening, so establish a new object to capture it
     this.newBrush();
@@ -147,16 +148,16 @@
 
   proto.paintAtPoint = function (x, y) {
     var size = arguments.length <= 2 || arguments[2] === undefined ? window.app.brushSize.val : arguments[2];
-    var brush = arguments.length <= 3 || arguments[3] === undefined ? {
+    var rotation = arguments.length <= 3 || arguments[3] === undefined ? window.app.brushRotation : arguments[3];
+    var brush = arguments.length <= 4 || arguments[4] === undefined ? {
       platform: window.app.brush.platform,
       color: window.app.brush.color,
-      name: window.app.brush.name } : arguments[3];
+      name: window.app.brush.name } : arguments[4];
 
 
     var emojiImage = new Image();
     var brushPath = window.app.baseImgPath + '/' + brush.platform + '/' + brush.color + '/';
     emojiImage.src = brushPath + brush.name;
-
     /*
      * Get the image emoji height and width then convert them to the brush size percent
      * and then multiply that by the device pixel amount so that we get a 1:1 size.
@@ -167,7 +168,14 @@
     var emojiPaintWidth = emojiImage.width * window.app.getBrushSizePercent(size) * window.devicePixelRatio;
     var emojiPaintHeight = emojiImage.height * window.app.getBrushSizePercent(size) * window.devicePixelRatio;
 
-    this.ctx.drawImage(emojiImage, x * window.devicePixelRatio - emojiPaintWidth / 2, y * window.devicePixelRatio - emojiPaintHeight / 2, emojiPaintWidth, emojiPaintHeight);
+    // save the current coordinate system
+    this.ctx.save();
+
+    this.ctx.translate(x * window.devicePixelRatio, y * window.devicePixelRatio);
+    this.ctx.rotate(rotation);
+    this.ctx.drawImage(emojiImage, -emojiPaintWidth / 2, -emojiPaintHeight / 2, emojiPaintWidth, emojiPaintHeight);
+
+    this.ctx.restore();
   }, proto.onTouchStart = function (e) {
     // prevent mousedown from firing
     e.preventDefault();
@@ -211,7 +219,7 @@
       // iterate within individual paint strokes
       for (var j = 0; j < window.app.undos[i].xy.length; j++) {
         // repaint beautiful dabs of emoji
-        this.paintAtPoint(window.app.undos[i].xy[j][0], window.app.undos[i].xy[j][1], window.app.undos[i].size, window.app.undos[i].brush);
+        this.paintAtPoint(window.app.undos[i].xy[j][0], window.app.undos[i].xy[j][1], window.app.undos[i].size, window.app.undos[i].rotation, window.app.undos[i].brush);
       }
     }
   };

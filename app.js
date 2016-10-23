@@ -41,6 +41,7 @@
       min: 5,
       max: 200
     },
+    brushRotation: 0,
     getBrushSizePercent: function getBrushSizePercent() {
       var val = arguments.length <= 0 || arguments[0] === undefined ? window.app.brushSize.val : arguments[0];
 
@@ -54,8 +55,11 @@
   window.app.brushSize.val = (window.app.brushSize.max - window.app.brushSize.min) / 2;
 
   var drawCanvas = document.querySelector('draw-canvas');
-  var brushChangeTimeoutId = void 0;
   var brushPreview = document.querySelector('brush-preview');
+  var brushPicker = document.querySelector('brush-picker-pane');
+  var sizePicker = document.querySelector('size-picker');
+
+  var brushChangeTimeoutId = void 0;
 
   document.body.addEventListener('menu-action', handlePageAction);
   document.body.addEventListener('brush-change', handleBrushChange);
@@ -112,6 +116,7 @@
     document.getElementById('apple').classList.toggle('active', platform == 'apple');
     document.getElementById('google').classList.toggle('active', platform == 'google');
     window.app.brush.name = emojiMap[platform][window.app.brush.color][0];
+    brushPicker.renderColorGrid();
   }
 
   function getBrushSrcPath() {
@@ -123,11 +128,19 @@
       window.app.brush = e.detail.brush;
     }
 
+    if (e.detail.brushRotation !== undefined) {
+      window.app.brushRotation = e.detail.brushRotation;
+    }
     if (e.detail.brushSize !== undefined) {
       window.app.brushSize.val = e.detail.brushSize;
+      if (e.detail.fromMultiTouch) {
+        sizePicker.setThumbFromPreview(e.detail.brushSize);
+      }
     }
 
-    brushPreview.updatePreviewState(window.app.getBrushSizePercent(), getBrushSrcPath());
+    if (!e.detail.fromMultiTouch) {
+      brushPreview.updatePreviewState(window.app.getBrushSizePercent(), window.app.brushRotation, getBrushSrcPath());
+    }
   }
 
   function closeAllMenus() {
@@ -140,7 +153,7 @@
 
   function showBrushPreviewIfMenuOpen() {
     if (document.body.classList.contains('menu-open')) {
-      brushPreview.updatePreviewState(window.app.getBrushSizePercent(), getBrushSrcPath());
+      brushPreview.updatePreviewState(window.app.getBrushSizePercent(), window.app.brushRotation, getBrushSrcPath());
       brushPreview.show();
     }
   }

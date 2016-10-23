@@ -52,8 +52,8 @@
     this.getColorByXY(e.offsetX, e.offsetY);
   }, proto.getColorByXY = function (x, y) {
     var colorPicker = this.querySelector('.color-picker');
-    var columns = 8;
-    var rows = 2;
+    var columns = 4;
+    var rows = 4;
     var pixelR = window.devicePixelRatio;
 
     var gridX = Math.floor(x / (colorPicker.width / pixelR) / (1 / columns));
@@ -66,7 +66,8 @@
           platform: window.app.brush.platform,
           color: this.choices[Object.keys(this.choices)[gridX + gridY * columns]],
           name: emojiMap[window.app.brush.platform][this.choices[Object.keys(this.choices)[gridX + gridY * columns]]][0]
-        }
+        },
+        brushRotation: 0
       }
     }));
   }, proto.attachedCallback = function () {
@@ -75,7 +76,19 @@
     this.setEvents();
   };
 
+  // credit to http://jsfiddle.net/subodhghulaxe/t568u/
+  proto.hex2Rgba = function (hex, opacity) {
+    hex = hex.replace('#', '');
+    var r = parseInt(hex.substring(0, 2), 16);
+    var g = parseInt(hex.substring(2, 4), 16);
+    var b = parseInt(hex.substring(4, 6), 16);
+    var result = "rgba(" + r + "," + g + "," + b + "," + opacity + ")";
+    return result;
+  };
+
   proto.renderColorGrid = function () {
+    var _this = this;
+
     var canvas = document.createElement('canvas');
     canvas.classList.add('color-picker');
     var paneContent = this.querySelector('.pane-content');
@@ -95,11 +108,32 @@
     var colorWidth = innerWidth * pixelR / Object.keys(this.choices).length;
 
     Object.keys(this.choices).forEach(function (v, i, arr) {
-      ctx.fillStyle = v;
-      var y = i >= arr.length / 2 ? innerHeight * pixelR / 2 : 0;
-      var x = 2 * colorWidth * (i % (arr.length / 2));
+      var columns = 4;
+      var rows = 4;
+      var padding = 20;
+      var backGroundOpacity = 0.4;
+      var currRow = Math.floor(i / rows);
+      ctx.fillStyle = _this.hex2Rgba(v, backGroundOpacity);
+      var y = innerHeight * pixelR / rows * currRow;
+      var x = columns * colorWidth * (i % (arr.length / columns));
+      var width = colorWidth * columns;
+      var height = Math.ceil(innerHeight * pixelR / rows);
+      ctx.fillRect(x, y, width, height);
 
-      ctx.fillRect(x, y, colorWidth * 2, Math.ceil(innerHeight * pixelR / 2));
+      var platform = window.app.brush.platform;
+      var color = _this.choices[v];
+      var name = emojiMap[window.app.brush.platform][color][0];
+
+      var emojiImage = new Image();
+      var brushPath = window.app.baseImgPath + '/' + platform + '/' + color + '/';
+      emojiImage.src = brushPath + name;
+
+      var emojiPaintWidth = emojiImage.width * window.app.getBrushSizePercent(width) * window.devicePixelRatio;
+      var emojiPaintHeight = emojiImage.height * window.app.getBrushSizePercent(height) * window.devicePixelRatio;
+
+      emojiImage.onload = function () {
+        ctx.drawImage(emojiImage, x + (width / 2 - (height - padding) / 2), y + padding / 2, height - padding, height - padding);
+      };
     });
   };
 
