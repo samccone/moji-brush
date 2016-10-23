@@ -74,7 +74,8 @@
           name: emojiMap[window.app.brush.platform]
                         [this.choices[Object.keys(this.choices)[gridX + (gridY * columns)]]]
                         [0]
-        }
+        },
+        brushRotation: 0,
       }
     }));
   },

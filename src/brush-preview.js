@@ -29,7 +29,7 @@
   prototype.updateValue = function(percent, rad) {
     let newSize = (window.app.brushSize.max - window.app.brushSize.min) * percent + window.app.brushSize.min;
 
-    this.dispatchEvent(new CustomEvent('brush-geometry', {
+    this.dispatchEvent(new CustomEvent('brush-change', {
       bubbles: true,
       detail: {
         brushSize: newSize,
