@@ -147,12 +147,12 @@
   };
 
   proto.paintAtPoint = function (x, y) {
-    var size = arguments.length <= 2 || arguments[2] === undefined ? window.app.brushSize.val : arguments[2];
-    var rotation = arguments.length <= 3 || arguments[3] === undefined ? window.app.brushRotation : arguments[3];
-    var brush = arguments.length <= 4 || arguments[4] === undefined ? {
+    var size = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : window.app.brushSize.val;
+    var rotation = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : window.app.brushRotation;
+    var brush = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : {
       platform: window.app.brush.platform,
       color: window.app.brush.color,
-      name: window.app.brush.name } : arguments[4];
+      name: window.app.brush.name };
 
 
     var emojiImage = new Image();

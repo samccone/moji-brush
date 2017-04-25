@@ -43,7 +43,7 @@
     },
     brushRotation: 0,
     getBrushSizePercent: function getBrushSizePercent() {
-      var val = arguments.length <= 0 || arguments[0] === undefined ? window.app.brushSize.val : arguments[0];
+      var val = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : window.app.brushSize.val;
 
       return val / (this.brushSize.max - this.brushSize.min);
     },

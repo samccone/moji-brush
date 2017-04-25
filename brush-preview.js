@@ -43,8 +43,8 @@
   };
 
   prototype.updatePreviewState = function (size) {
-    var rad = arguments.length <= 1 || arguments[1] === undefined ? 0 : arguments[1];
-    var imgPath = arguments.length <= 2 || arguments[2] === undefined ? this._imgPath : arguments[2];
+    var rad = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+    var imgPath = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : this._imgPath;
 
     this._size = size;
     this._rad = rad;

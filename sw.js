@@ -1,4 +1,4 @@
-var VERSION = '0.0.20';
+var VERSION = '0.0.21';
 
 // generated via https://gist.github.com/samccone/f9ab817944a7b69d2b8716e37d887ce9
 var emojiList = [
