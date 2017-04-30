@@ -3,6 +3,8 @@
 (function () {
   'use strict';
 
+  var TOUCH_ANGLE_MULTIPLIER = 1.7;
+
   var prototype = Object.create(HTMLElement.prototype);
 
   prototype.template = function () {
@@ -15,6 +17,7 @@
 
   prototype.attachedCallback = function () {
     this.render();
+    this._currentRotation = 0;
     var preview = this.querySelector('#preview');
     preview.addEventListener('touchstart', this.onTouchStart.bind(this));
     preview.addEventListener('touchmove', this.onTouch.bind(this));
@@ -84,7 +87,7 @@
       var dX = e.touches[1].clientX - e.touches[0].clientX;
       var dY = e.touches[1].clientY - e.touches[0].clientY;
       this.gestureStartDistance = Math.sqrt(dX * dX + dY * dY);
-      this.gestureStartAngle = Math.atan2(dY, dX);
+      this.gestureStartAngle = Math.atan2(dY, dX) * TOUCH_ANGLE_MULTIPLIER;
     }
   };
 
@@ -92,30 +95,20 @@
     e.preventDefault();
     // if it's a two-element (finger) event
     if (this.gesture && e.touches.length === 2) {
-
       var dX = e.touches[1].clientX - e.touches[0].clientX;
       var dY = e.touches[1].clientY - e.touches[0].clientY;
-      var gestureDistance = Math.sqrt(dX * dX + dY * dY);
-      var gestureAngle = Math.atan2(dY, dX);
-      // set scaleChange intial value to the current scale
-      var scaleChange = this._size * gestureDistance / this.gestureStartDistance;
+      var gestureAngle = Math.atan2(dY, dX) * TOUCH_ANGLE_MULTIPLIER;
       var angleChange = gestureAngle - this.gestureStartAngle;
-      this._rad += angleChange;
-      // prevent this._rad from stacking to a huge number for the rotation
-      // obsessed user
-      if (this._rad >= 2 * Math.PI || this._rad <= -2 * Math.PI) {
-        this._rad = 0;
-      }
+      this._rad = this._currentRotation + angleChange;
 
-      var size = Math.min(1, Math.max(0.1, scaleChange));
-
-      this.updatePreviewState(size, this._rad);
-      this.updateValue(size, this._rad);
+      this.updatePreviewState(this._size, this._rad);
+      this.updateValue(this._size, this._rad);
     }
   };
 
   prototype.onTouchEnd = function (e) {
     this.gesture = false;
+    this._currentRotation = this._rad;
   };
 
   document.registerElement('brush-preview', {
