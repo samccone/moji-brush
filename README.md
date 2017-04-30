@@ -1,6 +1,6 @@
 #### View Live
 
-https://www.moji-brush.com/
+https://www.mojibrush.co
 
 
 #### Dev (Chrome)
