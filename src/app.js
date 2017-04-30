@@ -2,13 +2,12 @@
   'use strict';
 
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js').then(_ => {
-      console.log('service worker is all cool 🐳');
-    }).catch(e => {
-      console.error('service worker is not so cool 🔥', e);
-      throw e;
-    });
-
+    navigator.serviceWorker.register('sw.js')
+        .then(_ => { console.log('service worker is all cool 🐳'); })
+        .catch(e => {
+          console.error('service worker is not so cool 🔥', e);
+          throw e;
+        });
 
     if (navigator.serviceWorker.controller) {
       // Correctly prompt the user to reload during SW phase change.
@@ -30,26 +29,27 @@
   }
 
   window.app = {
-    baseImgPath: './images/emoji',
-    brush: {
-      platform: platformDetect(),
-      color: 'green-dark',
-      name: emojiMap[platformDetect()]['green-dark'][0]
+    baseImgPath : './images/emoji',
+    brush : {
+      platform : platformDetect(),
+      color : 'green-dark',
+      name : emojiMap[platformDetect()]['green-dark'][0]
     },
-    brushSize: {
-      min: 5,
-      max: 200,
+    brushSize : {
+      min : 5,
+      max : 200,
     },
-    brushRotation: 0,
-    getBrushSizePercent: function(val=window.app.brushSize.val) {
+    brushRotation : 0,
+    getBrushSizePercent : function(val = window.app.brushSize.val) {
       return (val / (this.brushSize.max - this.brushSize.min));
     },
-    undos: [],
-    redos: [],
+    undos : [],
+    redos : [],
   };
 
   // Init the starting brush val to be 50%.
-  window.app.brushSize.val = (window.app.brushSize.max - window.app.brushSize.min) / 2
+  window.app.brushSize.val =
+      (window.app.brushSize.max - window.app.brushSize.min) / 2
 
   const drawCanvas = document.querySelector('draw-canvas');
   const brushPreview = document.querySelector('brush-preview');
@@ -63,64 +63,64 @@
 
   function handlePageAction(e) {
     switch (e.detail) {
-      case 'apple-emoji':
-        changePlatform('apple');
-        break;
-      case 'google-emoji':
-        changePlatform('google');
-        break;
-      case 'dashboard-menu':
-        onFooterMenuClick('dashboard-open', 0);
-        break;
-      case 'brush-pick':
-        onFooterMenuClick('brush-picker-open', 2);
-        showBrushPreviewIfMenuOpen();
-        break;
-      case 'size':
-        onFooterMenuClick('size-picker-open', 1);
-        showBrushPreviewIfMenuOpen();
-        break;
-      case 'save':
-        drawCanvas.download();
-        closeAllMenus();
-        break;
-      case 'reset':
-        if (!window.confirm('All progress will be lost, are you sure?')) {
-          return;
-        }
+    case 'apple-emoji':
+      changePlatform('apple');
+      break;
+    case 'google-emoji':
+      changePlatform('google');
+      break;
+    case 'dashboard-menu':
+      onFooterMenuClick('dashboard-open', 0);
+      break;
+    case 'brush-pick':
+      onFooterMenuClick('brush-picker-open', 2);
+      showBrushPreviewIfMenuOpen();
+      break;
+    case 'size':
+      onFooterMenuClick('size-picker-open', 1);
+      showBrushPreviewIfMenuOpen();
+      break;
+    case 'save':
+      drawCanvas.download();
+      closeAllMenus();
+      break;
+    case 'reset':
+      if (!window.confirm('All progress will be lost, are you sure?')) {
+        return;
+      }
 
-        window.app.undos = [];
-        window.app.redos = [];
-        drawCanvas.clearCanvas();
-        closeAllMenus();
-        break;
-      case 'overlay-close':
-        closeAllMenus();
-        break;
-      case 'undo':
-        drawCanvas.undo();
-        break;
-      case 'redo':
-        drawCanvas.redo();
-        break;
-      default:
-        console.warn(`unhanded detail, ${e.detail}`);
+      window.app.undos = [];
+      window.app.redos = [];
+      drawCanvas.clearCanvas();
+      closeAllMenus();
+      break;
+    case 'overlay-close':
+      closeAllMenus();
+      break;
+    case 'undo':
+      drawCanvas.undo();
+      break;
+    case 'redo':
+      drawCanvas.redo();
+      break;
+    default:
+      console.warn(`unhanded detail, ${e.detail}`);
     }
   };
 
   function changePlatform(platform) {
     window.app.brush.platform = platform;
-    document.getElementById('apple').classList.toggle('active', platform =='apple');
-    document.getElementById('google').classList.toggle('active', platform =='google');
+    document.getElementById('apple').classList.toggle('active',
+                                                      platform == 'apple');
+    document.getElementById('google').classList.toggle('active',
+                                                       platform == 'google');
     window.app.brush.name = emojiMap[platform][window.app.brush.color][0];
     brushPicker.renderColorGrid();
   }
 
   function getBrushSrcPath() {
-    return window.app.baseImgPath + '/' +
-      window.app.brush.platform + '/' +
-      window.app.brush.color + '/' +
-      window.app.brush.name;
+    return window.app.baseImgPath + '/' + window.app.brush.platform + '/' +
+           window.app.brush.color + '/' + window.app.brush.name;
   }
 
   function handleBrushChange(e) {
@@ -139,30 +139,24 @@
     }
 
     if (!e.detail.fromMultiTouch) {
-      brushPreview.updatePreviewState(
-        window.app.getBrushSizePercent(),
-        window.app.brushRotation,
-        getBrushSrcPath()
-      );
+      brushPreview.updatePreviewState(window.app.getBrushSizePercent(),
+                                      window.app.brushRotation,
+                                      getBrushSrcPath());
     }
-
   }
 
   function closeAllMenus() {
-    ['brush-picker-open',
-    'size-picker-open',
-    'dashboard-open',
-    'menu-open',].forEach(v => {
-      document.body.classList.remove(v);
-    });
+    ['brush-picker-open', 'size-picker-open', 'dashboard-open', 'menu-open', ]
+        .forEach(v => { document.body.classList.remove(v); });
 
     brushPreview.hide();
   }
 
   function showBrushPreviewIfMenuOpen() {
     if (document.body.classList.contains('menu-open')) {
-      brushPreview.updatePreviewState(window.app.getBrushSizePercent(), window.app.brushRotation,
-          getBrushSrcPath());
+      brushPreview.updatePreviewState(window.app.getBrushSizePercent(),
+                                      window.app.brushRotation,
+                                      getBrushSrcPath());
       brushPreview.show();
     }
   }
@@ -177,7 +171,8 @@
     if (!paneAlreadyOpen) {
       document.body.classList.add('menu-open');
       document.body.classList.add(klass);
-      document.getElementById('pane-slider').style.transform = `translateX(${x}%)`;
+      document.getElementById('pane-slider').style.transform =
+          `translateX(${x}%)`;
     }
   }
 })();

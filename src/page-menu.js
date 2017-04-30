@@ -4,7 +4,7 @@
   var proto = Object.create(HTMLElement.prototype);
 
   proto.template = _ => {
-     return `
+    return `
       <ul>
       <div>
         <ul class="toggle-box">
@@ -35,7 +35,7 @@
   };
 
   proto.attachedCallback = function() {
-    let eventName = 'ontouchstart' in window ? 'touchstart': 'click';
+    let eventName = 'ontouchstart' in window ? 'touchstart' : 'click';
     this.innerHTML = this.template();
 
     if (window.app.brush.platform == 'apple') {
@@ -50,11 +50,11 @@
   proto.onMenuClick = function(e) {
     var node = e.target;
 
-    while(node !== undefined && node.tagName !== 'PAGE-MENU') {
+    while (node !== undefined && node.tagName !== 'PAGE-MENU') {
       if (node.tagName === 'LI') {
-        this.dispatchEvent(new CustomEvent('menu-action', {
-          bubbles: true,
-          detail: node.getAttribute('action')}));
+        this.dispatchEvent(new CustomEvent(
+            'menu-action',
+            {bubbles : true, detail : node.getAttribute('action')}));
         break;
       }
 
@@ -63,6 +63,6 @@
   };
 
   document.registerElement('page-menu', {
-    prototype: proto,
+    prototype : proto,
   });
 })();

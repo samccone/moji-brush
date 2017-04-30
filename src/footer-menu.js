@@ -4,7 +4,7 @@
   var proto = Object.create(HTMLElement.prototype);
 
   proto.template = _ => {
-     return `<ul class="menu-items">
+    return `<ul class="menu-items">
         <li class="dashboard" action="dashboard-menu">
           <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" fill="#e6e6e6"><g id="menu"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></g>
           </svg>
@@ -30,7 +30,7 @@
   };
 
   proto.attachedCallback = function() {
-    let eventName = 'ontouchstart' in window ? 'touchstart': 'click';
+    let eventName = 'ontouchstart' in window ? 'touchstart' : 'click';
     this.innerHTML = this.template();
 
     this.addEventListener(eventName, this.onMenuClick);
@@ -40,11 +40,11 @@
     e.preventDefault();
     var node = e.target;
 
-    while(node !== undefined && node.tagName !== 'FOOTER-MENU') {
+    while (node !== undefined && node.tagName !== 'FOOTER-MENU') {
       if (node.tagName === 'LI') {
-        this.dispatchEvent(new CustomEvent('menu-action', {
-          bubbles: true,
-          detail: node.getAttribute('action')}));
+        this.dispatchEvent(new CustomEvent(
+            'menu-action',
+            {bubbles : true, detail : node.getAttribute('action')}));
         break;
       }
 
@@ -53,6 +53,6 @@
   };
 
   document.registerElement('footer-menu', {
-    prototype: proto,
+    prototype : proto,
   });
 })();
