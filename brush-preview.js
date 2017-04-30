@@ -43,8 +43,8 @@
   };
 
   prototype.updatePreviewState = function (size) {
-    var rad = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-    var imgPath = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : this._imgPath;
+    var rad = arguments.length <= 1 || arguments[1] === undefined ? 0 : arguments[1];
+    var imgPath = arguments.length <= 2 || arguments[2] === undefined ? this._imgPath : arguments[2];
 
     this._size = size;
     this._rad = rad;
@@ -101,7 +101,8 @@
       var scaleChange = this._size * gestureDistance / this.gestureStartDistance;
       var angleChange = gestureAngle - this.gestureStartAngle;
       this._rad += angleChange;
-      // prevent this._rad from stacking to a huge number for the rotation obsessed user
+      // prevent this._rad from stacking to a huge number for the rotation
+      // obsessed user
       if (this._rad >= 2 * Math.PI || this._rad <= -2 * Math.PI) {
         this._rad = 0;
       }

@@ -21,9 +21,7 @@
     e.preventDefault();
     var node = e.target;
 
-    this.dispatchEvent(new CustomEvent('menu-action', {
-      bubbles: true,
-      detail: node.getAttribute('action') }));
+    this.dispatchEvent(new CustomEvent('menu-action', { bubbles: true, detail: node.getAttribute('action') }));
 
     node = node.parentNode;
   };

@@ -46,7 +46,8 @@
   };
 
   proto.onColorClick = function (e) {
-    // have to change from layerX to clientX or pageX or offsetX in the panel slide layout
+    // have to change from layerX to clientX or pageX or offsetX in the panel
+    // slide layout
     // MDN suggests caution w/ layerX:
     // https://developer.mozilla.org/en-US/docs/Web/API/UIEvent/layerX
     this.getColorByXY(e.offsetX, e.offsetY);
@@ -95,7 +96,8 @@
     var innerHeight = Math.floor(paneContent.getBoundingClientRect().height);
     var innerWidth = Math.floor(paneContent.getBoundingClientRect().width);
     var pixelR = window.devicePixelRatio;
-    // TODO: update innerWidth on window resize (also need to update draw-canvas)
+    // TODO: update innerWidth on window resize (also need to update
+    // draw-canvas)
     canvas.setAttribute('width', innerWidth * pixelR + 'px');
     canvas.setAttribute('height', innerHeight * pixelR + 'px');
     canvas.style.width = innerWidth + 'px';

@@ -22,9 +22,7 @@
 
     while (node !== undefined && node.tagName !== 'FOOTER-MENU') {
       if (node.tagName === 'LI') {
-        this.dispatchEvent(new CustomEvent('menu-action', {
-          bubbles: true,
-          detail: node.getAttribute('action') }));
+        this.dispatchEvent(new CustomEvent('menu-action', { bubbles: true, detail: node.getAttribute('action') }));
         break;
       }
 

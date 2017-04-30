@@ -3,14 +3,34 @@
 (function () {
   'use strict';
 
+  var DEVICE_PIXEL_RATIO = window.devicePixelRatio;
+
   var proto = Object.create(HTMLElement.prototype);
+  var _IMAGE_CACHE = new Map();
+
+  function getImage(path) {
+    if (_IMAGE_CACHE.has(path)) {
+      return Promise.resolve(_IMAGE_CACHE.get(path));
+    }
+
+    return new Promise(function (res, rej) {
+      var img = new Image();
+      img.src = path;
+
+      img.onload = function () {
+        _IMAGE_CACHE.set(path, { img: img, width: img.width, height: img.height });
+
+        res(_IMAGE_CACHE.get(path));
+      };
+    });
+  }
 
   proto.loadWelcome = function () {
     // (this is a rough, but working, implementation)
     var dc = this;
 
     // Only play intro once.
-    if (localStorage.getItem('moji-intro-played') === "true") {
+    if (localStorage.getItem('moji-intro-played') === 'true') {
       return;
     }
 
@@ -51,7 +71,11 @@
             // add left and top start points to center the message
             welcome[_i].xy[j][0] + leftStartPoint, welcome[_i].xy[j][1] + topStartPoint, welcome[_i].size,
             // TODO: randomize the brush
-            { platform: window.app.brush.platform, color: 'white', name: '1f410.png' });
+            {
+              platform: window.app.brush.platform,
+              color: 'white',
+              name: '1f410.png'
+            });
             if (j < welcome[_i].xy.length - 1) {
               j++;
               animateStroke(j);
@@ -73,8 +97,8 @@
   proto.createdCallback = function () {
     var canvas = document.createElement('canvas');
 
-    canvas.setAttribute('width', window.innerWidth * window.devicePixelRatio + 'px');
-    canvas.setAttribute('height', window.innerHeight * window.devicePixelRatio + 'px');
+    canvas.setAttribute('width', window.innerWidth * DEVICE_PIXEL_RATIO + 'px');
+    canvas.setAttribute('height', window.innerHeight * DEVICE_PIXEL_RATIO + 'px');
 
     canvas.style.width = window.innerWidth + 'px';
     canvas.style.height = window.innerHeight + 'px';
@@ -109,14 +133,14 @@
   // ]
   proto.newBrush = function () {
     window.app.undos.push({
-      "brush": {
+      'brush': {
         platform: window.app.brush.platform,
         color: window.app.brush.color,
         name: window.app.brush.name
       },
-      "size": window.app.brushSize.val,
-      "rotation": window.app.brushRotation,
-      "xy": []
+      'size': window.app.brushSize.val,
+      'rotation': window.app.brushRotation,
+      'xy': []
     });
   };
 
@@ -142,40 +166,47 @@
 
   proto.clearCanvas = function () {
     this.ctx.fillStyle = '#fff';
-    this.ctx.fillRect(0, 0, window.innerWidth * window.devicePixelRatio, window.innerHeight * window.devicePixelRatio);
+    this.ctx.fillRect(0, 0, window.innerWidth * DEVICE_PIXEL_RATIO, window.innerHeight * DEVICE_PIXEL_RATIO);
     this.updateUndoRedoButtonState();
   };
 
   proto.paintAtPoint = function (x, y) {
-    var size = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : window.app.brushSize.val;
-    var rotation = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : window.app.brushRotation;
-    var brush = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : {
+    var size = arguments.length <= 2 || arguments[2] === undefined ? window.app.brushSize.val : arguments[2];
+
+    var _this = this;
+
+    var rotation = arguments.length <= 3 || arguments[3] === undefined ? window.app.brushRotation : arguments[3];
+    var brush = arguments.length <= 4 || arguments[4] === undefined ? {
       platform: window.app.brush.platform,
       color: window.app.brush.color,
-      name: window.app.brush.name };
+      name: window.app.brush.name
+    } : arguments[4];
 
 
-    var emojiImage = new Image();
     var brushPath = window.app.baseImgPath + '/' + brush.platform + '/' + brush.color + '/';
-    emojiImage.src = brushPath + brush.name;
-    /*
-     * Get the image emoji height and width then convert them to the brush size percent
-     * and then multiply that by the device pixel amount so that we get a 1:1 size.
-     *
-     * For instance... a 200px wide image painted at 50% size on a 2x screen
-     * would be displayed on screen as (200 * .5 * 2) which would be 200px :).
-     */
-    var emojiPaintWidth = emojiImage.width * window.app.getBrushSizePercent(size) * window.devicePixelRatio;
-    var emojiPaintHeight = emojiImage.height * window.app.getBrushSizePercent(size) * window.devicePixelRatio;
+    getImage(brushPath + brush.name).then(function (emojiImage) {
+      /*
+       * Get the image emoji height and width then convert them to the brush
+       * size
+       * percent
+       * and then multiply that by the device pixel amount so that we get a 1:1
+       * size.
+       *
+       * For instance... a 200px wide image painted at 50% size on a 2x screen
+       * would be displayed on screen as (200 * .5 * 2) which would be 200px :).
+       */
+      var emojiPaintWidth = emojiImage.width * window.app.getBrushSizePercent(size) * DEVICE_PIXEL_RATIO;
+      var emojiPaintHeight = emojiImage.height * window.app.getBrushSizePercent(size) * DEVICE_PIXEL_RATIO;
 
-    // save the current coordinate system
-    this.ctx.save();
+      // save the current coordinate system
+      _this.ctx.save();
 
-    this.ctx.translate(x * window.devicePixelRatio, y * window.devicePixelRatio);
-    this.ctx.rotate(rotation);
-    this.ctx.drawImage(emojiImage, -emojiPaintWidth / 2, -emojiPaintHeight / 2, emojiPaintWidth, emojiPaintHeight);
+      _this.ctx.translate(x * DEVICE_PIXEL_RATIO, y * DEVICE_PIXEL_RATIO);
+      _this.ctx.rotate(rotation);
+      _this.ctx.drawImage(emojiImage.img, -emojiPaintWidth / 2, -emojiPaintHeight / 2, emojiPaintWidth, emojiPaintHeight);
 
-    this.ctx.restore();
+      _this.ctx.restore();
+    });
   }, proto.onTouchStart = function (e) {
     // prevent mousedown from firing
     e.preventDefault();
@@ -225,16 +256,16 @@
   };
 
   proto.addFooter = function () {
-    var bannerWidth = Math.min(600, window.innerWidth) * window.devicePixelRatio;
-    var bannerHeight = 45 * window.devicePixelRatio;
-    var bannerX = window.innerWidth / 2 * window.devicePixelRatio - bannerWidth / 2;
-    var bannerY = window.innerHeight * window.devicePixelRatio - bannerHeight;
+    var bannerWidth = Math.min(600, window.innerWidth) * DEVICE_PIXEL_RATIO;
+    var bannerHeight = 45 * DEVICE_PIXEL_RATIO;
+    var bannerX = window.innerWidth / 2 * DEVICE_PIXEL_RATIO - bannerWidth / 2;
+    var bannerY = window.innerHeight * DEVICE_PIXEL_RATIO - bannerHeight;
 
     this.ctx.fillStyle = '#111';
     this.ctx.fillRect(bannerX, bannerY, bannerWidth, bannerHeight);
-    this.ctx.font = 25 * window.devicePixelRatio + 'px Arial';
+    this.ctx.font = 25 * DEVICE_PIXEL_RATIO + 'px Arial';
     this.ctx.fillStyle = 'white';
-    this.ctx.fillText('🎨  moji-brush.com', bannerX + bannerWidth / 2 - 105 * window.devicePixelRatio, bannerY + bannerHeight / 2 + 5 * window.devicePixelRatio);
+    this.ctx.fillText('🎨  moj-brush.co', bannerX + bannerWidth / 2 - 105 * DEVICE_PIXEL_RATIO, bannerY + bannerHeight / 2 + 5 * DEVICE_PIXEL_RATIO);
   };
 
   proto.download = function () {

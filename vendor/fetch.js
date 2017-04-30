@@ -188,8 +188,8 @@
         // Only support ArrayBuffers for POST method.
         // Receiving ArrayBuffers happens via Blobs, instead.
       } else {
-        throw new Error('unsupported BodyInit type');
-      }
+          throw new Error('unsupported BodyInit type');
+        }
 
       if (!this.headers.get('content-type')) {
         if (typeof body === 'string') {
