@@ -274,7 +274,7 @@
     this.ctx.font = `${25 * DEVICE_PIXEL_RATIO}px Arial`;
     this.ctx.fillStyle = 'white';
     this.ctx.fillText(
-        '🎨  moj-brush.co', bannerX + bannerWidth / 2 - 105 * DEVICE_PIXEL_RATIO,
+        '🎨  mojibrush.co', bannerX + bannerWidth / 2 - 105 * DEVICE_PIXEL_RATIO,
         bannerY + bannerHeight / 2 + 5 * DEVICE_PIXEL_RATIO);
   };
 
