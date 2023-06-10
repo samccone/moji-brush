@@ -31,11 +31,6 @@ gulp.task('html', function () {
   .pipe(gulp.dest('dist'));
 });
 
-gulp.task('vendor', function () {
-  return gulp.src('src/vendor/**')
-  .pipe(gulp.dest('dist/vendor'));
-});
-
 gulp.task('assets', function () {
   return gulp.src(['src/*.json', 'src/sw.js'])
   .pipe(gulp.dest('dist/'));
@@ -53,7 +48,6 @@ gulp.task('default', [
   'css',
   'images',
   'html',
-  'vendor',
   'assets',
   'github'], function() {
     console.log('Build Done');
