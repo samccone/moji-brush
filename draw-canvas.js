@@ -259,26 +259,7 @@ class DrawCanvas extends HTMLElement {
     }
   };
 
-  addFooter() {
-    const bannerWidth = Math.min(600, window.innerWidth) * DEVICE_PIXEL_RATIO;
-    const bannerHeight = 45 * DEVICE_PIXEL_RATIO;
-    const bannerX =
-      window.innerWidth / 2 * DEVICE_PIXEL_RATIO - bannerWidth / 2;
-    const bannerY = window.innerHeight * DEVICE_PIXEL_RATIO - bannerHeight;
-
-    this.ctx.fillStyle = '#111';
-    this.ctx.fillRect(bannerX, bannerY, bannerWidth, bannerHeight);
-    this.ctx.font = `${25 * DEVICE_PIXEL_RATIO}px Arial`;
-    this.ctx.fillStyle = 'white';
-    this.ctx.fillText(
-      '🎨  mojibrush.co', bannerX + bannerWidth / 2 - 105 * DEVICE_PIXEL_RATIO,
-      bannerY + bannerHeight / 2 + 5 * DEVICE_PIXEL_RATIO);
-  };
-
   download() {
-    // Add the footer credit.
-    this.addFooter();
-
     const anchor = document.createElement('a');
     const dataURI = this.querySelector('canvas').toDataURL();
 
