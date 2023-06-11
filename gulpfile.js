@@ -1,5 +1,4 @@
 var gulp = require('gulp');
-var babel = require('gulp-babel');
 var postcss = require('gulp-postcss');
 var cssnano = require('cssnano');
 var autoprefixer = require('autoprefixer');
@@ -7,7 +6,6 @@ var replace = require('gulp-replace');
 
 gulp.task('babelify', function () {
   return gulp.src(['src/**/*.js', '!src/sw.js'])
-  .pipe(babel())
   .pipe(gulp.dest('dist'));
 });
 
