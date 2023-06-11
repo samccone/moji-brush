@@ -4,8 +4,6 @@
   "description": "Paint with emoji progressive web app",
   "main": "gulpfile.js",
   "dependencies": {
-    "webcomponents.js": "^0.7.22",
-    "whatwg-fetch": "github:github/fetch"
   },
   "devDependencies": {
     "babel-preset-es2015": "^6.9.0",
