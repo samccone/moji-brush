@@ -1,29 +1,27 @@
-'use strict';
-
-(function () {
+(function() {
   'use strict';
 
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js').then(function (_) {
-      console.log('service worker is all cool 🐳');
-    }).catch(function (e) {
-      console.error('service worker is not so cool 🔥', e);
-      throw e;
-    });
+    navigator.serviceWorker.register('sw.js')
+        .then(_ => { console.log('service worker is all cool 🐳'); })
+        .catch(e => {
+          console.error('service worker is not so cool 🔥', e);
+          throw e;
+        });
 
     if (navigator.serviceWorker.controller) {
       // Correctly prompt the user to reload during SW phase change.
-      navigator.serviceWorker.controller.onstatechange = function (e) {
+      navigator.serviceWorker.controller.onstatechange = e => {
         if (e.target.state === 'redundant') {
           document.querySelector('#reload-prompt').style.visibility = 'visible';
         }
-      };
+      }
     }
   }
 
   function platformDetect() {
-    var agent = navigator.userAgent.toLowerCase();
-    var isAndroid = agent.indexOf("android") > -1;
+    let agent = navigator.userAgent.toLowerCase();
+    let isAndroid = agent.indexOf("android") > -1;
     if (isAndroid) {
       return 'google';
     }
@@ -31,96 +29,98 @@
   }
 
   window.app = {
-    baseImgPath: './images/emoji',
-    brush: {
-      platform: platformDetect(),
-      color: 'green-dark',
-      name: emojiMap[platformDetect()]['green-dark'][0]
+    baseImgPath : './images/emoji',
+    brush : {
+      platform : platformDetect(),
+      color : 'green-dark',
+      name : emojiMap[platformDetect()]['green-dark'][0]
     },
-    brushSize: {
-      min: 5,
-      max: 200
+    brushSize : {
+      min : 5,
+      max : 200,
     },
-    brushRotation: 0,
-    getBrushSizePercent: function getBrushSizePercent() {
-      var val = arguments.length <= 0 || arguments[0] === undefined ? window.app.brushSize.val : arguments[0];
-
-      return val / (this.brushSize.max - this.brushSize.min);
+    brushRotation : 0,
+    getBrushSizePercent : function(val = window.app.brushSize.val) {
+      return (val / (this.brushSize.max - this.brushSize.min));
     },
-    undos: [],
-    redos: []
+    undos : [],
+    redos : [],
   };
 
   // Init the starting brush val to be 50%.
-  window.app.brushSize.val = (window.app.brushSize.max - window.app.brushSize.min) / 2;
+  window.app.brushSize.val =
+      (window.app.brushSize.max - window.app.brushSize.min) / 2
 
-  var drawCanvas = document.querySelector('draw-canvas');
-  var brushPreview = document.querySelector('brush-preview');
-  var brushPicker = document.querySelector('brush-picker-pane');
-  var sizePicker = document.querySelector('size-picker');
+  const drawCanvas = document.querySelector('draw-canvas');
+  const brushPreview = document.querySelector('brush-preview');
+  const brushPicker = document.querySelector('brush-picker-pane');
+  const sizePicker = document.querySelector('size-picker');
 
-  var brushChangeTimeoutId = void 0;
+  let brushChangeTimeoutId;
 
   document.body.addEventListener('menu-action', handlePageAction);
   document.body.addEventListener('brush-change', handleBrushChange);
 
   function handlePageAction(e) {
     switch (e.detail) {
-      case 'apple-emoji':
-        changePlatform('apple');
-        break;
-      case 'google-emoji':
-        changePlatform('google');
-        break;
-      case 'dashboard-menu':
-        onFooterMenuClick('dashboard-open', 0);
-        break;
-      case 'brush-pick':
-        onFooterMenuClick('brush-picker-open', 2);
-        showBrushPreviewIfMenuOpen();
-        break;
-      case 'size':
-        onFooterMenuClick('size-picker-open', 1);
-        showBrushPreviewIfMenuOpen();
-        break;
-      case 'save':
-        drawCanvas.download();
-        closeAllMenus();
-        break;
-      case 'reset':
-        if (!window.confirm('All progress will be lost, are you sure?')) {
-          return;
-        }
+    case 'apple-emoji':
+      changePlatform('apple');
+      break;
+    case 'google-emoji':
+      changePlatform('google');
+      break;
+    case 'dashboard-menu':
+      onFooterMenuClick('dashboard-open', 0);
+      break;
+    case 'brush-pick':
+      onFooterMenuClick('brush-picker-open', 2);
+      showBrushPreviewIfMenuOpen();
+      break;
+    case 'size':
+      onFooterMenuClick('size-picker-open', 1);
+      showBrushPreviewIfMenuOpen();
+      break;
+    case 'save':
+      drawCanvas.download();
+      closeAllMenus();
+      break;
+    case 'reset':
+      if (!window.confirm('All progress will be lost, are you sure?')) {
+        return;
+      }
 
-        window.app.undos = [];
-        window.app.redos = [];
-        drawCanvas.clearCanvas();
-        closeAllMenus();
-        break;
-      case 'overlay-close':
-        closeAllMenus();
-        break;
-      case 'undo':
-        drawCanvas.undo();
-        break;
-      case 'redo':
-        drawCanvas.redo();
-        break;
-      default:
-        console.warn('unhanded detail, ' + e.detail);
+      window.app.undos = [];
+      window.app.redos = [];
+      drawCanvas.clearCanvas();
+      closeAllMenus();
+      break;
+    case 'overlay-close':
+      closeAllMenus();
+      break;
+    case 'undo':
+      drawCanvas.undo();
+      break;
+    case 'redo':
+      drawCanvas.redo();
+      break;
+    default:
+      console.warn(`unhanded detail, ${e.detail}`);
     }
   };
 
   function changePlatform(platform) {
     window.app.brush.platform = platform;
-    document.getElementById('apple').classList.toggle('active', platform == 'apple');
-    document.getElementById('google').classList.toggle('active', platform == 'google');
+    document.getElementById('apple').classList.toggle('active',
+                                                      platform == 'apple');
+    document.getElementById('google').classList.toggle('active',
+                                                       platform == 'google');
     window.app.brush.name = emojiMap[platform][window.app.brush.color][0];
     brushPicker.renderColorGrid();
   }
 
   function getBrushSrcPath() {
-    return window.app.baseImgPath + '/' + window.app.brush.platform + '/' + window.app.brush.color + '/' + window.app.brush.name;
+    return window.app.baseImgPath + '/' + window.app.brush.platform + '/' +
+           window.app.brush.color + '/' + window.app.brush.name;
   }
 
   function handleBrushChange(e) {
@@ -139,28 +139,31 @@
     }
 
     if (!e.detail.fromMultiTouch) {
-      brushPreview.updatePreviewState(window.app.getBrushSizePercent(), window.app.brushRotation, getBrushSrcPath());
+      brushPreview.updatePreviewState(window.app.getBrushSizePercent(),
+                                      window.app.brushRotation,
+                                      getBrushSrcPath());
     }
   }
 
   function closeAllMenus() {
-    ['brush-picker-open', 'size-picker-open', 'dashboard-open', 'menu-open'].forEach(function (v) {
-      document.body.classList.remove(v);
-    });
+    ['brush-picker-open', 'size-picker-open', 'dashboard-open', 'menu-open', ]
+        .forEach(v => { document.body.classList.remove(v); });
 
     brushPreview.hide();
   }
 
   function showBrushPreviewIfMenuOpen() {
     if (document.body.classList.contains('menu-open')) {
-      brushPreview.updatePreviewState(window.app.getBrushSizePercent(), window.app.brushRotation, getBrushSrcPath());
+      brushPreview.updatePreviewState(window.app.getBrushSizePercent(),
+                                      window.app.brushRotation,
+                                      getBrushSrcPath());
       brushPreview.show();
     }
   }
 
   function onFooterMenuClick(klass, index) {
-    var paneAlreadyOpen = document.body.classList.contains(klass);
-    var x = index * -100;
+    let paneAlreadyOpen = document.body.classList.contains(klass);
+    let x = index * -100;
     if (document.body.classList.contains('menu-open')) {
       closeAllMenus();
     }
@@ -168,7 +171,8 @@
     if (!paneAlreadyOpen) {
       document.body.classList.add('menu-open');
       document.body.classList.add(klass);
-      document.getElementById('pane-slider').style.transform = 'translateX(' + x + '%)';
+      document.getElementById('pane-slider').style.transform =
+          `translateX(${x}%)`;
     }
   }
 })();

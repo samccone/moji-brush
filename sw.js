@@ -1,4 +1,4 @@
-var VERSION = '0.0.24';
+var VERSION = '0.0.25';
 
 // generated via
 // https://gist.github.com/samccone/f9ab817944a7b69d2b8716e37d887ce9
@@ -117,8 +117,6 @@ var emojiList =
               '/background-overlay.js',
               '/welcome.json',
               '/manifest.json',
-              '/vendor/fetch.js',
-              '/vendor/webcomponents-lite.min.js',
             ].concat(...emojiList))
             .then(_ => this.skipWaiting());
       }))
