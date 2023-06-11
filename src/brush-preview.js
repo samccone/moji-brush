@@ -1,21 +1,23 @@
-(function() {
-  'use strict';
+const TOUCH_ANGLE_MULTIPLIER = 1.7;
 
-  const TOUCH_ANGLE_MULTIPLIER = 1.7;
+class BrushPreview extends HTMLElement {
 
-  var prototype = Object.create(HTMLElement.prototype);
+  constructor() {
+    super();
+    this.prevTouches = [];
+  }
 
-  prototype.template = () => {
+  template() {
     return `<div id="preview">
               <img id="preview-content"></img>
             </div>`
   };
 
-  prototype.render = function() {
+  render() {
     this.innerHTML = this.template();
   };
 
-  prototype.attachedCallback = function() {
+  connectedCallback() {
     this.render();
     this._currentRotation = 0;
     const preview = this.querySelector('#preview');
@@ -24,15 +26,15 @@
     preview.addEventListener('touchend', this.onTouchEnd.bind(this));
   };
 
-  prototype._updateBrushGeometry = function(percent, rad) {
+  _updateBrushGeometry(percent, rad) {
     this.querySelector('#preview-content').style.transform =
-        `scale(${percent}) rotate(${rad}rad)`;
+      `scale(${percent}) rotate(${rad}rad)`;
   };
 
-  prototype.updateValue = function(percent, rad) {
+  updateValue(percent, rad) {
     let newSize =
-        (window.app.brushSize.max - window.app.brushSize.min) * percent +
-        window.app.brushSize.min;
+      (window.app.brushSize.max - window.app.brushSize.min) * percent +
+      window.app.brushSize.min;
 
     this.dispatchEvent(new CustomEvent('brush-change', {
       bubbles: true,
@@ -44,19 +46,19 @@
     }));
   };
 
-  prototype._updateBrushImage = function(imgPath) {
+  _updateBrushImage(imgPath) {
     this.querySelector('#preview-content').src = imgPath;
   };
 
-  prototype.updatePreviewState = function(
-      size, rad = 0, imgPath = this._imgPath) {
+  updatePreviewState(
+    size, rad = 0, imgPath = this._imgPath) {
     this._size = size;
     this._rad = rad;
     this._imgPath = imgPath;
     this.throttledRender();
   };
 
-  prototype.throttledRender = function() {
+  throttledRender() {
     if (this._throttleId !== undefined) {
       return;
     }
@@ -70,19 +72,17 @@
 
   };
 
-  prototype.show = function() {
+  show() {
     this.classList.add('visible');
     this.style.visibility = 'visible';
   };
 
-  prototype.hide = function() {
+  hide() {
     this.classList.remove('visible');
     this.style.visibility = 'hidden'
   };
 
-  prototype.prevTouches = [];
-
-  prototype.onTouchStart = function(e) {
+  onTouchStart(e) {
     if (e.touches.length === 2) {
       this.gesture = true;
       let dX = e.touches[1].clientX - e.touches[0].clientX;
@@ -92,7 +92,7 @@
     }
   };
 
-  prototype.onTouch = function(e) {
+  onTouch(e) {
     e.preventDefault();
     // if it's a two-element (finger) event
     if (this.gesture && e.touches.length === 2) {
@@ -107,12 +107,10 @@
     }
   };
 
-  prototype.onTouchEnd = function(e) {
+  onTouchEnd(e) {
     this.gesture = false;
     this._currentRotation = this._rad;
   };
+}
 
-  document.registerElement('brush-preview', {
-    prototype,
-  });
-})();
+customElements.define('brush-preview', BrushPreview);

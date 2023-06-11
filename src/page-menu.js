@@ -1,9 +1,5 @@
-(function() {
-  'use strict';
-
-  var proto = Object.create(HTMLElement.prototype);
-
-  proto.template = _ => {
+class PageMenu extends HTMLElement {
+  template() {
     return `
       <ul>
       <div>
@@ -32,9 +28,9 @@
 
       </ul>
       `;
-  };
+  }
 
-  proto.attachedCallback = function() {
+  connectedCallback() {
     let eventName = 'ontouchstart' in window ? 'touchstart' : 'click';
     this.innerHTML = this.template();
 
@@ -45,9 +41,9 @@
     }
 
     this.addEventListener(eventName, this.onMenuClick);
-  };
+  }
 
-  proto.onMenuClick = function(e) {
+  onMenuClick(e) {
     var node = e.target;
 
     while (node !== undefined && node.tagName !== 'PAGE-MENU') {
@@ -60,9 +56,7 @@
 
       node = node.parentNode;
     }
-  };
+  }
+}
 
-  document.registerElement('page-menu', {
-    prototype : proto,
-  });
-})();
+customElements.define('page-menu', PageMenu);

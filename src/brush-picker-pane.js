@@ -1,9 +1,6 @@
-(function() {
-  'use strict';
 
-  var proto = Object.create(HTMLElement.prototype);
-
-  proto.choices = {
+class BrushPickerPane extends HTMLElement {
+  choices = {
     "#F5F5F5" : "white",
     "#ffff02" : "yellow",
     "#ff6600" : "orange",
@@ -20,22 +17,22 @@
     "#888888" : "grey-medium",
     "#444444" : "grey-dark",
     "#000000" : "black",
-  };
+  }
 
-  proto.template = _ => {
+  template() {
     return `
       <div class='brush-picker'>
         <div class='pane-content'>
         </div>
       </div>
     `;
-  };
+  }
 
-  proto.setEvents = function() {
+  setEvents() {
     this.addEventListener('click', this.onClick.bind(this));
-  };
+  }
 
-  proto.onClick = function(e) {
+  onClick(e) {
     let node = e.target;
 
     while (node.tagName !== 'BRUSH-PICKER-PANE') {
@@ -46,20 +43,17 @@
 
       node = node.parentNode;
     }
-  };
+  }
 
-  proto
-      .onColorClick =
-      function(e) {
+  onColorClick(e) {
     // have to change from layerX to clientX or pageX or offsetX in the panel
     // slide layout
     // MDN suggests caution w/ layerX:
     // https://developer.mozilla.org/en-US/docs/Web/API/UIEvent/layerX
     this.getColorByXY(e.offsetX, e.offsetY);
-  },
+  }
 
- proto.getColorByXY =
-      function(x, y) {
+ getColorByXY(x, y) {
    let colorPicker = this.querySelector('.color-picker');
    let columns = 4;
    let rows = 4;
@@ -81,25 +75,25 @@
        brushRotation : 0,
      }
    }));
- },
+ }
 
- proto.attachedCallback = function() {
+ connectedCallback() {
    this.innerHTML = this.template();
    this.renderColorGrid();
    this.setEvents();
- };
+ }
 
   // credit to http://jsfiddle.net/subodhghulaxe/t568u/
-  proto.hex2Rgba = function(hex, opacity) {
+  hex2Rgba(hex, opacity) {
     hex = hex.replace('#', '');
     let r = parseInt(hex.substring(0, 2), 16);
     let g = parseInt(hex.substring(2, 4), 16);
     let b = parseInt(hex.substring(4, 6), 16);
     let result = `rgba(${r},${g},${b},${opacity})`;
     return result;
-  };
+  }
 
-  proto.renderColorGrid = function() {
+  renderColorGrid() {
     let canvas = document.createElement('canvas');
     canvas.classList.add('color-picker');
     let paneContent = this.querySelector('.pane-content');
@@ -141,13 +135,6 @@
           window.app.baseImgPath + '/' + platform + '/' + color + '/';
       emojiImage.src = brushPath + name;
 
-      const emojiPaintWidth = emojiImage.width *
-                              window.app.getBrushSizePercent(width) *
-                              window.devicePixelRatio;
-      const emojiPaintHeight = emojiImage.height *
-                               window.app.getBrushSizePercent(height) *
-                               window.devicePixelRatio;
-
       emojiImage.onload = function() {
         ctx.drawImage(emojiImage, x + (width / 2 - (height - padding) / 2),
                       y + padding / 2, height - padding, height - padding);
@@ -155,8 +142,6 @@
 
     });
   };
+}
 
-  document.registerElement('brush-picker-pane', {
-    prototype : proto,
-  });
-})();
+customElements.define('brush-picker-pane', BrushPickerPane);

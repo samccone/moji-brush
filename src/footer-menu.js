@@ -1,9 +1,6 @@
-(function() {
-  'use strict';
 
-  var proto = Object.create(HTMLElement.prototype);
-
-  proto.template = _ => {
+class FooterMenu extends HTMLElement {
+  template() {
     return `<ul class="menu-items">
         <li class="dashboard" action="dashboard-menu">
           <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" fill="#e6e6e6"><g id="menu"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></g>
@@ -27,16 +24,16 @@
           <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" fill="#e6e6e6"><g><path d="M18.4 10.6C16.55 8.99 14.15 8 11.5 8c-4.65 0-8.58 3.03-9.96 7.22L3.9 16c1.05-3.19 4.05-5.5 7.6-5.5 1.95 0 3.73.72 5.12 1.88L13 16h9V7l-3.6 3.6z"></path></g></svg>
         </li>
       </ul>`;
-  };
+  }
 
-  proto.attachedCallback = function() {
+  connectedCallback() {
     let eventName = 'ontouchstart' in window ? 'touchstart' : 'click';
     this.innerHTML = this.template();
 
     this.addEventListener(eventName, this.onMenuClick);
   };
 
-  proto.onMenuClick = function(e) {
+  onMenuClick(e) {
     e.preventDefault();
     var node = e.target;
 
@@ -50,9 +47,7 @@
 
       node = node.parentNode;
     }
-  };
+  }
+}
 
-  document.registerElement('footer-menu', {
-    prototype : proto,
-  });
-})();
+customElements.define('footer-menu', FooterMenu);

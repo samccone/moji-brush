@@ -1,9 +1,5 @@
-(function() {
-  'use strict';
-
-  var proto = Object.create(HTMLElement.prototype);
-
-  proto.template = function() {
+class SizePicker extends HTMLElement {
+  template() {
     return `
        <div class="range-holder">
         <div class="horizontal-range">
@@ -13,16 +9,14 @@
     `;
   };
 
-  proto.render = function() { this.innerHTML = this.template(); };
+  render() { this.innerHTML = this.template(); };
 
-  proto._setThumbPosition =
-      function(x) {
+  _setThumbPosition(x) {
     // Recenter the slider knob.
     this.querySelector('.thumb').style.transform = `translateX(${x - 15}px)`;
   }
 
-      proto.setThumbFromPreview =
-          function(size) {
+  setThumbFromPreview(size) {
     // update the slider knob when emoji is scaled with pinch/unpinch
     let percent = (size - window.app.brushSize.min) /
                   (window.app.brushSize.max - window.app.brushSize.min);
@@ -32,7 +26,7 @@
     this._setThumbPosition(sliderX);
   }
 
-          proto.onTap = function(e) {
+  onTap(e) {
     // have to change from layerX to clientX or pageX or offsetX in the panel
     // slide layout
     // MDN suggests caution w/ layerX:
@@ -46,9 +40,9 @@
 
     // Finally set the value by passing a value between 0 and 1.
     this.updateValue(touchX / this.innerWidth);
-  };
+  }
 
-  proto.updateValue = function(percent) {
+  updateValue(percent) {
     // Clamp btw 1 and 0.1
     percent = Math.min(1, Math.max(0.1, percent));
 
@@ -64,7 +58,7 @@
     }));
   };
 
-  proto.attachedCallback = function() {
+  connectedCallback() {
     this.render();
 
     // Cache the range width so we do not need to requery the val.
@@ -81,9 +75,7 @@
 
     this.addEventListener(eventName, this.onTap.bind(this));
     this.addEventListener('touchmove', this.onTap.bind(this));
-  };
+  }
+}
 
-  document.registerElement('size-picker', {
-    prototype : proto,
-  });
-})();
+customElements.define('size-picker', SizePicker);

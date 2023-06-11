@@ -1,29 +1,27 @@
-(function() {
-  'use strict';
 
-  const DEVICE_PIXEL_RATIO = window.devicePixelRatio;
+const DEVICE_PIXEL_RATIO = window.devicePixelRatio;
 
-  let proto = Object.create(HTMLElement.prototype);
-  const _IMAGE_CACHE = new Map();
+const _IMAGE_CACHE = new Map();
 
-  function getImage(path) {
-    if (_IMAGE_CACHE.has(path)) {
-      return Promise.resolve(_IMAGE_CACHE.get(path));
-    }
-
-    return new Promise((res, rej) => {
-      const img = new Image();
-      img.src = path;
-
-      img.onload = function() {
-        _IMAGE_CACHE.set(path, {img, width: img.width, height: img.height});
-
-        res(_IMAGE_CACHE.get(path));
-      }
-    });
+function getImage(path) {
+  if (_IMAGE_CACHE.has(path)) {
+    return Promise.resolve(_IMAGE_CACHE.get(path));
   }
 
-  proto.loadWelcome = function() {
+  return new Promise((res, rej) => {
+    const img = new Image();
+    img.src = path;
+
+    img.onload = function () {
+      _IMAGE_CACHE.set(path, { img, width: img.width, height: img.height });
+
+      res(_IMAGE_CACHE.get(path));
+    }
+  });
+}
+
+class DrawCanvas extends HTMLElement {
+  loadWelcome() {
     // (this is a rough, but working, implementation)
     let dc = this;
 
@@ -35,68 +33,68 @@
     localStorage.setItem('moji-intro-played', true);
 
     fetch('welcome.json')
-        .then(function(response) {
-          return response.json();
-        })
-        .then(function(welcome) {
-          // get dimensions so we can center it
-          let maxX = 0;
-          let maxY = 0;
-          let minX = 10000;
-          let minY = 10000;
-          for (let i = 0; i < welcome.length; i++) {
-            for (let j = 0; j < welcome[i].xy.length; j++) {
-              if (welcome[i].xy[j][0] > maxX) {
-                maxX = welcome[i].xy[j][0];
-              }
-              if (welcome[i].xy[j][0] < minX) {
-                minX = welcome[i].xy[j][0];
-              }
-              if (welcome[i].xy[j][1] > maxY) {
-                maxY = welcome[i].xy[j][1];
-              }
-              if (welcome[i].xy[j][1] < minY) {
-                minY = welcome[i].xy[j][1];
-              }
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (welcome) {
+        // get dimensions so we can center it
+        let maxX = 0;
+        let maxY = 0;
+        let minX = 10000;
+        let minY = 10000;
+        for (let i = 0; i < welcome.length; i++) {
+          for (let j = 0; j < welcome[i].xy.length; j++) {
+            if (welcome[i].xy[j][0] > maxX) {
+              maxX = welcome[i].xy[j][0];
+            }
+            if (welcome[i].xy[j][0] < minX) {
+              minX = welcome[i].xy[j][0];
+            }
+            if (welcome[i].xy[j][1] > maxY) {
+              maxY = welcome[i].xy[j][1];
+            }
+            if (welcome[i].xy[j][1] < minY) {
+              minY = welcome[i].xy[j][1];
             }
           }
-          let leftStartPoint = (window.innerWidth - maxX - minX) / 2;
-          let topStartPoint = (window.innerHeight - maxY - minY - 60) / 2;
-          // animate the welcome
-          for (let i = 0; i < welcome.length; i++) {
-            (function animateStroke(j) {
-              setTimeout(function() {
-                dc.paintAtPoint(
-                    // add left and top start points to center the message
-                    welcome[i].xy[j][0] + leftStartPoint,
-                    welcome[i].xy[j][1] + topStartPoint, welcome[i].size,
-                    // TODO: randomize the brush
-                    {
-                      platform: window.app.brush.platform,
-                      color: 'white',
-                      name: '1f410.png'
-                    });
-                if (j < welcome[i].xy.length - 1) {
-                  j++;
-                  animateStroke(j);
-                }
-              }, 16.67);
-            })(0);
-          }
-        });
+        }
+        let leftStartPoint = (window.innerWidth - maxX - minX) / 2;
+        let topStartPoint = (window.innerHeight - maxY - minY - 60) / 2;
+        // animate the welcome
+        for (let i = 0; i < welcome.length; i++) {
+          (function animateStroke(j) {
+            setTimeout(function () {
+              dc.paintAtPoint(
+                // add left and top start points to center the message
+                welcome[i].xy[j][0] + leftStartPoint,
+                welcome[i].xy[j][1] + topStartPoint, welcome[i].size,
+                // TODO: randomize the brush
+                {
+                  platform: window.app.brush.platform,
+                  color: 'white',
+                  name: '1f410.png'
+                });
+              if (j < welcome[i].xy.length - 1) {
+                j++;
+                animateStroke(j);
+              }
+            }, 16.67);
+          })(0);
+        }
+      });
     // clear the welcome message
-    setTimeout(function() {
+    setTimeout(function () {
       dc.clearCanvas();
     }, 5000);
   };
 
-  proto.createdCallback = function() {
+  connectedCallback() {
     const canvas = document.createElement('canvas');
 
     canvas.setAttribute(
-        'width', (window.innerWidth * DEVICE_PIXEL_RATIO) + 'px');
+      'width', (window.innerWidth * DEVICE_PIXEL_RATIO) + 'px');
     canvas.setAttribute(
-        'height', (window.innerHeight * DEVICE_PIXEL_RATIO) + 'px');
+      'height', (window.innerHeight * DEVICE_PIXEL_RATIO) + 'px');
 
     canvas.style.width = window.innerWidth + 'px';
     canvas.style.height = window.innerHeight + 'px';
@@ -129,7 +127,7 @@
   //
   //   },
   // ]
-  proto.newBrush = function() {
+  newBrush() {
     window.app.undos.push({
       'brush': {
         platform: window.app.brush.platform,
@@ -142,7 +140,7 @@
     });
   };
 
-  proto.onMouseDown = function(e) {
+  onMouseDown(e) {
     window.app.mouseDown = true;
     // paint stroke happening, so establish a new object to capture it
     this.newBrush();
@@ -151,36 +149,35 @@
     this.recordHistory(touch.clientX, touch.clientY);
   };
 
-  proto.onMouseUp = function() {
+  onMouseUp() {
     window.app.mouseDown = false;
   };
 
-  proto.onMouseMove = function(e) {
+  onMouseMove(e) {
     if (app.mouseDown === true) {
       this.paintAtPoint(e.clientX, e.clientY);
       this.recordHistory(e.clientX, e.clientY);
     }
   };
 
-  proto.clearCanvas = function() {
+  clearCanvas() {
     this.ctx.fillStyle = '#fff';
     this.ctx.fillRect(
-        0, 0, (window.innerWidth * DEVICE_PIXEL_RATIO),
-        (window.innerHeight * DEVICE_PIXEL_RATIO));
+      0, 0, (window.innerWidth * DEVICE_PIXEL_RATIO),
+      (window.innerHeight * DEVICE_PIXEL_RATIO));
     this.updateUndoRedoButtonState();
   };
 
-  proto.paintAtPoint =
-      function(
-          x, y, size = window.app.brushSize.val,
-          rotation = window.app.brushRotation, brush = {
-            platform: window.app.brush.platform,
-            color: window.app.brush.color,
-            name: window.app.brush.name
-          }) {
+  paintAtPoint(
+    x, y, size = window.app.brushSize.val,
+    rotation = window.app.brushRotation, brush = {
+      platform: window.app.brush.platform,
+      color: window.app.brush.color,
+      name: window.app.brush.name
+    }) {
 
     let brushPath =
-        window.app.baseImgPath + '/' + brush.platform + '/' + brush.color + '/';
+      window.app.baseImgPath + '/' + brush.platform + '/' + brush.color + '/';
     getImage(brushPath + brush.name).then(emojiImage => {
       /*
        * Get the image emoji height and width then convert them to the brush
@@ -193,9 +190,9 @@
        * would be displayed on screen as (200 * .5 * 2) which would be 200px :).
        */
       const emojiPaintWidth = emojiImage.width *
-          window.app.getBrushSizePercent(size) * DEVICE_PIXEL_RATIO;
+        window.app.getBrushSizePercent(size) * DEVICE_PIXEL_RATIO;
       const emojiPaintHeight = emojiImage.height *
-          window.app.getBrushSizePercent(size) * DEVICE_PIXEL_RATIO;
+        window.app.getBrushSizePercent(size) * DEVICE_PIXEL_RATIO;
 
       // save the current coordinate system
       this.ctx.save();
@@ -203,14 +200,14 @@
       this.ctx.translate(x * DEVICE_PIXEL_RATIO, y * DEVICE_PIXEL_RATIO);
       this.ctx.rotate(rotation);
       this.ctx.drawImage(
-          emojiImage.img, -emojiPaintWidth / 2, -emojiPaintHeight / 2,
-          emojiPaintWidth, emojiPaintHeight);
+        emojiImage.img, -emojiPaintWidth / 2, -emojiPaintHeight / 2,
+        emojiPaintWidth, emojiPaintHeight);
 
       this.ctx.restore();
     });
-  },
+  }
 
-  proto.onTouchStart = function(e) {
+  onTouchStart(e) {
     // prevent mousedown from firing
     e.preventDefault();
     const canvas = document.querySelector('canvas');
@@ -223,11 +220,11 @@
     this.recordHistory(touch.clientX, touch.clientY);
   };
 
-  proto.onTouchEnd = function() {
+  onTouchEnd() {
     window.app.touchStart = false;
   };
 
-  proto.onTouch = function(e) {
+  onTouch(e) {
     if (app.touchStart === true) {
       for (let i = 0; i < e.touches.length; ++i) {
         let touch = e.touches[i];
@@ -240,7 +237,7 @@
 
   };
 
-  proto.recordHistory = function(x, y) {
+  recordHistory(x, y) {
     // record the paint stroke into the newest array
     window.app.undos[window.app.undos.length - 1].xy.push([x, y]);
     // clear the redo history
@@ -248,25 +245,25 @@
     this.updateUndoRedoButtonState();
   };
 
-  proto.repaintHistory = function() {
+  repaintHistory() {
     // iterate through all paint stroke history
     for (let i = 0; i < window.app.undos.length; i++) {
       // iterate within individual paint strokes
       for (let j = 0; j < window.app.undos[i].xy.length; j++) {
         // repaint beautiful dabs of emoji
         this.paintAtPoint(
-            window.app.undos[i].xy[j][0], window.app.undos[i].xy[j][1],
-            window.app.undos[i].size, window.app.undos[i].rotation,
-            window.app.undos[i].brush);
+          window.app.undos[i].xy[j][0], window.app.undos[i].xy[j][1],
+          window.app.undos[i].size, window.app.undos[i].rotation,
+          window.app.undos[i].brush);
       }
     }
   };
 
-  proto.addFooter = function() {
+  addFooter() {
     const bannerWidth = Math.min(600, window.innerWidth) * DEVICE_PIXEL_RATIO;
     const bannerHeight = 45 * DEVICE_PIXEL_RATIO;
     const bannerX =
-        window.innerWidth / 2 * DEVICE_PIXEL_RATIO - bannerWidth / 2;
+      window.innerWidth / 2 * DEVICE_PIXEL_RATIO - bannerWidth / 2;
     const bannerY = window.innerHeight * DEVICE_PIXEL_RATIO - bannerHeight;
 
     this.ctx.fillStyle = '#111';
@@ -274,11 +271,11 @@
     this.ctx.font = `${25 * DEVICE_PIXEL_RATIO}px Arial`;
     this.ctx.fillStyle = 'white';
     this.ctx.fillText(
-        '🎨  mojibrush.co', bannerX + bannerWidth / 2 - 105 * DEVICE_PIXEL_RATIO,
-        bannerY + bannerHeight / 2 + 5 * DEVICE_PIXEL_RATIO);
+      '🎨  mojibrush.co', bannerX + bannerWidth / 2 - 105 * DEVICE_PIXEL_RATIO,
+      bannerY + bannerHeight / 2 + 5 * DEVICE_PIXEL_RATIO);
   };
 
-  proto.download = function() {
+  download() {
     // Add the footer credit.
     this.addFooter();
 
@@ -295,7 +292,7 @@
     anchor.click();
   };
 
-  proto.redo = function() {
+  redo() {
     if (window.app.redos.length) {
       // move the last undone paint stroke back to the undo array
       window.app.undos.push(window.app.redos.pop());
@@ -305,7 +302,7 @@
     this.updateUndoRedoButtonState();
   };
 
-  proto.undo = function() {
+  undo() {
     if (window.app.undos.length) {
       // move the last paint stroke to the redo array
       window.app.redos.push(window.app.undos.pop());
@@ -315,15 +312,13 @@
     this.updateUndoRedoButtonState();
   };
 
-  proto.updateUndoRedoButtonState = function() {
+  updateUndoRedoButtonState() {
     document.querySelector('.undo').classList.toggle(
-        'disabled', !window.app.undos.length);
+      'disabled', !window.app.undos.length);
 
     document.querySelector('.redo').classList.toggle(
-        'disabled', !window.app.redos.length);
-  };
+      'disabled', !window.app.redos.length);
+  }
+}
 
-  document.registerElement('draw-canvas', {
-    prototype: proto,
-  });
-})();
+customElements.define('draw-canvas', DrawCanvas);
